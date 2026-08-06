@@ -1,260 +1,198 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SH STORE Dashboard</title>
+<title>SH Maintenance Store | Dashboard</title>
 
-
-<link rel="stylesheet" href="css/dashboard.css">
-
+<link rel="stylesheet" href="css/style.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-
 </head>
-
 
 <body>
 
-
-
-<!-- SIDEBAR -->
+<!--==============================
+SIDEBAR
+===============================-->
 
 <div class="sidebar">
 
+<div class="logo">
 
-<h2>
-<i class="fa fa-warehouse"></i>
-SH STORE
-</h2>
+<img src="images/logo.png" alt="Logo">
 
+<h2>SH STORE</h2>
 
+</div>
 
-<a href="dashboard.html">
+<a href="dashboard.html" class="active">
 <i class="fa fa-home"></i>
 Dashboard
 </a>
-
-
 
 <a href="stock.html">
 <i class="fa fa-box"></i>
 Stock
 </a>
 
-
-
 <a href="purchase.html">
 <i class="fa fa-cart-shopping"></i>
 Purchase
 </a>
-
-
 
 <a href="issue.html">
 <i class="fa fa-arrow-up"></i>
 Issue
 </a>
 
-
-
 <a href="report.html">
-<i class="fa fa-chart-line"></i>
+<i class="fa fa-chart-bar"></i>
 Report
 </a>
 
-
+<a href="#" onclick="logout()">
+<i class="fa fa-right-from-bracket"></i>
+Logout
+</a>
 
 </div>
 
-
-
-
-
-<!-- MAIN -->
-
+<!--==============================
+MAIN
+===============================-->
 
 <div class="main">
 
-
-
 <div class="topbar">
 
+<h1>Dashboard</h1>
 
-<h1>
-Maintenance Dashboard
-</h1>
+<div class="top-right">
 
-
-
-<div class="date-time">
+<span>
+<i class="fa fa-user"></i>
+<span id="loginUser"></span>
+</span>
 
 <span id="todayDate"></span>
 
-<br>
-
 <span id="clock"></span>
 
+</div>
 
 </div>
 
-
-</div>
-
-
-
-
-
-
-
-<!-- DASHBOARD CARDS -->
-
+<!--==============================
+CARDS
+===============================-->
 
 <div class="cards">
-
-
 
 <div class="card">
 
 <i class="fa fa-box"></i>
 
-<h3>
-Total Items
-</h3>
+<h3>Total Items</h3>
 
-
-<h2 id="totalItems">
-0
-</h2>
-
+<h2 id="totalItems">0</h2>
 
 </div>
 
-
-
-
-
 <div class="card">
 
+<i class="fa fa-cubes"></i>
 
-<i class="fa fa-layer-group"></i>
+<h3>Total Stock</h3>
 
-
-<h3>
-Total Stock
-</h3>
-
-
-<h2 id="totalStock">
-0
-</h2>
-
+<h2 id="totalStock">0</h2>
 
 </div>
 
-
-
-
-
-
-
 <div class="card">
 
+<i class="fa fa-cart-shopping"></i>
 
-<i class="fa fa-cart-plus"></i>
+<h3>Total Purchase</h3>
 
-
-<h3>
-Total Purchase
-</h3>
-
-
-<h2 id="totalPurchase">
-0
-</h2>
-
+<h2 id="totalPurchase">0</h2>
 
 </div>
 
-
-
-
-
-
-
 <div class="card">
-
 
 <i class="fa fa-arrow-up"></i>
 
+<h3>Total Issue</h3>
 
-<h3>
-Total Issue
-</h3>
-
-
-<h2 id="totalIssue">
-0
-</h2>
-
+<h2 id="totalIssue">0</h2>
 
 </div>
 
+</div>
 
+<!--==============================
+QUICK MENU
+===============================-->
 
+<div class="quick-menu">
 
+<a href="stock.html">
+<i class="fa fa-box"></i><br><br>
+Stock
+</a>
+
+<a href="purchase.html">
+<i class="fa fa-cart-shopping"></i><br><br>
+Purchase
+</a>
+
+<a href="issue.html">
+<i class="fa fa-arrow-up"></i><br><br>
+Issue
+</a>
+
+<a href="report.html">
+<i class="fa fa-chart-bar"></i><br><br>
+Report
+</a>
 
 </div>
 
-
-
-
-
-
-
-<!-- CHART SECTION -->
-
+<!--==============================
+CHART
+===============================-->
 
 <div class="chart-box">
 
-
-<h2>
-Stock Movement Analysis
-</h2>
-
-
+<h2>Stock Movement</h2>
 
 <canvas id="stockChart"></canvas>
 
+</div>
 
+<!--==============================
+FOOTER
+===============================-->
+
+<div class="footer">
+
+SH Maintenance Store Management System © 2026
 
 </div>
 
-
-
-
-
-
-
 </div>
-
-
-
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="js/dashboard.js"></script>
+
 <script src="js/auth.js"></script>
 
-
+<script src="js/dashboard.js"></script>
 
 </body>
 
