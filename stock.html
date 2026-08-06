@@ -4,54 +4,103 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SH Maintenance Store - Stock</title>
+<title>SH Maintenance Store | Stock</title>
 
-<link rel="stylesheet" href="css/stock.css">
+<link rel="stylesheet" href="css/style.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 
 <body>
 
-<!-- Sidebar -->
+<!-- ==========================
+SIDEBAR
+========================== -->
 
 <div class="sidebar">
 
+<div class="logo">
+
+<img src="images/logo.png" alt="Logo">
+
 <h2>SH STORE</h2>
-
-<a href="dashboard.html"><i class="fa fa-home"></i> Dashboard</a>
-
-<a href="stock.html"><i class="fa fa-box"></i> Stock</a>
-
-<a href="purchase.html"><i class="fa fa-cart-shopping"></i> Purchase</a>
-
-<a href="issue.html"><i class="fa fa-arrow-up"></i> Issue</a>
-
-<a href="report.html"><i class="fa fa-chart-bar"></i> Report</a>
 
 </div>
 
-<!-- Main -->
+<a href="dashboard.html">
+<i class="fa fa-home"></i>
+Dashboard
+</a>
+
+<a href="stock.html" class="active">
+<i class="fa fa-box"></i>
+Stock
+</a>
+
+<a href="purchase.html">
+<i class="fa fa-cart-shopping"></i>
+Purchase
+</a>
+
+<a href="issue.html">
+<i class="fa fa-arrow-up"></i>
+Issue
+</a>
+
+<a href="report.html">
+<i class="fa fa-chart-bar"></i>
+Report
+</a>
+
+<a href="#" onclick="logout()">
+<i class="fa fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<!-- ==========================
+MAIN
+========================== -->
 
 <div class="main">
 
+<div class="topbar">
+
 <h1>Stock Management</h1>
 
-<!-- Stock Form -->
-<div class="search-box">
+<div class="top-right">
 
-<input
-type="text"
-id="searchItem"
-placeholder="Search Item..."
-onkeyup="searchItem()">
+<span>
+
+<i class="fa fa-user"></i>
+
+<span id="loginUser"></span>
+
+</span>
 
 </div>
-  
-<div class="stock-form">
+
+</div>
+
+<!-- ==========================
+FORM
+========================== -->
+
+<div class="form-box">
+
+<h2 class="form-title">
+
+Add New Item
+
+</h2>
+
+<div class="form-grid">
 
 <input
 type="text"
@@ -65,29 +114,33 @@ placeholder="Item Name">
 
 <select id="itemCategory">
 
-<option value="Mechanical">Mechanical</option>
+<option>Mechanical</option>
 
-<option value="Electrical">Electrical</option>
+<option>Electrical</option>
 
-<option value="Sewing Spare">Sewing Spare</option>
+<option>Boiler</option>
 
-<option value="Boiler">Boiler</option>
+<option>Generator</option>
 
-<option value="Generator">Generator</option>
+<option>Sewing Spare</option>
+
+<option>Others</option>
 
 </select>
 
 <input
 type="number"
 id="itemStock"
-placeholder="Current Stock">
+placeholder="Stock Qty">
 
 <input
 type="text"
 id="itemUnit"
-placeholder="PCS">
+placeholder="Unit (PCS)">
 
-<button onclick="addItem()">
+<button
+class="btn btn-primary"
+onclick="addItem()">
 
 <i class="fa fa-plus"></i>
 
@@ -97,7 +150,33 @@ Add Item
 
 </div>
 
-<!-- Stock Table -->
+</div>
+
+<!-- ==========================
+SEARCH
+========================== -->
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchItem"
+placeholder="Search Item..."
+onkeyup="searchItem()">
+
+</div>
+
+<!-- ==========================
+TABLE
+========================== -->
+
+<div class="table-box">
+
+<h3>
+
+Stock List
+
+</h3>
 
 <table>
 
@@ -107,7 +186,7 @@ Add Item
 
 <th>Code</th>
 
-<th>Item Name</th>
+<th>Item</th>
 
 <th>Category</th>
 
@@ -131,12 +210,18 @@ Add Item
 
 </div>
 
-<script src="js/stock.js"></script>
+<div class="footer">
+
+SH Maintenance Store Management System © 2026
+
+</div>
+
+</div>
 
 <script src="js/auth.js"></script>
 
+<script src="js/stock.js"></script>
 
-  
 </body>
 
 </html>
