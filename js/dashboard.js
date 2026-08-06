@@ -38,61 +38,86 @@ function loadDashboard() {
         JSON.parse(localStorage.getItem("issueList")) || [];
 
 
+// Total Items
 
-    // Total Items
-
-    document.getElementById("totalItems").innerHTML =
-        stockItems.length;
-
-
-
-    // Total Stock
-
-    let totalStock = 0;
-
-    stockItems.forEach(item => {
-
-        totalStock += Number(item.stock);
-
-    });
-
-    document.getElementById("totalStock").innerHTML =
-        totalStock;
+document.getElementById("totalItems").innerHTML =
+    stockItems.length;
 
 
 
-    // Total Purchase
+// Total Stock
 
-    let totalPurchase = 0;
+let totalStock = 0;
 
-    purchaseList.forEach(item => {
+stockItems.forEach(item => {
 
-        totalPurchase += Number(item.qty);
+    totalStock += Number(item.stock);
 
-    });
+});
 
-    document.getElementById("totalPurchase").innerHTML =
-        totalPurchase;
+document.getElementById("totalStock").innerHTML =
+    totalStock;
 
 
 
-    // Total Issue
+// Total Purchase
 
-    let totalIssue = 0;
+let totalPurchase = 0;
 
-    issueList.forEach(item => {
+purchaseList.forEach(item => {
 
-        totalIssue += Number(item.qty);
+    totalPurchase += Number(item.qty);
 
-    });
+});
 
-    document.getElementById("totalIssue").innerHTML =
-        totalIssue;
+document.getElementById("totalPurchase").innerHTML =
+    totalPurchase;
+
+
+
+// Total Issue
+
+let totalIssue = 0;
+
+issueList.forEach(item => {
+
+    totalIssue += Number(item.qty);
+
+});
+
+document.getElementById("totalIssue").innerHTML =
+    totalIssue;
+
+
+
+//==============================
+// Pending Requisition
+//==============================
+
+let requisitionList =
+
+JSON.parse(localStorage.getItem("requisitionList")) || [];
+
+
+let pending = 0;
+
+
+requisitionList.forEach(item=>{
+
+    if(item.status=="Pending"){
+
+        pending++;
+
+    }
+
+});
+
+
+document.getElementById("pendingReq").innerHTML =
+    pending;
+
 
 }
-
-
-
 //==============================
 // DATE
 //==============================
