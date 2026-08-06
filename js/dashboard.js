@@ -1,8 +1,10 @@
 //=====================================
 // SH Maintenance Store Dashboard
+// dashboard.js
 //=====================================
 
-window.onload = function () {
+
+window.onload = function(){
 
 showDate();
 
@@ -15,56 +17,168 @@ loadDashboard();
 };
 
 
-// Dashboard Data
+//=====================================
+// LOAD DASHBOARD DATA
+//=====================================
 
 function loadDashboard(){
 
-document.getElementById("totalItems").innerHTML="850";
 
-document.getElementById("totalStock").innerHTML="25000";
+let stockItems =
+JSON.parse(localStorage.getItem("stockItems")) || [];
 
-document.getElementById("purchaseToday").innerHTML="20";
 
-document.getElementById("issueToday").innerHTML="15";
+let purchaseList =
+JSON.parse(localStorage.getItem("purchaseList")) || [];
 
-document.getElementById("lowStock").innerHTML="12";
 
-document.getElementById("machineRunning").innerHTML="80";
+let issueList =
+JSON.parse(localStorage.getItem("issueList")) || [];
+
+
+
+// Total Items
+
+let totalItems = stockItems.length;
+
+
+// Total Stock
+
+let totalStock = 0;
+
+let lowStock = 0;
+
+
+stockItems.forEach(item=>{
+
+
+totalStock += Number(item.stock);
+
+
+
+if(item.stock <= 10){
+
+lowStock++;
 
 }
 
 
-// Date
+});
+
+
+
+// Purchase
+
+let totalPurchase = 0;
+
+
+purchaseList.forEach(item=>{
+
+totalPurchase += Number(item.qty);
+
+});
+
+
+
+// Issue
+
+let totalIssue = 0;
+
+
+issueList.forEach(item=>{
+
+totalIssue += Number(item.qty);
+
+});
+
+
+
+
+
+// Display
+
+
+if(document.getElementById("totalItems"))
+
+document.getElementById("totalItems").innerHTML=
+totalItems;
+
+
+
+if(document.getElementById("totalStock"))
+
+document.getElementById("totalStock").innerHTML=
+totalStock;
+
+
+
+if(document.getElementById("purchaseToday"))
+
+document.getElementById("purchaseToday").innerHTML=
+totalPurchase;
+
+
+
+if(document.getElementById("issueToday"))
+
+document.getElementById("issueToday").innerHTML=
+totalIssue;
+
+
+
+if(document.getElementById("lowStock"))
+
+document.getElementById("lowStock").innerHTML=
+lowStock;
+
+
+}
+
+
+
+//=====================================
+// DATE
+//=====================================
 
 function showDate(){
 
 let today=new Date();
 
-document.getElementById("todayDate").innerHTML=
+if(document.getElementById("todayDate"))
 
+document.getElementById("todayDate").innerHTML =
 today.toLocaleDateString();
 
 }
 
 
-// Clock
+
+//=====================================
+// CLOCK
+//=====================================
 
 function showClock(){
 
 let now=new Date();
 
-document.getElementById("clock").innerHTML=
 
+if(document.getElementById("clock"))
+
+document.getElementById("clock").innerHTML =
 now.toLocaleTimeString();
 
 }
 
 
-// Search
+
+//=====================================
+// SEARCH
+//=====================================
 
 function searchItem(){
 
 let item=prompt("Enter Item Name");
+
 
 if(item){
 
@@ -75,7 +189,10 @@ alert("Searching : "+item);
 }
 
 
-// Refresh
+
+//=====================================
+// REFRESH
+//=====================================
 
 function refreshDashboard(){
 
@@ -84,7 +201,10 @@ location.reload();
 }
 
 
-// Logout
+
+//=====================================
+// LOGOUT
+//=====================================
 
 function logout(){
 
@@ -93,14 +213,5 @@ if(confirm("Logout?")){
 window.location="index.html";
 
 }
-
-}
-
-
-// Low Stock Alert
-
-if(Number(document.getElementById("lowStock")?.innerHTML)>10){
-
-console.log("Low Stock Available");
 
 }
