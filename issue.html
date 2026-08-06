@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Issue Management</title>
+
+<link rel="stylesheet" href="css/issue.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>SH STORE</h2>
+
+<a href="dashboard.html"><i class="fa fa-home"></i> Dashboard</a>
+
+<a href="stock.html"><i class="fa fa-box"></i> Stock</a>
+
+<a href="purchase.html"><i class="fa fa-cart-shopping"></i> Purchase</a>
+
+<a href="issue.html"><i class="fa fa-arrow-up"></i> Issue</a>
+
+<a href="report.html"><i class="fa fa-chart-column"></i> Report</a>
+
+</div>
+
+<div class="main">
+
+<h1>Issue Management</h1>
+
+<div class="issue-form">
+
+<input
+type="text"
+id="issueCode"
+placeholder="Item Code">
+
+<input
+type="number"
+id="issueQty"
+placeholder="Issue Qty">
+
+<input
+type="text"
+id="issueTo"
+placeholder="Issue To / Machine">
+
+<button onclick="issueItem()">
+
+Issue Item
+
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+
+<th>Item Name</th>
+
+<th>Qty</th>
+
+<th>Issue To</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="issueTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="js/issue.js"></script>
+
+</body>
+
+</html>
