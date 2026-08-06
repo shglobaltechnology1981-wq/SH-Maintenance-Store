@@ -429,3 +429,186 @@ loadAdminRequisition();
 
 
 }
+
+//==============================
+// APPROVE REQUISITION
+//==============================
+
+function approveReq(index){
+
+    requisitionList =
+    JSON.parse(localStorage.getItem("requisitionList")) || [];
+
+    stockItems =
+    JSON.parse(localStorage.getItem("stockItems")) || [];
+
+    issueList =
+    JSON.parse(localStorage.getItem("issueList")) || [];
+
+    let req = requisitionList[index];
+
+    if(!req){
+
+        alert("Requisition Not Found");
+
+        return;
+
+    }
+
+    if(req.status=="Issued"){
+
+        alert("Already Approved");
+
+        return;
+
+    }
+
+    if(req.status=="Rejected"){
+
+        alert("Already Rejected");
+
+        return;
+
+    }
+
+    let product = stockItems.find(item=>
+
+        item.name.trim().toLowerCase() ==
+
+        req.itemName.trim().toLowerCase()
+
+    );
+
+    if(!product){
+
+        alert("Item Not Found In Stock");
+
+        return;
+
+    }
+
+    if(Number(product.stock) < Number(req.qty)){
+
+        alert("Insufficient Stock");
+
+        return;
+
+    }
+
+    // Minus Stock
+
+    product.stock =
+
+    Number(product.stock) -
+
+    Number(req.qty);
+
+    // Create Issue
+
+    let issue={
+
+        issueNo:"ISS-"+Date.now(),
+
+        code:product.code,
+
+        name:product.name,
+
+        qty:req.qty,
+
+        issueTo:req.userName,
+
+        department:req.department,
+
+        date:new Date().toLocaleDateString(),
+
+        requisitionNo:req.reqNo
+
+    };
+
+    issueList.push(issue);
+
+    req.status="Issued";
+
+    localStorage.setItem(
+    "stockItems",
+    JSON.stringify(stockItems)
+    );
+
+    localStorage.setItem(
+    "issueList",
+    JSON.stringify(issueList)
+    );
+
+    localStorage.setItem(
+    "requisitionList",
+    JSON.stringify(requisitionList)
+    );
+
+    alert("Requisition Approved Successfully");
+
+    loadAdminRequisition();
+
+}
+
+//==============================
+// REJECT REQUISITION
+//==============================
+
+function rejectReq(index){
+
+    requisitionList =
+    JSON.parse(localStorage.getItem("requisitionList")) || [];
+
+    let req = requisitionList[index];
+
+    if(!req){
+
+        alert("Requisition Not Found");
+
+        return;
+
+    }
+
+    if(req.status=="Issued"){
+
+        alert("Already Issued");
+
+        return;
+
+    }
+
+    if(req.status=="Rejected"){
+
+        alert("Already Rejected");
+
+        return;
+
+    }
+
+    req.status = "Rejected";
+
+    localStorage.setItem(
+        "requisitionList",
+        JSON.stringify(requisitionList)
+    );
+
+    alert("Requisition Rejected Successfully");
+
+    loadAdminRequisition();
+
+}
+
+
+
+//==============================
+// REFRESH
+//==============================
+
+function refreshRequisition(){
+
+    requisitionList =
+    JSON.parse(localStorage.getItem("requisitionList")) || [];
+
+    loadAdminRequisition();
+
+}
