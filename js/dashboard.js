@@ -175,9 +175,9 @@ function loadDashboard() {
 
     let requisitionList =
 
-    JSON.parse(
-    localStorage.getItem("requisitionList")
-    ) || [];
+JSON.parse(
+localStorage.getItem("requisition")
+) || [];
 
 
 
