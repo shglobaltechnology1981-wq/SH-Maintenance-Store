@@ -1,300 +1,246 @@
 /*==================================================
-SH STORE
-Stock Management
+SH Maintenance Store
 stock.js
 ==================================================*/
-
 
 let stockItems =
 JSON.parse(localStorage.getItem("stockItems")) || [];
 
-
+let editIndex = -1;
 
 
 //==============================
 // PAGE LOAD
 //==============================
 
-window.onload=function(){
+window.onload = function(){
 
-loadStock();
+    loadStock();
 
 };
 
 
-
-
-
 //==============================
-// ADD ITEM
+// ADD / UPDATE ITEM
 //==============================
 
 function addItem(){
 
+    let code =
+    document.getElementById("itemCode").value.trim();
 
+    let name =
+    document.getElementById("itemName").value.trim();
 
-let code =
-document.getElementById("itemCode").value.trim();
+    let category =
+    document.getElementById("itemCategory").value;
 
+    let stock =
+    Number(document.getElementById("itemStock").value);
 
-
-let name =
-document.getElementById("itemName").value.trim();
-
-
-
-let category =
-document.getElementById("itemCategory").value;
-
-
-
-let stock =
-Number(document.getElementById("itemStock").value);
+    let unit =
+    document.getElementById("itemUnit").value.trim();
 
 
 
-let unit =
-document.getElementById("itemUnit").value.trim();
+    if(code==="" ||
+       name==="" ||
+       stock<0 ||
+       unit===""){
+
+        alert("Please fill all fields.");
+
+        return;
+
+    }
 
 
 
+    if(editIndex==-1){
+
+        let exist =
+        stockItems.find(item=>item.code===code);
+
+        if(exist){
+
+            alert("Item Code already exists.");
+
+            return;
+
+        }
+
+        stockItems.push({
+
+            code:code,
+
+            name:name,
+
+            category:category,
+
+            stock:stock,
+
+            unit:unit
+
+        });
+
+    }
+
+    else{
+
+        stockItems[editIndex]={
+
+            code:code,
+
+            name:name,
+
+            category:category,
+
+            stock:stock,
+
+            unit:unit
+
+        };
+
+        editIndex=-1;
+
+    }
 
 
-if(code==="" || name==="" || stock<=0 || unit===""){
+
+    localStorage.setItem(
+
+        "stockItems",
+
+        JSON.stringify(stockItems)
+
+    );
 
 
-alert("Please fill all information");
 
+    clearForm();
 
-return;
-
+    loadStock();
 
 }
-
-
-
-
-// DUPLICATE CHECK
-
-
-let exist =
-stockItems.find(item=>item.code===code);
-
-
-
-if(exist){
-
-
-alert("Item Code Already Exists");
-
-
-return;
-
-
-}
-
-
-
-
-stockItems.push({
-
-
-code:code,
-
-name:name,
-
-category:category,
-
-stock:stock,
-
-unit:unit
-
-
-});
-
-
-
-
-
-localStorage.setItem(
-
-"stockItems",
-
-JSON.stringify(stockItems)
-
-);
-
-
-
-
-
-clearForm();
-
-
-loadStock();
-
-
-
-alert("Item Added Successfully");
-
-
-
-}
-
-
 
 
 
 //==============================
-// LOAD STOCK TABLE
+// LOAD TABLE
 //==============================
-
 
 function loadStock(){
 
+    let table =
+    document.getElementById("stockTable");
 
-let table =
-document.getElementById("stockTable");
-
-
-
-if(!table) return;
+    table.innerHTML="";
 
 
 
-table.innerHTML="";
+    stockItems.forEach((item,index)=>{
+
+        let status="";
+
+        let css="";
 
 
 
-stockItems.forEach((item,index)=>{
+        if(item.stock<=0){
+
+            status="Out of Stock";
+
+            css="out-stock";
+
+        }
+
+        else if(item.stock<=10){
+
+            status="Low Stock";
+
+            css="low-stock";
+
+        }
+
+        else{
+
+            status="Available";
+
+            css="in-stock";
+
+        }
 
 
 
-let status="Available";
-
-
-
-if(item.stock<=10 && item.stock>0){
-
-status="Low Stock";
-
-}
-
-
-if(item.stock<=0){
-
-status="Out Of Stock";
-
-}
-
-
-
-
-
-table.innerHTML +=`
-
+        table.innerHTML += `
 
 <tr>
 
-
 <td>${item.code}</td>
-
 
 <td>${item.name}</td>
 
-
 <td>${item.category}</td>
-
 
 <td>${item.stock}</td>
 
-
 <td>${item.unit}</td>
-
-
-<td>${status}</td>
-
 
 <td>
 
-<button onclick="deleteItem(${index})">
+<span class="status ${css}">
 
-Delete
+${status}
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick="editItem(${index})">
+
+<i class="fa fa-edit"></i>
+
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteItem(${index})">
+
+<i class="fa fa-trash"></i>
 
 </button>
 
 </td>
 
-
 </tr>
-
 
 `;
 
-
-
-});
-
-
+    });
 
 }
-
-
-
-
 
 //==============================
-// SEARCH ITEM
+// EDIT ITEM
 //==============================
 
+function editItem(index){
 
-function searchItem(){
+    editIndex = index;
 
+    let item = stockItems[index];
 
-let search =
-
-document.getElementById("searchItem").value.toLowerCase();
-
-
-
-let rows =
-document.querySelectorAll("#stockTable tr");
-
-
-
-rows.forEach(row=>{
-
-
-let text=row.innerText.toLowerCase();
-
-
-
-if(text.includes(search)){
-
-
-row.style.display="";
-
+    document.getElementById("itemCode").value = item.code;
+    document.getElementById("itemName").value = item.name;
+    document.getElementById("itemCategory").value = item.category;
+    document.getElementById("itemStock").value = item.stock;
+    document.getElementById("itemUnit").value = item.unit;
 
 }
-
-else{
-
-
-row.style.display="none";
-
-
-}
-
-
-
-});
-
-
-
-}
-
-
-
 
 
 
@@ -302,39 +248,63 @@ row.style.display="none";
 // DELETE ITEM
 //==============================
 
-
 function deleteItem(index){
 
+    if(confirm("Delete this item?")){
 
-if(confirm("Delete this Item?")){
+        stockItems.splice(index,1);
 
+        localStorage.setItem(
 
-stockItems.splice(index,1);
+            "stockItems",
 
+            JSON.stringify(stockItems)
 
+        );
 
-localStorage.setItem(
+        loadStock();
 
-"stockItems",
-
-JSON.stringify(stockItems)
-
-);
-
-
-
-loadStock();
-
+    }
 
 }
 
 
 
+//==============================
+// SEARCH ITEM
+//==============================
+
+function searchItem(){
+
+    let keyword =
+
+    document.getElementById("searchItem")
+
+    .value
+
+    .toLowerCase();
+
+    let rows =
+
+    document.querySelectorAll("#stockTable tr");
+
+    rows.forEach(row=>{
+
+        if(row.innerText.toLowerCase().includes(keyword)){
+
+            row.style.display="";
+
+        }
+
+        else{
+
+            row.style.display="none";
+
+        }
+
+    });
+
 }
-
-
-
-
 
 
 
@@ -342,20 +312,29 @@ loadStock();
 // CLEAR FORM
 //==============================
 
-
 function clearForm(){
 
+    document.getElementById("itemCode").value="";
 
-document.getElementById("itemCode").value="";
+    document.getElementById("itemName").value="";
 
+    document.getElementById("itemCategory").selectedIndex=0;
 
-document.getElementById("itemName").value="";
+    document.getElementById("itemStock").value="";
 
-
-document.getElementById("itemStock").value="";
-
-
-document.getElementById("itemUnit").value="";
-
+    document.getElementById("itemUnit").value="";
 
 }
+
+
+
+//==============================
+// REFRESH TABLE
+//==============================
+
+function refreshStock(){
+
+    loadStock();
+
+}
+
