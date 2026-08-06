@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Purchase</title>
+
+<link rel="stylesheet"
+href="css/purchase.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>SH STORE</h2>
+
+<a href="dashboard.html">
+<i class="fa fa-home"></i>
+Dashboard
+</a>
+
+<a href="stock.html">
+<i class="fa fa-box"></i>
+Stock
+</a>
+
+<a href="purchase.html">
+<i class="fa fa-cart-shopping"></i>
+Purchase
+</a>
+
+<a href="issue.html">
+<i class="fa fa-arrow-up"></i>
+Issue
+</a>
+
+<a href="report.html">
+<i class="fa fa-chart-column"></i>
+Report
+</a>
+
+</div>
+
+<div class="main">
+
+<h1>Purchase Entry</h1>
+
+<div class="purchase-form">
+
+<input
+id="purchaseCode"
+placeholder="Item Code">
+
+<input
+id="purchaseQty"
+type="number"
+placeholder="Purchase Qty">
+
+<button onclick="purchaseItem()">
+
+Save Purchase
+
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+
+<th>Item</th>
+
+<th>Purchase Qty</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="purchaseTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="js/purchase.js"></script>
+
+</body>
+
+</html>
