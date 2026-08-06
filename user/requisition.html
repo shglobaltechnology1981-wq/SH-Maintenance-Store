@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SH Store Requisition</title>
+
+
+<link rel="stylesheet" href="../css/user.css">
+
+</head>
+
+
+<body>
+
+
+<div class="login-box" style="width:600px;">
+
+
+<h2>
+SH Maintenance Store
+</h2>
+
+
+<h3>
+Material Requisition Form
+</h3>
+
+
+
+<p>
+
+User:
+
+<b id="userName"></b>
+
+</p>
+
+
+
+<input 
+type="text"
+id="itemName"
+placeholder="Item Name">
+
+
+
+<input 
+type="number"
+id="qty"
+placeholder="Quantity">
+
+
+
+<input 
+type="text"
+id="purpose"
+placeholder="Purpose">
+
+
+
+<button onclick="saveRequisition()">
+
+Submit Requisition
+
+</button>
+
+
+<br><br>
+
+
+<table width="100%" border="1">
+
+
+<thead>
+
+<tr>
+
+<th>Req No</th>
+
+<th>Item</th>
+
+<th>Qty</th>
+
+<th>Date</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="reqTable">
+
+
+</tbody>
+
+
+</table>
+
+
+
+</div>
+
+
+
+<script src="../js/requisition.js"></script>
+
+
+</body>
+
+</html>
