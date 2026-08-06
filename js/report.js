@@ -1,7 +1,9 @@
 /*==================================================
 SH Maintenance Store
 report.js
+Final Version
 ==================================================*/
+
 
 let stockItems =
 JSON.parse(localStorage.getItem("stockItems")) || [];
@@ -12,118 +14,233 @@ JSON.parse(localStorage.getItem("purchaseList")) || [];
 let issueList =
 JSON.parse(localStorage.getItem("issueList")) || [];
 
+
 //==============================
 // PAGE LOAD
 //==============================
 
-window.onload = function () {
+window.onload = function(){
+
+    updateSummary();
 
     showStockReport();
 
 };
 
+
+//==============================
+// SUMMARY
+//==============================
+
+function updateSummary(){
+
+    let totalItems = stockItems.length;
+
+    let totalStock = 0;
+
+    let lowStock = 0;
+
+    let outStock = 0;
+
+
+    stockItems.forEach(item=>{
+
+        totalStock += Number(item.stock);
+
+
+        if(item.stock <= 10 && item.stock > 0){
+
+            lowStock++;
+
+        }
+
+
+        if(item.stock <= 0){
+
+            outStock++;
+
+        }
+
+    });
+
+
+    if(document.getElementById("totalItems"))
+    document.getElementById("totalItems").innerText = totalItems;
+
+
+    if(document.getElementById("totalStock"))
+    document.getElementById("totalStock").innerText = totalStock;
+
+
+    if(document.getElementById("lowStock"))
+    document.getElementById("lowStock").innerText = lowStock;
+
+
+    if(document.getElementById("outStock"))
+    document.getElementById("outStock").innerText = outStock;
+
+}
+
+
+
 //==============================
 // STOCK REPORT
 //==============================
 
-function showStockReport() {
+function showStockReport(){
 
-    let table = document.getElementById("reportTable");
+let table=document.getElementById("reportTable");
 
-    table.innerHTML = "";
+table.innerHTML="";
 
-    stockItems.forEach(item => {
 
-        table.innerHTML += `
-        <tr>
-            <td>${item.code}</td>
-            <td>${item.name}</td>
-            <td>${item.category}</td>
-            <td>${item.stock}</td>
-            <td>-</td>
-        </tr>
-        `;
+stockItems.forEach(item=>{
 
-    });
+
+table.innerHTML +=`
+
+<tr>
+
+<td>${item.code}</td>
+
+<td>${item.name}</td>
+
+<td>${item.category}</td>
+
+<td>${item.stock}</td>
+
+<td>-</td>
+
+</tr>
+
+`;
+
+
+});
+
 
 }
+
+
 
 //==============================
 // PURCHASE REPORT
 //==============================
 
-function showPurchaseReport() {
+function showPurchaseReport(){
 
-    let table = document.getElementById("reportTable");
+let table=document.getElementById("reportTable");
 
-    table.innerHTML = "";
+table.innerHTML="";
 
-    purchaseList.forEach(item => {
 
-        table.innerHTML += `
-        <tr>
-            <td>${item.code}</td>
-            <td>${item.name}</td>
-            <td>Purchase</td>
-            <td>${item.qty}</td>
-            <td>${item.date}</td>
-        </tr>
-        `;
+purchaseList.forEach(item=>{
 
-    });
+
+table.innerHTML +=`
+
+<tr>
+
+<td>${item.code}</td>
+
+<td>${item.name}</td>
+
+<td>Purchase</td>
+
+<td>${item.qty}</td>
+
+<td>${item.date}</td>
+
+</tr>
+
+`;
+
+
+});
+
 
 }
+
+
 
 //==============================
 // ISSUE REPORT
 //==============================
 
-function showIssueReport() {
+function showIssueReport(){
 
-    let table = document.getElementById("reportTable");
+let table=document.getElementById("reportTable");
 
-    table.innerHTML = "";
+table.innerHTML="";
 
-    issueList.forEach(item => {
 
-        table.innerHTML += `
-        <tr>
-            <td>${item.code}</td>
-            <td>${item.name}</td>
-            <td>${item.issueTo}</td>
-            <td>${item.qty}</td>
-            <td>${item.date}</td>
-        </tr>
-        `;
+issueList.forEach(item=>{
 
-    });
+
+table.innerHTML +=`
+
+<tr>
+
+<td>${item.code}</td>
+
+<td>${item.name}</td>
+
+<td>${item.issueTo}</td>
+
+<td>${item.qty}</td>
+
+<td>${item.date}</td>
+
+</tr>
+
+`;
+
+
+});
+
 
 }
+
+
 
 //==============================
 // SEARCH REPORT
 //==============================
 
-function searchReport() {
+function searchReport(){
 
-    let value =
-    document.getElementById("searchReport")
-    .value
-    .toLowerCase();
+let value =
+document.getElementById("searchReport")
+.value
+.toLowerCase();
 
-    let rows =
-    document.querySelectorAll("#reportTable tr");
 
-    rows.forEach(row => {
+let rows =
+document.querySelectorAll("#reportTable tr");
 
-        row.style.display =
-        row.innerText.toLowerCase().includes(value)
-        ? ""
-        : "none";
 
-    });
+rows.forEach(row=>{
+
+
+row.style.display =
+
+row.innerText.toLowerCase().includes(value)
+
+?
+
+""
+
+:
+
+"none";
+
+
+});
+
 
 }
+
+
 
 //==============================
 // FILTER REPORT
@@ -131,12 +248,14 @@ function searchReport() {
 
 function filterReport(){
 
-alert("Date Filter will be activated in Part-23.");
+alert("Date Filter Coming Next Version");
 
 }
 
+
+
 //==============================
-// EXCEL
+// EXCEL DOWNLOAD
 //==============================
 
 function downloadExcel(){
@@ -145,30 +264,62 @@ let table=document.querySelector("table");
 
 let wb=XLSX.utils.table_to_book(table);
 
-XLSX.writeFile(wb,"SH_Report.xlsx");
+XLSX.writeFile(
+wb,
+"SH_Inventory_Report.xlsx"
+);
 
 }
 
+
+
 //==============================
-// PDF
+// PDF DOWNLOAD
 //==============================
 
 async function downloadPDF(){
 
 const {jsPDF}=window.jspdf;
 
-const pdf=new jsPDF("p","mm","a4");
 
-const canvas=await html2canvas(document.querySelector(".main"));
+const pdf=new jsPDF(
+"p",
+"mm",
+"a4"
+);
 
-const img=canvas.toDataURL("image/png");
 
-const w=190;
+const canvas =
+await html2canvas(
+document.querySelector(".main")
+);
 
-const h=(canvas.height*w)/canvas.width;
 
-pdf.addImage(img,"PNG",10,10,w,h);
+const img =
+canvas.toDataURL("image/png");
 
-pdf.save("SH_Report.pdf");
+
+const width=190;
+
+const height=
+(canvas.height*width)
+/
+canvas.width;
+
+
+pdf.addImage(
+img,
+"PNG",
+10,
+10,
+width,
+height
+);
+
+
+pdf.save(
+"SH_Inventory_Report.pdf"
+);
+
 
 }
