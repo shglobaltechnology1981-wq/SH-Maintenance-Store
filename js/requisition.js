@@ -178,7 +178,6 @@ loadRequisition();
 // LOAD USER HISTORY
 //==============================
 
-
 function loadRequisition(){
 
 
@@ -187,9 +186,7 @@ let table =
 document.getElementById("reqTable");
 
 
-
 table.innerHTML="";
-
 
 
 
@@ -201,24 +198,71 @@ if(item.userId==loginUser.id){
 
 
 
+let statusClass="";
+
+
+
+if(item.status=="Pending"){
+
+statusClass="pending";
+
+}
+
+else if(item.status=="Issued"){
+
+statusClass="issued";
+
+}
+
+else if(item.status=="Rejected"){
+
+statusClass="rejected";
+
+}
+
+
+
 table.innerHTML += `
 
 
 <tr>
 
 
-<td>${item.itemName}</td>
+<td>
 
+${item.reqNo}
 
-<td>${item.qty}</td>
-
-
-<td>${item.purpose}</td>
+</td>
 
 
 <td>
 
+${item.itemName}
+
+</td>
+
+
+<td>
+
+${item.qty}
+
+</td>
+
+
+<td>
+
+${item.date}
+
+</td>
+
+
+<td>
+
+<span class="${statusClass}">
+
 ${item.status}
+
+</span>
 
 </td>
 
@@ -234,7 +278,6 @@ ${item.status}
 
 
 });
-
 
 
 }
