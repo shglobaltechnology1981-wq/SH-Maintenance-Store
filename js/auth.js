@@ -4,13 +4,16 @@ Authentication
 auth.js
 ==================================================*/
 
+
 //==============================
 // CHECK LOGIN
 //==============================
 
 (function () {
 
-    const loginUser = localStorage.getItem("loginUser");
+    const loginUser =
+    localStorage.getItem("loginUser");
+
 
     if (!loginUser) {
 
@@ -18,7 +21,9 @@ auth.js
 
     }
 
+
 })();
+
 
 
 
@@ -28,9 +33,28 @@ auth.js
 
 function getLoginUser(){
 
-    return localStorage.getItem("loginUser") || "";
+
+    let user =
+
+    JSON.parse(
+    localStorage.getItem("loginUser")
+    ) || null;
+
+
+
+    if(user){
+
+        return user.name;
+
+    }
+
+
+    return "";
+
 
 }
+
+
 
 
 
@@ -40,15 +64,26 @@ function getLoginUser(){
 
 window.addEventListener("DOMContentLoaded", function(){
 
-    const user = document.getElementById("loginUser");
 
-    if(user){
+    const userBox =
+    document.getElementById("loginUser");
 
-        user.innerHTML = getLoginUser();
+
+
+    if(userBox){
+
+
+        userBox.innerHTML =
+        getLoginUser();
+
 
     }
 
+
 });
+
+
+
 
 
 
@@ -58,7 +93,11 @@ window.addEventListener("DOMContentLoaded", function(){
 
 function logout(){
 
-    let ok = confirm("Do you want to Logout?");
+
+    let ok =
+    confirm("Do you want to Logout?");
+
+
 
     if(!ok){
 
@@ -66,8 +105,14 @@ function logout(){
 
     }
 
+
+
     localStorage.removeItem("loginUser");
 
-    window.location.href = "index.html";
+
+
+    window.location.href =
+    "index.html";
+
 
 }
