@@ -166,7 +166,8 @@ onkeyup="searchReport()">
 
 </div>
 
-  <!--==================================
+
+<!--==================================
 REPORT TABLE
 ===================================-->
 
@@ -178,7 +179,13 @@ Stock Report
 
 </h3>
 
+
+<!--==================================
+REPORT BUTTONS
+===================================-->
+
 <div style="margin-bottom:15px;">
+
 
 <button
 class="btn btn-primary"
@@ -186,9 +193,10 @@ onclick="printReport()">
 
 <i class="fa fa-print"></i>
 
-Print Report
+Print Stock Report
 
 </button>
+
 
 
 <button
@@ -197,11 +205,13 @@ onclick="exportExcel()">
 
 <i class="fa fa-file-excel"></i>
 
-Download Excel
+Stock Excel
 
 </button>
 
-  <button
+
+
+<button
 class="btn btn-warning"
 onclick="exportLowStockExcel()">
 
@@ -210,8 +220,35 @@ onclick="exportLowStockExcel()">
 Low Stock Excel
 
 </button>
-  <button
+
+
+
+<button
 class="btn btn-info"
+onclick="exportPurchaseExcel()">
+
+<i class="fa fa-cart-shopping"></i>
+
+Purchase Excel
+
+</button>
+
+
+
+<button
+class="btn btn-danger"
+onclick="exportIssueExcel()">
+
+<i class="fa fa-arrow-up"></i>
+
+Issue Excel
+
+</button>
+
+
+
+<button
+class="btn btn-secondary"
 onclick="printPurchaseReport()">
 
 <i class="fa fa-print"></i>
@@ -221,8 +258,9 @@ Print Purchase
 </button>
 
 
+
 <button
-class="btn btn-danger"
+class="btn btn-dark"
 onclick="printIssueReport()">
 
 <i class="fa fa-print"></i>
@@ -230,9 +268,12 @@ onclick="printIssueReport()">
 Print Issue
 
 </button>
-</div>
-<table>
 
+
+</div>
+
+
+<table>
 <thead>
 
 <tr>
