@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Reports</title>
+
+<link rel="stylesheet" href="css/report.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>SH STORE</h2>
+
+<a href="dashboard.html">
+<i class="fa fa-home"></i>
+Dashboard
+</a>
+
+<a href="stock.html">
+<i class="fa fa-box"></i>
+Stock
+</a>
+
+<a href="purchase.html">
+<i class="fa fa-cart-shopping"></i>
+Purchase
+</a>
+
+<a href="issue.html">
+<i class="fa fa-arrow-up"></i>
+Issue
+</a>
+
+<a href="report.html">
+<i class="fa fa-chart-column"></i>
+Report
+</a>
+
+</div>
+
+<div class="main">
+
+<h1>Inventory Reports</h1>
+
+<div class="report-menu">
+
+<button onclick="showStockReport()">
+
+📦 Stock Report
+
+</button>
+
+<button onclick="showPurchaseReport()">
+
+📥 Purchase Report
+
+</button>
+
+<button onclick="showIssueReport()">
+
+📤 Issue Report
+
+</button>
+
+<button onclick="window.print()">
+
+🖨 Print
+
+</button>
+
+</div>
+
+<input
+type="text"
+id="searchReport"
+placeholder="Search Report..."
+onkeyup="searchReport()">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+
+<th>Name</th>
+
+<th>Category / To</th>
+
+<th>Qty</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="reportTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="js/report.js"></script>
+
+</body>
+
+</html>
