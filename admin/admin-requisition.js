@@ -6,7 +6,11 @@ admin-requisition.js
 
 
 let requisitionList =
-JSON.parse(localStorage.getItem("requisitionList")) || [];
+
+JSON.parse(
+localStorage.getItem("requisitionList")
+) || [];
+
 
 
 
@@ -23,51 +27,76 @@ window.onload = function(){
 
 
 
+
 //==============================
-// LOAD REQUISITION
+// LOAD ALL REQUISITION
 //==============================
 
 function loadAdminRequisition(){
 
 
     let table =
+
     document.getElementById("adminReqTable");
 
 
-    if(!table) return;
+
+    if(!table){
+
+        return;
+
+    }
+
 
 
     table.innerHTML = "";
 
 
 
-    requisitionList.forEach((item,index)=>{
+
+    requisitionList.forEach(function(item,index){
+
 
 
         table.innerHTML += `
 
+
 <tr>
+
 
 <td>${item.reqNo || ""}</td>
 
+
 <td>${item.userName || ""}</td>
+
 
 <td>${item.department || ""}</td>
 
+
 <td>${item.itemName || ""}</td>
+
 
 <td>${item.qty || 0}</td>
 
+
 <td>${item.date || ""}</td>
 
-<td>${item.status || "Pending"}</td>
+
+<td>
+
+${item.status || "Pending"}
+
+</td>
 
 
 <td>
 
 
+
 <button
+
 class="btn btn-success"
+
 onclick="approveReq(${index})">
 
 Approve
@@ -75,8 +104,12 @@ Approve
 </button>
 
 
+
+
 <button
+
 class="btn btn-danger"
+
 onclick="rejectReq(${index})">
 
 Reject
@@ -84,10 +117,12 @@ Reject
 </button>
 
 
+
 </td>
 
 
 </tr>
+
 
 `;
 
@@ -102,6 +137,7 @@ Reject
 
 
 
+
 //==============================
 // APPROVE REQUISITION
 //==============================
@@ -109,46 +145,66 @@ Reject
 function approveReq(index){
 
 
+
 let req =
+
 requisitionList[index];
+
 
 
 
 let stockItems =
 
 JSON.parse(
+
 localStorage.getItem("stockItems")
+
 ) || [];
+
+
 
 
 
 let issueList =
 
 JSON.parse(
+
 localStorage.getItem("issueList")
+
 ) || [];
 
 
 
 
-// FIND ITEM
 
-let product = stockItems.find(item =>
+// FIND STOCK ITEM
 
-item.name.trim().toLowerCase()
+
+let product =
+
+stockItems.find(item =>
+
+
+item.name.toLowerCase()
 
 ===
 
-req.itemName.trim().toLowerCase()
+req.itemName.toLowerCase()
+
 
 );
+
+
 
 
 
 if(!product){
 
 
-alert("Item Not Found In Stock");
+alert(
+"Item Not Found In Stock"
+);
+
 
 return;
 
@@ -158,7 +214,10 @@ return;
 
 
 
-// STOCK CHECK
+
+
+// CHECK STOCK
+
 
 if(
 
@@ -171,7 +230,10 @@ Number(req.qty)
 ){
 
 
-alert("Insufficient Stock");
+alert(
+"Insufficient Stock"
+);
+
 
 return;
 
@@ -181,7 +243,9 @@ return;
 
 
 
+
 // STOCK MINUS
+
 
 product.stock =
 
@@ -190,6 +254,9 @@ Number(product.stock)
 -
 
 Number(req.qty);
+
+
+
 
 
 
@@ -246,7 +313,9 @@ req.reqNo
 
 
 
+
 issueList.push(issue);
+
 
 
 
@@ -276,12 +345,16 @@ JSON.stringify(stockItems)
 
 
 
-// UPDATE STATUS
+
+
+// STATUS UPDATE
 
 
 requisitionList[index].status =
 
 "Issued";
+
+
 
 
 
@@ -296,16 +369,21 @@ JSON.stringify(requisitionList)
 
 
 
+
 alert(
 "Requisition Approved Successfully"
 );
 
 
 
+
 loadAdminRequisition();
 
 
+
 }
+
+
 
 
 
@@ -325,6 +403,8 @@ requisitionList[index].status =
 
 
 
+
+
 localStorage.setItem(
 
 "requisitionList",
@@ -335,13 +415,17 @@ JSON.stringify(requisitionList)
 
 
 
+
+
 alert(
 "Requisition Rejected"
 );
 
 
 
+
 loadAdminRequisition();
+
 
 
 }
