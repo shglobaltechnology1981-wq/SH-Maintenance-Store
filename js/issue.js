@@ -267,3 +267,129 @@ function refreshIssue(){
     loadIssue();
 
 }
+//==================================================
+// PRINT ISSUE REPORT
+//==================================================
+
+function printIssueReport(){
+
+let win = window.open("");
+
+
+let html = `
+
+<html>
+
+<head>
+
+<title>Issue Report</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+padding:20px;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+th,td{
+
+border:1px solid #000;
+
+padding:8px;
+
+text-align:center;
+
+}
+
+h2{
+
+text-align:center;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+
+SH Maintenance Store
+
+<br>
+
+Issue Report
+
+</h2>
+
+<table>
+
+<tr>
+
+<th>Code</th>
+
+<th>Item Name</th>
+
+<th>Qty</th>
+
+<th>Issue To</th>
+
+<th>Date</th>
+
+</tr>
+`;
+
+
+issueList.forEach(item=>{
+
+html += `
+
+<tr>
+
+<td>${item.code}</td>
+
+<td>${item.name}</td>
+
+<td>${item.qty}</td>
+
+<td>${item.issueTo}</td>
+
+<td>${item.date}</td>
+
+</tr>
+
+`;
+
+});
+
+
+html += `
+
+</table>
+
+</body>
+
+</html>
+
+`;
+
+
+win.document.write(html);
+
+win.document.close();
+
+win.print();
+
+}
