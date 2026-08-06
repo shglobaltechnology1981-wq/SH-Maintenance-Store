@@ -153,15 +153,161 @@ Reject
 
 
 //==============================
-// APPROVE REQUEST
+// APPROVE REQUEST & ISSUE STOCK
 //==============================
 
 function approveReq(index){
 
 
+let req = requisitionList[index];
 
-requisitionList[index].status="Approved";
 
+// Load Stock
+
+let stockItems =
+
+JSON.parse(localStorage.getItem("stockItems")) || [];
+
+
+// Load Issue
+
+let issueList =
+
+JSON.parse(localStorage.getItem("issueList")) || [];
+
+
+
+// Find Item
+
+let product = stockItems.find(item =>
+
+item.name === req.itemName
+
+);
+
+
+
+if(!product){
+
+
+alert("Item Not Found In Stock");
+
+return;
+
+
+}
+
+
+
+// Check Stock
+
+if(Number(product.stock) < Number(req.qty)){
+
+
+alert("Insufficient Stock");
+
+return;
+
+
+}
+
+
+
+//==============================
+// STOCK MINUS
+//==============================
+
+product.stock =
+
+Number(product.stock) - Number(req.qty);
+
+
+
+
+//==============================
+// CREATE ISSUE
+//==============================
+
+let issue = {
+
+
+issueNo:
+
+"ISS-" + Date.now(),
+
+
+code:
+
+product.code,
+
+
+name:
+
+product.name,
+
+
+qty:
+
+Number(req.qty),
+
+
+issueTo:
+
+req.userName,
+
+
+department:
+
+req.department,
+
+
+date:
+
+new Date().toLocaleDateString(),
+
+
+requisitionNo:
+
+req.reqNo
+
+
+};
+
+
+
+// Save Issue
+
+issueList.push(issue);
+
+
+localStorage.setItem(
+
+"issueList",
+
+JSON.stringify(issueList)
+
+);
+
+
+
+// Save Stock
+
+localStorage.setItem(
+
+"stockItems",
+
+JSON.stringify(stockItems)
+
+);
+
+
+
+
+//==============================
+// UPDATE REQUISITION STATUS
+//==============================
+
+requisitionList[index].status="Issued";
 
 
 localStorage.setItem(
@@ -174,7 +320,7 @@ JSON.stringify(requisitionList)
 
 
 
-alert("Requisition Approved");
+alert("Requisition Issued Successfully");
 
 
 
