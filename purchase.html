@@ -4,122 +4,121 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>SH Maintenance Store | Purchase</title>
 
-<title>SH STORE Purchase</title>
-
-
-<link rel="stylesheet" href="css/purchase.css">
-
+<link rel="stylesheet" href="css/style.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-
 </head>
-
 
 <body>
 
-
-<!-- SIDEBAR -->
-
+<!--==============================
+SIDEBAR
+==============================-->
 
 <div class="sidebar">
 
+<div class="logo">
+
+<img src="images/logo.png">
 
 <h2>SH STORE</h2>
 
+</div>
 
 <a href="dashboard.html">
 <i class="fa fa-home"></i>
 Dashboard
 </a>
 
-
 <a href="stock.html">
 <i class="fa fa-box"></i>
 Stock
 </a>
 
-
-<a href="purchase.html">
+<a href="purchase.html" class="active">
 <i class="fa fa-cart-shopping"></i>
 Purchase
 </a>
-
 
 <a href="issue.html">
 <i class="fa fa-arrow-up"></i>
 Issue
 </a>
 
-
 <a href="report.html">
 <i class="fa fa-chart-bar"></i>
 Report
 </a>
 
+<a href="#" onclick="logout()">
+<i class="fa fa-right-from-bracket"></i>
+Logout
+</a>
 
 </div>
 
-
-
-
-
-
-
-<!-- MAIN -->
-
+<!--==============================
+MAIN
+==============================-->
 
 <div class="main">
 
+<div class="topbar">
 
+<h1>Purchase Management</h1>
 
-<h1>
-Purchase Management
-</h1>
+<div class="top-right">
 
+<span>
 
+<i class="fa fa-user"></i>
 
+<span id="loginUser"></span>
 
+</span>
 
-<div class="purchase-form">
+</div>
 
+</div>
 
+<!--==============================
+PURCHASE FORM
+==============================-->
+
+<div class="form-box">
+
+<h2 class="form-title">
+
+New Purchase
+
+</h2>
+
+<div class="form-grid">
 
 <input
 type="text"
 id="purchaseCode"
 placeholder="Item Code">
 
-
-
 <input
 type="number"
 id="purchaseQty"
-placeholder="Purchase Quantity">
-
-
+placeholder="Purchase Qty">
 
 <input
 type="text"
-id="supplierName"
+id="supplier"
 placeholder="Supplier Name">
 
-
-
-<input
-type="date"
-id="purchaseDate">
-
-
-
-
-
-<button onclick="purchaseItem()">
+<button
+class="btn btn-success"
+onclick="purchaseItem()">
 
 <i class="fa fa-save"></i>
 
@@ -127,36 +126,29 @@ Save Purchase
 
 </button>
 
-
+</div>
 
 </div>
 
-
-
-
-
-
-
+<!--==============================
+PURCHASE TABLE
+==============================-->
 
 <div class="table-box">
 
+<h3>
 
-<h2>
 Purchase History
-</h2>
 
-
-
+</h3>
 
 <table>
 
-
 <thead>
-
 
 <tr>
 
-<th>Code</th>
+<th>Item Code</th>
 
 <th>Item Name</th>
 
@@ -166,42 +158,29 @@ Purchase History
 
 <th>Date</th>
 
-<th>Action</th>
-
-
 </tr>
-
 
 </thead>
 
-
-
 <tbody id="purchaseTable">
-
 
 </tbody>
 
-
-
 </table>
 
+</div>
+
+<div class="footer">
+
+SH Maintenance Store Management System © 2026
 
 </div>
 
-
-
-
 </div>
 
-
-
-
-
-
-<script src="js/purchase.js"></script>
 <script src="js/auth.js"></script>
 
-
+<script src="js/purchase.js"></script>
 
 </body>
 
