@@ -616,3 +616,221 @@ function exportLowStockExcel(){
     );
 
 }
+//==================================================
+// PRINT PURCHASE REPORT
+//==================================================
+
+function printPurchaseReport(){
+
+    let win = window.open("");
+
+    let html = `
+
+    <html>
+
+    <head>
+
+    <title>Purchase Report</title>
+
+    <style>
+
+    table{
+
+        width:100%;
+        border-collapse:collapse;
+
+    }
+
+    th,td{
+
+        border:1px solid #000;
+        padding:8px;
+
+    }
+
+    h2{
+
+        text-align:center;
+
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+
+    <h2>
+    SH Maintenance Store
+    <br>
+    Purchase Report
+    </h2>
+
+
+    <table>
+
+    <tr>
+
+    <th>Item Code</th>
+    <th>Item Name</th>
+    <th>Quantity</th>
+    <th>Supplier</th>
+    <th>Date</th>
+
+    </tr>
+
+    `;
+
+
+    purchaseList.forEach(item=>{
+
+        html += `
+
+        <tr>
+
+        <td>${item.code}</td>
+
+        <td>${item.name}</td>
+
+        <td>${item.qty}</td>
+
+        <td>${item.supplier || ""}</td>
+
+        <td>${item.date}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+    </table>
+
+    </body>
+
+    </html>
+
+    `;
+
+
+    win.document.write(html);
+
+    win.print();
+
+}
+
+
+
+//==================================================
+// PRINT ISSUE REPORT
+//==================================================
+
+function printIssueReport(){
+
+    let win = window.open("");
+
+
+    let html = `
+
+    <html>
+
+    <head>
+
+    <title>Issue Report</title>
+
+    <style>
+
+    table{
+
+        width:100%;
+        border-collapse:collapse;
+
+    }
+
+    th,td{
+
+        border:1px solid #000;
+        padding:8px;
+
+    }
+
+    h2{
+
+        text-align:center;
+
+    }
+
+    </style>
+
+    </head>
+
+
+    <body>
+
+
+    <h2>
+    SH Maintenance Store
+    <br>
+    Issue Report
+    </h2>
+
+
+    <table>
+
+
+    <tr>
+
+    <th>Item Code</th>
+    <th>Item Name</th>
+    <th>Quantity</th>
+    <th>Issue To</th>
+    <th>Date</th>
+
+    </tr>
+
+    `;
+
+
+    issueList.forEach(item=>{
+
+        html += `
+
+        <tr>
+
+        <td>${item.code}</td>
+
+        <td>${item.name}</td>
+
+        <td>${item.qty}</td>
+
+        <td>${item.issueTo}</td>
+
+        <td>${item.date}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+    </table>
+
+    </body>
+
+    </html>
+
+    `;
+
+
+    win.document.write(html);
+
+    win.print();
+
+}
