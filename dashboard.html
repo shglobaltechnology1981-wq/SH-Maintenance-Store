@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard</title>
+<title>SH Store Dashboard</title>
 
 <link rel="stylesheet" href="css/dashboard.css">
 
@@ -15,87 +16,143 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </head>
 
+
 <body>
+
 
 <div class="sidebar">
 
 <h2>SH STORE</h2>
 
-<a href="dashboard.html"><i class="fa fa-home"></i> Dashboard</a>
 
-<a href="stock.html"><i class="fa fa-box"></i> Stock</a>
+<a href="dashboard.html">
+<i class="fa fa-home"></i>
+Dashboard
+</a>
 
-<a href="purchase.html"><i class="fa fa-cart-shopping"></i> Purchase</a>
 
-<a href="issue.html"><i class="fa fa-arrow-up"></i> Issue</a>
+<a href="stock.html">
+<i class="fa fa-box"></i>
+Stock
+</a>
 
-<a href="report.html"><i class="fa fa-chart-column"></i> Report</a>
 
-<a href="#"><i class="fa fa-gear"></i> Settings</a>
+<a href="purchase.html">
+<i class="fa fa-cart-shopping"></i>
+Purchase
+</a>
+
+
+<a href="issue.html">
+<i class="fa fa-arrow-up"></i>
+Issue
+</a>
+
+
+<a href="report.html">
+<i class="fa fa-chart-bar"></i>
+Report
+</a>
+
+
+</div>
+
+
 
 <div class="main">
+
 
 <h1>Maintenance Dashboard</h1>
 
-<div class="main">
 
-<div class="topbar">
-<h2>SH Maintenance Store</h2>
-<div class="admin">
-<span id="todayDate"></span>
-<span id="clock"></span>
-<b>Admin</b>
-</div>
-</div>
 
 <div class="cards">
 
+
 <div class="card">
+
 <h3>Total Items</h3>
-<h1 id="totalItems">850</h1>
+
+<h2 id="totalItems">
+0
+</h2>
+
 </div>
 
+
+
 <div class="card">
+
 <h3>Total Stock</h3>
-<h1 id="totalStock">25000</h1>
+
+<h2 id="totalStock">
+0
+</h2>
+
 </div>
+
+
+
 
 <div class="card">
-<h3>Purchase Today</h3>
-<h1 id="purchaseToday">20</h1>
+
+<h3>Total Purchase</h3>
+
+<h2 id="totalPurchase">
+0
+</h2>
+
 </div>
+
+
+
 
 <div class="card">
-<h3>Issue Today</h3>
-<h1 id="issueToday">15</h1>
-</div>
 
-<div class="card">
-<h3>Low Stock</h3>
-<h1 id="lowStock">12</h1>
-</div>
+<h3>Total Issue</h3>
 
-<div class="card">
-<h3>Running Machine</h3>
-<h1 id="machineRunning">80</h1>
-</div>
+<h2 id="totalIssue">
+0
+</h2>
 
 </div>
 
-<div class="quick-menu">
 
-<a href="stock.html">📦 Stock</a>
-
-<a href="purchase.html">🛒 Purchase</a>
-
-<a href="issue.html">📤 Issue</a>
-
-<a href="report.html">📊 Report</a>
 
 </div>
 
+
+
+
+<!-- Chart -->
+
+
+<div class="chart-box">
+
+
+<h2>
+Stock Movement Analysis
+</h2>
+
+
+<canvas id="stockChart"></canvas>
+
+
 </div>
-<script src="js/dashboard.js"></script>
+
+
+
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="js/dashboard-chart.js"></script>
+
 
 </body>
+
 </html>
