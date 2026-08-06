@@ -1,63 +1,85 @@
-/*=========================================
-SH MAINTENANCE STORE
-Dashboard JavaScript
-=========================================*/
+//=====================================
+// SH Maintenance Store Dashboard
+//=====================================
 
-// Demo Dashboard Data
+window.onload = function () {
 
-const dashboard = {
-
-totalItems:850,
-
-stock:25000,
-
-purchaseToday:20,
-
-issueToday:15,
-
-lowStock:12
-
-};
-
-
-// Dashboard Load
-
-window.onload=function(){
-
-console.log("Dashboard Loaded");
-
-showWelcome();
+showDate();
 
 showClock();
 
 setInterval(showClock,1000);
 
+loadDashboard();
+
 };
 
 
-// Welcome
+// Dashboard Data
 
-function showWelcome(){
+function loadDashboard(){
 
-console.log("Welcome Admin");
+document.getElementById("totalItems").innerHTML="850";
+
+document.getElementById("totalStock").innerHTML="25000";
+
+document.getElementById("purchaseToday").innerHTML="20";
+
+document.getElementById("issueToday").innerHTML="15";
+
+document.getElementById("lowStock").innerHTML="12";
+
+document.getElementById("machineRunning").innerHTML="80";
 
 }
 
 
-// Digital Clock
+// Date
+
+function showDate(){
+
+let today=new Date();
+
+document.getElementById("todayDate").innerHTML=
+
+today.toLocaleDateString();
+
+}
+
+
+// Clock
 
 function showClock(){
 
 let now=new Date();
 
-let time=now.toLocaleTimeString();
+document.getElementById("clock").innerHTML=
 
-let date=now.toLocaleDateString();
+now.toLocaleTimeString();
 
-document.title=
-"Dashboard | "+time;
+}
 
-console.log(date,time);
+
+// Search
+
+function searchItem(){
+
+let item=prompt("Enter Item Name");
+
+if(item){
+
+alert("Searching : "+item);
+
+}
+
+}
+
+
+// Refresh
+
+function refreshDashboard(){
+
+location.reload();
 
 }
 
@@ -66,7 +88,7 @@ console.log(date,time);
 
 function logout(){
 
-if(confirm("Do you want to Logout?")){
+if(confirm("Logout?")){
 
 window.location="index.html";
 
@@ -75,26 +97,10 @@ window.location="index.html";
 }
 
 
-// Search Item
+// Low Stock Alert
 
-function searchItem(){
+if(Number(document.getElementById("lowStock")?.innerHTML)>10){
 
-let keyword=
-prompt("Enter Item Name");
-
-if(keyword){
-
-alert("Searching : "+keyword);
-
-}
-
-}
-
-
-// Refresh Dashboard
-
-function refreshDashboard(){
-
-location.reload();
+console.log("Low Stock Available");
 
 }
