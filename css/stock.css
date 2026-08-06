@@ -164,3 +164,15 @@ white-space:nowrap;
 }
 
 }
+
+.search-box{
+margin:20px 0;
+}
+
+.search-box input{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
+}
