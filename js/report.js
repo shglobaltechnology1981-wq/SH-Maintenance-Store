@@ -278,3 +278,74 @@ function printReport(){
     window.print();
 
 }
+
+//==================================================
+// DOWNLOAD EXCEL
+//==================================================
+
+function exportExcel(){
+
+    let data = [];
+
+    data.push([
+        "Item Code",
+        "Item Name",
+        "Category",
+        "Stock",
+        "Unit"
+    ]);
+
+
+    stockItems.forEach(item=>{
+
+        data.push([
+
+            item.code,
+
+            item.name,
+
+            item.category,
+
+            item.stock,
+
+            item.unit
+
+        ]);
+
+    });
+
+
+
+    let worksheet =
+    XLSX.utils.aoa_to_sheet(data);
+
+
+    let workbook =
+    XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Stock Report"
+    );
+
+
+    XLSX.writeFile(
+        workbook,
+        "SH_Store_Stock_Report.xlsx"
+    );
+
+}
+
+
+
+//==================================================
+// PRINT REPORT
+//==================================================
+
+function printReport(){
+
+    window.print();
+
+}
