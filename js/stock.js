@@ -1,73 +1,98 @@
 /*==================================================
-SH MAINTENANCE STORE
-stock.js
-Version 1.0
+SH Maintenance Store
+issue.js
 ==================================================*/
 
-let stockItems = JSON.parse(localStorage.getItem("stockItems")) || [];
+let issueList =
+JSON.parse(localStorage.getItem("issueList")) || [];
+
+let stockItems =
+JSON.parse(localStorage.getItem("stockItems")) || [];
 
 //==============================
 // PAGE LOAD
 //==============================
 
 window.onload = function () {
-    loadStock();
+    loadIssue();
 };
 
 //==============================
-// ADD ITEM
+// ISSUE ITEM
 //==============================
 
-function addItem() {
+function issueItem() {
 
-    let code = document.getElementById("itemCode").value.trim();
-    let name = document.getElementById("itemName").value.trim();
-    let category = document.getElementById("itemCategory").value;
-    let stock = document.getElementById("itemStock").value.trim();
-    let unit = document.getElementById("itemUnit").value.trim();
+    let code = document.getElementById("issueCode").value.trim();
+    let qty = Number(document.getElementById("issueQty").value);
+    let issueTo = document.getElementById("issueTo").value.trim();
 
-    if (
-        code === "" ||
-        name === "" ||
-        stock === "" ||
-        unit === ""
-    ) {
+    if (code === "" || qty <= 0 || issueTo === "") {
         alert("Please fill all fields.");
         return;
     }
 
-    stockItems.push({
-        code: code,
-        name: name,
-        category: category,
-        stock: Number(stock),
-        unit: unit
-    });
+    let found = false;
 
-    saveData();
+    for (let i = 0; i < stockItems.length; i++) {
+
+        if (stockItems[i].code === code) {
+
+            found = true;
+
+            if (stockItems[i].stock < qty) {
+                alert("Insufficient Stock!");
+                return;
+            }
+
+            stockItems[i].stock -= qty;
+
+            issueList.push({
+                code: stockItems[i].code,
+                name: stockItems[i].name,
+                qty: qty,
+                issueTo: issueTo,
+                date: new Date().toLocaleDateString()
+            });
+
+            break;
+        }
+    }
+
+    if (!found) {
+        alert("Item Code Not Found.");
+        return;
+    }
+
+    localStorage.setItem(
+        "stockItems",
+        JSON.stringify(stockItems)
+    );
+
+    localStorage.setItem(
+        "issueList",
+        JSON.stringify(issueList)
+    );
 
     clearForm();
 
-    loadStock();
+    loadIssue();
+
+    alert("Item Issued Successfully.");
 
 }
 
 //==============================
-// LOAD TABLE
+// LOAD ISSUE TABLE
 //==============================
 
-function loadStock() {
+function loadIssue() {
 
-    let table = document.getElementById("stockTable");
+    let table = document.getElementById("issueTable");
 
     table.innerHTML = "";
 
-    stockItems.forEach((item, index) => {
-
-        let status =
-            item.stock <= 10
-                ? "<span class='low'>LOW</span>"
-                : "<span class='available'>AVAILABLE</span>";
+    issueList.forEach(item => {
 
         table.innerHTML += `
 
@@ -77,102 +102,15 @@ function loadStock() {
 
 <td>${item.name}</td>
 
-<td>${item.category}</td>
+<td>${item.qty}</td>
 
-<td>${item.stock}</td>
+<td>${item.issueTo}</td>
 
-<td>${item.unit}</td>
-
-<td>${status}</td>
-
-<td>
-
-<button onclick="editItem(${index})">
-
-Edit
-
-</button>
-
-<button onclick="deleteItem(${index})">
-
-Delete
-
-</button>
-
-</td>
+<td>${item.date}</td>
 
 </tr>
 
 `;
-
-    });
-
-}
-
-//==============================
-// EDIT
-//==============================
-
-function editItem(index) {
-
-    let item = stockItems[index];
-
-    document.getElementById("itemCode").value = item.code;
-    document.getElementById("itemName").value = item.name;
-    document.getElementById("itemCategory").value = item.category;
-    document.getElementById("itemStock").value = item.stock;
-    document.getElementById("itemUnit").value = item.unit;
-
-    stockItems.splice(index, 1);
-
-    saveData();
-
-    loadStock();
-
-}
-
-//==============================
-// DELETE
-//==============================
-
-function deleteItem(index) {
-
-    if (confirm("Delete this item?")) {
-
-        stockItems.splice(index, 1);
-
-        saveData();
-
-        loadStock();
-
-    }
-
-}
-
-//==============================
-// SEARCH
-//==============================
-
-function searchItem() {
-
-    let value =
-        document
-        .getElementById("searchItem")
-        .value
-        .toLowerCase();
-
-    let rows =
-        document.querySelectorAll("#stockTable tr");
-
-    rows.forEach(row => {
-
-        let text =
-            row.innerText.toLowerCase();
-
-        row.style.display =
-            text.includes(value)
-                ? ""
-                : "none";
 
     });
 
@@ -184,23 +122,8 @@ function searchItem() {
 
 function clearForm() {
 
-    document.getElementById("itemCode").value = "";
-    document.getElementById("itemName").value = "";
-    document.getElementById("itemCategory").selectedIndex = 0;
-    document.getElementById("itemStock").value = "";
-    document.getElementById("itemUnit").value = "";
-
-}
-
-//==============================
-// SAVE LOCAL STORAGE
-//==============================
-
-function saveData() {
-
-    localStorage.setItem(
-        "stockItems",
-        JSON.stringify(stockItems)
-    );
+    document.getElementById("issueCode").value = "";
+    document.getElementById("issueQty").value = "";
+    document.getElementById("issueTo").value = "";
 
 }
