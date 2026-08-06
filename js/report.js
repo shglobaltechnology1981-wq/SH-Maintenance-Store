@@ -1,85 +1,172 @@
 /*==================================================
-SH Maintenance Store
+SH STORE
+Report Management
 report.js
-Final Version
 ==================================================*/
 
 
 let stockItems =
 JSON.parse(localStorage.getItem("stockItems")) || [];
 
+
 let purchaseList =
 JSON.parse(localStorage.getItem("purchaseList")) || [];
 
+
 let issueList =
 JSON.parse(localStorage.getItem("issueList")) || [];
+
+
 
 
 //==============================
 // PAGE LOAD
 //==============================
 
-window.onload = function(){
+window.onload=function(){
 
-    updateSummary();
-
-    showStockReport();
+loadReport();
 
 };
+
+
+
+
+
+//==============================
+// LOAD ALL REPORT
+//==============================
+
+function loadReport(){
+
+
+
+loadSummary();
+
+
+loadStockReport();
+
+
+loadPurchaseReport();
+
+
+loadIssueReport();
+
+
+
+}
+
+
+
+
+
 
 
 //==============================
 // SUMMARY
 //==============================
 
-function updateSummary(){
 
-    let totalItems = stockItems.length;
-
-    let totalStock = 0;
-
-    let lowStock = 0;
-
-    let outStock = 0;
+function loadSummary(){
 
 
-    stockItems.forEach(item=>{
 
-        totalStock += Number(item.stock);
-
-
-        if(item.stock <= 10 && item.stock > 0){
-
-            lowStock++;
-
-        }
+let totalStock=0;
 
 
-        if(item.stock <= 0){
-
-            outStock++;
-
-        }
-
-    });
+stockItems.forEach(item=>{
 
 
-    if(document.getElementById("totalItems"))
-    document.getElementById("totalItems").innerText = totalItems;
+totalStock += Number(item.stock || 0);
 
 
-    if(document.getElementById("totalStock"))
-    document.getElementById("totalStock").innerText = totalStock;
+});
 
 
-    if(document.getElementById("lowStock"))
-    document.getElementById("lowStock").innerText = lowStock;
 
 
-    if(document.getElementById("outStock"))
-    document.getElementById("outStock").innerText = outStock;
+
+let totalPurchase=0;
+
+
+purchaseList.forEach(item=>{
+
+
+totalPurchase += Number(item.qty || 0);
+
+
+});
+
+
+
+
+
+let totalIssue=0;
+
+
+issueList.forEach(item=>{
+
+
+totalIssue += Number(item.qty || 0);
+
+
+});
+
+
+
+
+
+
+if(document.getElementById("rItems")){
+
+
+document.getElementById("rItems").innerHTML =
+stockItems.length;
+
 
 }
+
+
+
+if(document.getElementById("rStock")){
+
+
+document.getElementById("rStock").innerHTML =
+totalStock;
+
+
+}
+
+
+
+if(document.getElementById("rPurchase")){
+
+
+document.getElementById("rPurchase").innerHTML =
+totalPurchase;
+
+
+}
+
+
+
+if(document.getElementById("rIssue")){
+
+
+document.getElementById("rIssue").innerHTML =
+totalIssue;
+
+
+}
+
+
+
+
+}
+
+
+
+
 
 
 
@@ -87,17 +174,30 @@ function updateSummary(){
 // STOCK REPORT
 //==============================
 
-function showStockReport(){
 
-let table=document.getElementById("reportTable");
+function loadStockReport(){
+
+
+
+let table =
+document.getElementById("stockReport");
+
+
+
+if(!table) return;
+
+
 
 table.innerHTML="";
+
 
 
 stockItems.forEach(item=>{
 
 
+
 table.innerHTML +=`
+
 
 <tr>
 
@@ -109,17 +209,24 @@ table.innerHTML +=`
 
 <td>${item.stock}</td>
 
-<td>-</td>
+<td>${item.unit}</td>
+
 
 </tr>
 
+
 `;
+
 
 
 });
 
 
 }
+
+
+
+
 
 
 
@@ -127,17 +234,30 @@ table.innerHTML +=`
 // PURCHASE REPORT
 //==============================
 
-function showPurchaseReport(){
 
-let table=document.getElementById("reportTable");
+function loadPurchaseReport(){
+
+
+
+let table =
+document.getElementById("purchaseReport");
+
+
+
+if(!table) return;
+
+
 
 table.innerHTML="";
+
 
 
 purchaseList.forEach(item=>{
 
 
+
 table.innerHTML +=`
+
 
 <tr>
 
@@ -145,21 +265,27 @@ table.innerHTML +=`
 
 <td>${item.name}</td>
 
-<td>Purchase</td>
-
 <td>${item.qty}</td>
 
 <td>${item.date}</td>
 
+
 </tr>
 
+
 `;
+
 
 
 });
 
 
+
 }
+
+
+
+
 
 
 
@@ -167,159 +293,59 @@ table.innerHTML +=`
 // ISSUE REPORT
 //==============================
 
-function showIssueReport(){
 
-let table=document.getElementById("reportTable");
+function loadIssueReport(){
+
+
+
+let table =
+document.getElementById("issueReport");
+
+
+
+if(!table) return;
+
+
 
 table.innerHTML="";
+
 
 
 issueList.forEach(item=>{
 
 
+
 table.innerHTML +=`
+
 
 <tr>
 
+
 <td>${item.code}</td>
+
 
 <td>${item.name}</td>
 
-<td>${item.issueTo}</td>
 
 <td>${item.qty}</td>
 
+
+<td>${item.issueTo}</td>
+
+
 <td>${item.date}</td>
 
+
+
 </tr>
+
 
 `;
 
 
-});
-
-
-}
-
-
-
-//==============================
-// SEARCH REPORT
-//==============================
-
-function searchReport(){
-
-let value =
-document.getElementById("searchReport")
-.value
-.toLowerCase();
-
-
-let rows =
-document.querySelectorAll("#reportTable tr");
-
-
-rows.forEach(row=>{
-
-
-row.style.display =
-
-row.innerText.toLowerCase().includes(value)
-
-?
-
-""
-
-:
-
-"none";
-
 
 });
 
-
-}
-
-
-
-//==============================
-// FILTER REPORT
-//==============================
-
-function filterReport(){
-
-alert("Date Filter Coming Next Version");
-
-}
-
-
-
-//==============================
-// EXCEL DOWNLOAD
-//==============================
-
-function downloadExcel(){
-
-let table=document.querySelector("table");
-
-let wb=XLSX.utils.table_to_book(table);
-
-XLSX.writeFile(
-wb,
-"SH_Inventory_Report.xlsx"
-);
-
-}
-
-
-
-//==============================
-// PDF DOWNLOAD
-//==============================
-
-async function downloadPDF(){
-
-const {jsPDF}=window.jspdf;
-
-
-const pdf=new jsPDF(
-"p",
-"mm",
-"a4"
-);
-
-
-const canvas =
-await html2canvas(
-document.querySelector(".main")
-);
-
-
-const img =
-canvas.toDataURL("image/png");
-
-
-const width=190;
-
-const height=
-(canvas.height*width)
-/
-canvas.width;
-
-
-pdf.addImage(
-img,
-"PNG",
-10,
-10,
-width,
-height
-);
-
-
-pdf.save(
-"SH_Inventory_Report.pdf"
-);
 
 
 }
