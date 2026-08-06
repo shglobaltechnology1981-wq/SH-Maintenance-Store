@@ -1,0 +1,166 @@
+/*====================================
+SH Maintenance Store
+Stock Module
+====================================*/
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+display:flex;
+background:#f4f6f9;
+}
+
+/* Sidebar */
+
+.sidebar{
+width:230px;
+height:100vh;
+background:#1f2937;
+position:fixed;
+left:0;
+top:0;
+overflow:auto;
+}
+
+.sidebar h2{
+color:#fff;
+text-align:center;
+padding:20px 0;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.sidebar a{
+display:block;
+padding:14px 20px;
+color:#fff;
+text-decoration:none;
+transition:.3s;
+}
+
+.sidebar a:hover{
+background:#2563eb;
+}
+
+/* Main */
+
+.main{
+margin-left:230px;
+padding:25px;
+width:100%;
+}
+
+.main h1{
+margin-bottom:20px;
+color:#222;
+}
+
+/* Form */
+
+.stock-form{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+background:#fff;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+margin-bottom:20px;
+}
+
+.stock-form input,
+.stock-form select{
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.stock-form button{
+background:#0d6efd;
+color:#fff;
+border:none;
+padding:12px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.stock-form button:hover{
+background:#084298;
+}
+
+/* Table */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#fff;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+table th{
+background:#0d6efd;
+color:#fff;
+padding:12px;
+}
+
+table td{
+padding:10px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+table tr:hover{
+background:#f8f9fa;
+}
+
+/* Status */
+
+.available{
+color:green;
+font-weight:bold;
+}
+
+.low{
+color:red;
+font-weight:bold;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.sidebar{
+width:70px;
+}
+
+.sidebar h2{
+display:none;
+}
+
+.sidebar a{
+font-size:11px;
+text-align:center;
+padding:16px 5px;
+}
+
+.main{
+margin-left:70px;
+padding:15px;
+}
+
+.stock-form{
+grid-template-columns:1fr;
+}
+
+table{
+display:block;
+overflow-x:auto;
+white-space:nowrap;
+}
+
+}
