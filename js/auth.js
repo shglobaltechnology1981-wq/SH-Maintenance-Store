@@ -1,37 +1,73 @@
 /*==================================================
-SH STORE
-Authentication System
+SH Maintenance Store
+Authentication
 auth.js
 ==================================================*/
 
+//==============================
+// CHECK LOGIN
+//==============================
 
-let loginUser =
-localStorage.getItem("loginUser");
+(function () {
+
+    const loginUser = localStorage.getItem("loginUser");
+
+    if (!loginUser) {
+
+        window.location.href = "index.html";
+
+    }
+
+})();
 
 
 
-if(!loginUser){
+//==============================
+// GET LOGIN USER
+//==============================
 
-window.location="index.html";
+function getLoginUser(){
+
+    return localStorage.getItem("loginUser") || "";
 
 }
 
 
 
+//==============================
+// SHOW USER NAME
+//==============================
+
+window.addEventListener("DOMContentLoaded", function(){
+
+    const user = document.getElementById("loginUser");
+
+    if(user){
+
+        user.innerHTML = getLoginUser();
+
+    }
+
+});
+
+
+
+//==============================
+// LOGOUT
+//==============================
 
 function logout(){
 
+    let ok = confirm("Do you want to Logout?");
 
-if(confirm("Are you sure Logout?")){
+    if(!ok){
 
+        return;
 
-localStorage.removeItem("loginUser");
+    }
 
+    localStorage.removeItem("loginUser");
 
-window.location="index.html";
-
-
-}
-
+    window.location.href = "index.html";
 
 }
