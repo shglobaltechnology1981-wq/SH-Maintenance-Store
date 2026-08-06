@@ -3,23 +3,35 @@ SH Maintenance Store
 dashboard.js
 ==================================================*/
 
+
 //==============================
 // PAGE LOAD
 //==============================
 
 window.onload = function () {
 
+
     showDate();
+
 
     showClock();
 
+
     setInterval(showClock, 1000);
+
 
     loadDashboard();
 
+
     loadChart();
 
+
+    showUser();
+
+
 };
+
+
 
 
 //==============================
@@ -28,108 +40,258 @@ window.onload = function () {
 
 function loadDashboard() {
 
+
     let stockItems =
-        JSON.parse(localStorage.getItem("stockItems")) || [];
+    JSON.parse(localStorage.getItem("stockItems")) || [];
+
 
     let purchaseList =
-        JSON.parse(localStorage.getItem("purchaseList")) || [];
+    JSON.parse(localStorage.getItem("purchaseList")) || [];
+
 
     let issueList =
-        JSON.parse(localStorage.getItem("issueList")) || [];
-
-
-// Total Items
-
-document.getElementById("totalItems").innerHTML =
-    stockItems.length;
+    JSON.parse(localStorage.getItem("issueList")) || [];
 
 
 
-// Total Stock
 
-let totalStock = 0;
+    //==============================
+    // TOTAL ITEMS
+    //==============================
 
-stockItems.forEach(item => {
-
-    totalStock += Number(item.stock);
-
-});
-
-document.getElementById("totalStock").innerHTML =
-    totalStock;
+    let totalItems =
+    document.getElementById("totalItems");
 
 
+    if(totalItems){
 
-// Total Purchase
-
-let totalPurchase = 0;
-
-purchaseList.forEach(item => {
-
-    totalPurchase += Number(item.qty);
-
-});
-
-document.getElementById("totalPurchase").innerHTML =
-    totalPurchase;
-
-
-
-// Total Issue
-
-let totalIssue = 0;
-
-issueList.forEach(item => {
-
-    totalIssue += Number(item.qty);
-
-});
-
-document.getElementById("totalIssue").innerHTML =
-    totalIssue;
-
-
-
-//==============================
-// Pending Requisition
-//==============================
-
-let requisitionList =
-
-JSON.parse(localStorage.getItem("requisitionList")) || [];
-
-
-let pending = 0;
-
-
-requisitionList.forEach(item=>{
-
-    if(item.status=="Pending"){
-
-        pending++;
+        totalItems.innerHTML =
+        stockItems.length;
 
     }
 
-});
 
 
-document.getElementById("pendingReq").innerHTML =
-    pending;
+
+    //==============================
+    // TOTAL STOCK
+    //==============================
+
+    let totalStock = 0;
+
+
+    stockItems.forEach(item => {
+
+
+        totalStock += Number(item.stock);
+
+
+    });
+
+
+
+    let stockBox =
+    document.getElementById("totalStock");
+
+
+    if(stockBox){
+
+        stockBox.innerHTML =
+        totalStock;
+
+    }
+
+
+
+
+
+    //==============================
+    // TOTAL PURCHASE
+    //==============================
+
+    let totalPurchase = 0;
+
+
+    purchaseList.forEach(item => {
+
+
+        totalPurchase += Number(item.qty);
+
+
+    });
+
+
+
+    let purchaseBox =
+    document.getElementById("totalPurchase");
+
+
+    if(purchaseBox){
+
+        purchaseBox.innerHTML =
+        totalPurchase;
+
+    }
+
+
+
+
+
+    //==============================
+    // TOTAL ISSUE
+    //==============================
+
+    let totalIssue = 0;
+
+
+    issueList.forEach(item => {
+
+
+        totalIssue += Number(item.qty);
+
+
+    });
+
+
+
+    let issueBox =
+    document.getElementById("totalIssue");
+
+
+    if(issueBox){
+
+        issueBox.innerHTML =
+        totalIssue;
+
+    }
+
+
+
+
+
+    //==============================
+    // PENDING REQUISITION
+    //==============================
+
+    let requisitionList =
+
+    JSON.parse(
+    localStorage.getItem("requisitionList")
+    ) || [];
+
+
+
+    let pending = 0;
+
+
+
+    requisitionList.forEach(item=>{
+
+
+        if(item.status=="Pending"){
+
+
+            pending++;
+
+
+        }
+
+
+    });
+
+
+
+    let reqBox =
+    document.getElementById("pendingReq");
+
+
+    if(reqBox){
+
+
+        reqBox.innerHTML =
+        pending;
+
+
+    }
+
 
 
 }
+
+
+
+
+
+
+//==============================
+// SHOW LOGIN USER
+//==============================
+
+function showUser(){
+
+
+    let user =
+
+    JSON.parse(
+    localStorage.getItem("loginUser")
+    );
+
+
+
+    let userBox =
+
+    document.getElementById("loginUser");
+
+
+
+    if(user && userBox){
+
+
+        userBox.innerHTML =
+        user.name;
+
+
+    }
+
+
+}
+
+
+
+
+
+
 //==============================
 // DATE
 //==============================
 
 function showDate() {
 
-    let today = new Date();
 
-    document.getElementById("todayDate").innerHTML =
+    let today =
+    new Date();
+
+
+
+    let dateBox =
+    document.getElementById("todayDate");
+
+
+
+    if(dateBox){
+
+
+        dateBox.innerHTML =
         today.toLocaleDateString();
 
+
+    }
+
+
 }
+
+
+
 
 
 
@@ -139,50 +301,108 @@ function showDate() {
 
 function showClock() {
 
-    let now = new Date();
 
-    document.getElementById("clock").innerHTML =
+    let now =
+    new Date();
+
+
+
+    let clockBox =
+    document.getElementById("clock");
+
+
+
+    if(clockBox){
+
+
+        clockBox.innerHTML =
         now.toLocaleTimeString();
+
+
+    }
+
 
 }
 
 
 
+
+
+
 //==============================
-// CHART
+// STOCK CHART
 //==============================
 
 function loadChart() {
 
+
     let stockItems =
-        JSON.parse(localStorage.getItem("stockItems")) || [];
+
+    JSON.parse(
+    localStorage.getItem("stockItems")
+    ) || [];
+
+
 
     let purchaseList =
-        JSON.parse(localStorage.getItem("purchaseList")) || [];
+
+    JSON.parse(
+    localStorage.getItem("purchaseList")
+    ) || [];
+
+
 
     let issueList =
-        JSON.parse(localStorage.getItem("issueList")) || [];
+
+    JSON.parse(
+    localStorage.getItem("issueList")
+    ) || [];
+
+
+
 
     let totalStock = 0;
 
-    stockItems.forEach(item => {
+
+
+    stockItems.forEach(item=>{
+
 
         totalStock += Number(item.stock);
 
+
     });
 
-    const ctx =
-        document.getElementById("stockChart");
 
-    if (!ctx) return;
 
-    new Chart(ctx, {
 
-        type: "bar",
 
-        data: {
+    let ctx =
 
-            labels: [
+    document.getElementById("stockChart");
+
+
+
+    if(!ctx){
+
+        return;
+
+    }
+
+
+
+
+    new Chart(ctx,{
+
+
+        type:"bar",
+
+
+
+        data:{
+
+
+            labels:[
 
                 "Stock",
 
@@ -192,40 +412,101 @@ function loadChart() {
 
             ],
 
-            datasets: [{
 
-                label: "Quantity",
 
-                data: [
+            datasets:[{
+
+
+                label:"Quantity",
+
+
+
+                data:[
+
 
                     totalStock,
 
-                    purchaseList.length,
 
-                    issueList.length
+                    purchaseList.reduce(
+
+                    (sum,item)=>
+
+                    sum + Number(item.qty),
+
+                    0
+
+                    ),
+
+
+
+                    issueList.reduce(
+
+                    (sum,item)=>
+
+                    sum + Number(item.qty),
+
+                    0
+
+                    )
+
 
                 ]
 
+
             }]
+
 
         },
 
-        options: {
 
-            responsive: true,
 
-            plugins: {
+        options:{
 
-                legend: {
 
-                    display: false
+            responsive:true,
+
+
+
+            plugins:{
+
+
+                legend:{
+
+
+                    display:false
+
 
                 }
 
+
             }
+
 
         }
 
+
     });
+
+
+
+}
+
+
+
+
+
+
+//==============================
+// LOGOUT
+//==============================
+
+function logout(){
+
+
+    localStorage.removeItem("loginUser");
+
+
+    window.location.href="login.html";
+
 
 }
