@@ -4,11 +4,14 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>SH Maintenance Store | Purchase</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -17,9 +20,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <body>
 
-<!--==============================
+<!--==================================
 SIDEBAR
-==============================-->
+===================================-->
 
 <div class="sidebar">
 
@@ -32,46 +35,70 @@ SIDEBAR
 </div>
 
 <a href="dashboard.html">
+
 <i class="fa fa-home"></i>
+
 Dashboard
+
 </a>
 
 <a href="stock.html">
+
 <i class="fa fa-box"></i>
+
 Stock
+
 </a>
 
-<a href="purchase.html" class="active">
+<a href="purchase.html"
+class="active">
+
 <i class="fa fa-cart-shopping"></i>
+
 Purchase
+
 </a>
 
 <a href="issue.html">
+
 <i class="fa fa-arrow-up"></i>
+
 Issue
+
 </a>
 
 <a href="report.html">
+
 <i class="fa fa-chart-bar"></i>
+
 Report
+
 </a>
 
-<a href="#" onclick="logout()">
+<a href="#"
+onclick="logout()">
+
 <i class="fa fa-right-from-bracket"></i>
+
 Logout
+
 </a>
 
 </div>
 
-<!--==============================
+<!--==================================
 MAIN
-==============================-->
+===================================-->
 
 <div class="main">
 
 <div class="topbar">
 
-<h1>Purchase Management</h1>
+<h1>
+
+Purchase Management
+
+</h1>
 
 <div class="top-right">
 
@@ -87,9 +114,9 @@ MAIN
 
 </div>
 
-<!--==============================
+<!--==================================
 PURCHASE FORM
-==============================-->
+===================================-->
 
 <div class="form-box">
 
@@ -129,10 +156,23 @@ Save Purchase
 </div>
 
 </div>
+<!--==================================
+SEARCH
+===================================-->
 
-<!--==============================
+<div class="search-box">
+
+<input
+type="text"
+id="searchPurchase"
+placeholder="Search Purchase..."
+onkeyup="searchPurchase()">
+
+</div>
+
+<!--==================================
 PURCHASE TABLE
-==============================-->
+===================================-->
 
 <div class="table-box">
 
@@ -158,6 +198,8 @@ Purchase History
 
 <th>Date</th>
 
+<th>Action</th>
+
 </tr>
 
 </thead>
@@ -170,6 +212,10 @@ Purchase History
 
 </div>
 
+<!--==================================
+FOOTER
+===================================-->
+
 <div class="footer">
 
 SH Maintenance Store Management System © 2026
@@ -177,6 +223,10 @@ SH Maintenance Store Management System © 2026
 </div>
 
 </div>
+
+<!--==================================
+SCRIPTS
+===================================-->
 
 <script src="js/auth.js"></script>
 
