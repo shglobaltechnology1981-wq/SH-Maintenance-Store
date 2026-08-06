@@ -1,163 +1,435 @@
 /*==================================================
-SH Maintenance Store
-issue.css
+SH STORE
+Issue CSS
 ==================================================*/
 
+
 *{
+
 margin:0;
+
 padding:0;
+
 box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+
+font-family:Arial,sans-serif;
+
 }
+
+
 
 body{
-display:flex;
+
 background:#f4f6f9;
+
+display:flex;
+
 }
 
-/* Sidebar */
+
+
+
+
+
+/*==============================
+SIDEBAR
+==============================*/
+
 
 .sidebar{
-width:230px;
+
+width:240px;
+
 height:100vh;
+
 background:#1f2937;
+
 position:fixed;
+
 left:0;
+
 top:0;
-overflow:auto;
+
+padding-top:20px;
+
 }
+
+
 
 .sidebar h2{
-color:#fff;
+
+color:white;
+
 text-align:center;
-padding:20px;
-border-bottom:1px solid rgba(255,255,255,.1);
+
+margin-bottom:30px;
+
 }
+
+
 
 .sidebar a{
+
 display:block;
-padding:15px 20px;
-color:#fff;
+
+color:white;
+
 text-decoration:none;
-transition:.3s;
+
+padding:15px 20px;
+
 }
+
+
 
 .sidebar a:hover{
+
 background:#2563eb;
+
 }
 
-/* Main */
+
+
+
+
+
+
+/*==============================
+MAIN
+==============================*/
+
 
 .main{
-margin-left:230px;
+
+margin-left:240px;
+
 padding:25px;
+
 width:100%;
+
 }
+
+
 
 .main h1{
+
 margin-bottom:20px;
+
 color:#222;
+
 }
 
-/* Form */
+
+
+
+
+
+
+
+/*==============================
+ISSUE FORM
+==============================*/
+
 
 .issue-form{
-background:#fff;
-padding:20px;
-border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+
+background:white;
+
+padding:25px;
+
+
+border-radius:12px;
+
+
+box-shadow:
+
+0 5px 15px rgba(0,0,0,.08);
+
+
 
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(220px,1fr));
+
 
 gap:15px;
 
-margin-bottom:20px;
+
+margin-bottom:25px;
+
+
+
 }
+
+
+
 
 .issue-form input{
 
+
 padding:12px;
+
 
 border:1px solid #ccc;
 
+
 border-radius:6px;
+
 
 font-size:15px;
 
+
 }
+
+
+
+
 
 .issue-form button{
 
+
 background:#dc3545;
 
-color:#fff;
+
+color:white;
+
 
 border:none;
 
-padding:12px;
 
 border-radius:6px;
 
-cursor:pointer;
-
-font-size:15px;
-
-font-weight:bold;
-
-transition:.3s;
-
-}
-
-.issue-form button:hover{
-
-background:#bb2d3b;
-
-}
-
-/* Table */
-
-table{
-
-width:100%;
-
-background:#fff;
-
-border-collapse:collapse;
-
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-
-}
-
-table th{
-
-background:#dc3545;
-
-color:#fff;
 
 padding:12px;
 
+
+font-size:16px;
+
+
+cursor:pointer;
+
+
 }
+
+
+
+.issue-form button:hover{
+
+
+background:#a71d2a;
+
+
+}
+
+
+
+
+
+
+
+
+/*==============================
+TABLE BOX
+==============================*/
+
+
+.table-box{
+
+
+background:white;
+
+
+padding:20px;
+
+
+border-radius:12px;
+
+
+box-shadow:
+
+0 5px 15px rgba(0,0,0,.08);
+
+
+
+}
+
+
+
+
+.table-box h2{
+
+
+margin-bottom:15px;
+
+
+color:#333;
+
+
+}
+
+
+
+
+
+table{
+
+
+width:100%;
+
+
+border-collapse:collapse;
+
+
+}
+
+
+
+
+
+table th{
+
+
+background:#dc3545;
+
+
+color:white;
+
+
+padding:12px;
+
+
+}
+
+
+
+
 
 table td{
 
+
 padding:10px;
 
-border-bottom:1px solid #eee;
 
 text-align:center;
 
-}
 
-table tr:hover{
+border-bottom:1px solid #ddd;
 
-background:#f8f9fa;
 
 }
 
-/* Mobile */
+
+
+
+
+
+
+table button{
+
+
+background:#dc3545;
+
+
+color:white;
+
+
+border:none;
+
+
+padding:6px 12px;
+
+
+border-radius:5px;
+
+
+cursor:pointer;
+
+
+}
+
+
+
+table button:hover{
+
+
+background:#a71d2a;
+
+
+}
+
+
+
+
+
+
+
+/*==============================
+PRINT ISSUE
+==============================*/
+
+
+@media print{
+
+
+.sidebar,
+
+
+.issue-form button{
+
+
+display:none;
+
+
+}
+
+
+
+.main{
+
+
+margin:0;
+
+}
+
+
+
+body{
+
+background:white;
+
+}
+
+
+
+.table-box{
+
+box-shadow:none;
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+/*==============================
+MOBILE
+==============================*/
+
 
 @media(max-width:768px){
+
+
 
 .sidebar{
 
@@ -165,44 +437,54 @@ width:70px;
 
 }
 
+
+
 .sidebar h2{
 
 display:none;
 
 }
 
+
+
 .sidebar a{
 
-font-size:11px;
+
+font-size:12px;
+
 
 text-align:center;
 
-padding:15px 5px;
+
+padding:18px 5px;
+
 
 }
+
+
 
 .main{
 
+
 margin-left:70px;
+
 
 padding:15px;
 
+
 }
+
+
+
 
 .issue-form{
 
+
 grid-template-columns:1fr;
 
-}
-
-table{
-
-display:block;
-
-overflow-x:auto;
-
-white-space:nowrap;
 
 }
+
+
 
 }
