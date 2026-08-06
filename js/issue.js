@@ -14,21 +14,23 @@ JSON.parse(localStorage.getItem("stockItems")) || [];
 
 
 
+
 //==============================
 // PAGE LOAD
 //==============================
 
-window.onload = function(){
+window.onload=function(){
 
-    loadIssue();
+loadIssue();
 
 };
 
 
 
 
+
 //==============================
-// ISSUE ITEM
+// SAVE ISSUE
 //==============================
 
 function issueItem(){
@@ -38,8 +40,10 @@ let code =
 document.getElementById("issueCode").value.trim();
 
 
+
 let qty =
 Number(document.getElementById("issueQty").value);
+
 
 
 let issueTo =
@@ -47,9 +51,18 @@ document.getElementById("issueTo").value.trim();
 
 
 
+let date =
+document.getElementById("issueDate").value;
+
+
+
+
+
 if(code==="" || qty<=0 || issueTo===""){
 
-alert("Please fill all information.");
+
+alert("Please fill all information");
+
 
 return;
 
@@ -57,7 +70,11 @@ return;
 
 
 
+
+
 let found=false;
+
+
 
 
 
@@ -72,21 +89,29 @@ found=true;
 
 
 
+
 if(Number(stockItems[i].stock)<qty){
 
-alert("Insufficient Stock!");
+
+alert("Insufficient Stock");
+
 
 return;
+
 
 }
 
 
 
 
+
 // STOCK MINUS
+
 
 stockItems[i].stock =
 Number(stockItems[i].stock)-qty;
+
+
 
 
 
@@ -96,19 +121,30 @@ Number(stockItems[i].stock)-qty;
 
 issueList.push({
 
+
+
 code:stockItems[i].code,
+
 
 name:stockItems[i].name,
 
+
 category:stockItems[i].category,
+
 
 qty:qty,
 
+
 issueTo:issueTo,
 
-date:new Date().toLocaleDateString()
+
+date:date || new Date().toLocaleDateString()
+
+
 
 });
+
+
 
 
 
@@ -118,19 +154,24 @@ break;
 }
 
 
-
 }
+
+
 
 
 
 
 if(!found){
 
-alert("Item Code Not Found.");
+
+alert("Item Code Not Found");
+
 
 return;
 
+
 }
+
 
 
 
@@ -156,18 +197,22 @@ JSON.stringify(issueList)
 
 
 
-clearIssueForm();
+
+clearIssue();
+
 
 
 loadIssue();
 
 
 
-alert("Issue Saved Successfully.");
+alert("Issue Saved Successfully");
 
 
 
 }
+
+
 
 
 
@@ -179,7 +224,6 @@ alert("Issue Saved Successfully.");
 
 
 function loadIssue(){
-
 
 
 let table =
@@ -195,7 +239,6 @@ table.innerHTML="";
 
 
 
-
 issueList.forEach((item,index)=>{
 
 
@@ -205,17 +248,25 @@ table.innerHTML += `
 
 <tr>
 
+
 <td>${item.code}</td>
+
 
 <td>${item.name}</td>
 
+
 <td>${item.qty}</td>
+
 
 <td>${item.issueTo}</td>
 
+
 <td>${item.date}</td>
 
+
+
 <td>
+
 
 <button onclick="deleteIssue(${index})">
 
@@ -223,7 +274,10 @@ Delete
 
 </button>
 
+
 </td>
+
+
 
 </tr>
 
@@ -242,15 +296,17 @@ Delete
 
 
 
+
+
+
 //==============================
 // DELETE ISSUE
 //==============================
 
-
 function deleteIssue(index){
 
 
-if(confirm("Delete this issue?")){
+if(confirm("Delete Issue?")){
 
 
 issueList.splice(index,1);
@@ -274,7 +330,10 @@ loadIssue();
 }
 
 
+
 }
+
+
 
 
 
@@ -284,15 +343,19 @@ loadIssue();
 // CLEAR FORM
 //==============================
 
-
-function clearIssueForm(){
+function clearIssue(){
 
 
 document.getElementById("issueCode").value="";
 
+
 document.getElementById("issueQty").value="";
 
+
 document.getElementById("issueTo").value="";
+
+
+document.getElementById("issueDate").value="";
 
 
 }
