@@ -1,130 +1,171 @@
-/*==================================================
-SH Maintenance Store
-purchase.js
-==================================================*/
+//==================================================
+// SH Maintenance Store
+// PURCHASE MANAGEMENT
+//==================================================
+
 
 let purchaseList =
 JSON.parse(localStorage.getItem("purchaseList")) || [];
+
 
 let stockItems =
 JSON.parse(localStorage.getItem("stockItems")) || [];
 
 
-//==============================
+
 // PAGE LOAD
-//==============================
 
-window.onload = function(){
+window.onload=function(){
 
-    loadPurchase();
+loadPurchase();
+
+
+showUser();
 
 };
 
 
-//==============================
-// SAVE PURCHASE
-//==============================
-
-function purchaseItem(){
-
-    let code =
-    document.getElementById("purchaseCode").value.trim();
-
-    let qty =
-    Number(document.getElementById("purchaseQty").value);
-
-    let supplier =
-    document.getElementById("supplier").value.trim();
 
 
-    if(code==="" || qty<=0 || supplier===""){
+// SHOW USER
 
-        alert("Please fill all fields.");
+function showUser(){
 
-        return;
-
-    }
-
-
-    let found = false;
+let user =
+JSON.parse(localStorage.getItem("loginUser"));
 
 
-    stockItems.forEach(item=>{
+if(user){
 
-        if(item.code===code){
-
-            item.stock += qty;
-
-            purchaseList.push({
-
-                code:item.code,
-
-                name:item.name,
-
-                qty:qty,
-
-                supplier:supplier,
-
-                date:new Date().toLocaleDateString()
-
-            });
-
-            found = true;
-
-        }
-
-    });
-
-
-    if(!found){
-
-        alert("Item Code Not Found.");
-
-        return;
-
-    }
-
-
-    localStorage.setItem(
-
-        "stockItems",
-
-        JSON.stringify(stockItems)
-
-    );
-
-
-    localStorage.setItem(
-
-        "purchaseList",
-
-        JSON.stringify(purchaseList)
-
-    );
-
-
-    clearForm();
-
-    loadPurchase();
-
-    alert("Purchase Saved Successfully.");
+document.getElementById("loginUser").innerHTML =
+user.name;
 
 }
 
-//==================================================
-// LOAD PURCHASE TABLE
-//==================================================
+}
+
+
+
+// PURCHASE ITEM
+
+function purchaseItem(){
+
+
+let code =
+document.getElementById("purchaseCode").value.trim();
+
+
+let qty =
+Number(document.getElementById("purchaseQty").value);
+
+
+let supplier =
+document.getElementById("supplier").value.trim();
+
+
+
+if(code=="" || qty<=0 || supplier==""){
+
+alert("Please fill all fields");
+
+return;
+
+}
+
+
+
+// FIND STOCK ITEM
+
+let item =
+stockItems.find(x=>x.code==code);
+
+
+
+if(!item){
+
+alert("Item code not found in Stock");
+
+return;
+
+}
+
+
+
+// ADD STOCK
+
+item.stock =
+Number(item.stock) + qty;
+
+
+
+// PURCHASE SAVE
+
+purchaseList.push({
+
+code:item.code,
+
+name:item.name,
+
+qty:qty,
+
+supplier:supplier,
+
+date:new Date().toLocaleDateString()
+
+});
+
+
+
+
+// SAVE
+
+localStorage.setItem(
+
+"stockItems",
+
+JSON.stringify(stockItems)
+
+);
+
+
+
+localStorage.setItem(
+
+"purchaseList",
+
+JSON.stringify(purchaseList)
+
+);
+
+
+
+alert("Purchase Added Successfully");
+
+
+clearPurchase();
+
+
+loadPurchase();
+
+
+}
+
+
+
+
+
+// LOAD PURCHASE
 
 function loadPurchase(){
 
-    let table =
-    document.getElementById("purchaseTable");
 
-    table.innerHTML = "";
+let html="";
 
-    purchaseList.forEach((item,index)=>{
 
-        table.innerHTML += `
+purchaseList.forEach((item,index)=>{
+
+
+html+=`
 
 <tr>
 
@@ -138,110 +179,107 @@ function loadPurchase(){
 
 <td>${item.date}</td>
 
+
 <td>
 
-<button
-class="action-btn delete-btn"
-onclick="deletePurchase(${index})">
+<button onclick="deletePurchase(${index})">
 
-<i class="fa fa-trash"></i>
+Delete
 
 </button>
 
 </td>
 
+
 </tr>
 
 `;
 
-    });
+});
+
+
+document.getElementById("purchaseTable").innerHTML=html;
+
 
 }
 
 
 
-//==================================================
-// DELETE PURCHASE
-//==================================================
+
+
+// DELETE
 
 function deletePurchase(index){
 
-    if(!confirm("Delete this purchase record?")){
+purchaseList.splice(index,1);
 
-        return;
 
-    }
+localStorage.setItem(
 
-    purchaseList.splice(index,1);
+"purchaseList",
 
-    localStorage.setItem(
+JSON.stringify(purchaseList)
 
-        "purchaseList",
+);
 
-        JSON.stringify(purchaseList)
 
-    );
-
-    loadPurchase();
+loadPurchase();
 
 }
 
 
 
-//==================================================
-// SEARCH PURCHASE
-//==================================================
+
+
+// SEARCH
 
 function searchPurchase(){
 
-    let keyword =
-    document.getElementById("searchPurchase")
-    .value
-    .toLowerCase();
 
-    let rows =
-    document.querySelectorAll("#purchaseTable tr");
+let text =
+document.getElementById("searchPurchase")
+.value.toLowerCase();
 
-    rows.forEach(row=>{
 
-        if(row.innerText.toLowerCase().includes(keyword)){
 
-            row.style.display="";
+let rows =
+document.querySelectorAll("#purchaseTable tr");
 
-        }else{
 
-            row.style.display="none";
 
-        }
+rows.forEach(row=>{
 
-    });
+
+if(row.innerText.toLowerCase().includes(text)){
+
+row.style.display="";
+
+}
+
+else{
+
+row.style.display="none";
+
+}
+
+
+});
+
 
 }
 
 
 
-//==================================================
-// CLEAR FORM
-//==================================================
-
-function clearForm(){
-
-    document.getElementById("purchaseCode").value="";
-
-    document.getElementById("purchaseQty").value="";
-
-    document.getElementById("supplier").value="";
-
-}
 
 
+// CLEAR
 
-//==================================================
-// REFRESH
-//==================================================
+function clearPurchase(){
 
-function refreshPurchase(){
+document.getElementById("purchaseCode").value="";
 
-    loadPurchase();
+document.getElementById("purchaseQty").value="";
+
+document.getElementById("supplier").value="";
 
 }
