@@ -5,163 +5,192 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
+<title>SH Maintenance Store | Issue</title>
 
-<title>SH STORE Issue</title>
-
-
-<link rel="stylesheet" href="css/issue.css">
-
+<link rel="stylesheet"
+href="css/style.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-
 </head>
-
 
 <body>
 
-
-<!-- SIDEBAR -->
+<!--==================================
+SIDEBAR
+===================================-->
 
 <div class="sidebar">
 
+<div class="logo">
+
+<img src="images/logo.png" alt="Logo">
 
 <h2>SH STORE</h2>
 
+</div>
 
 <a href="dashboard.html">
-<i class="fa fa-home"></i>
-Dashboard
-</a>
 
+<i class="fa fa-home"></i>
+
+Dashboard
+
+</a>
 
 <a href="stock.html">
-<i class="fa fa-box"></i>
-Stock
-</a>
 
+<i class="fa fa-box"></i>
+
+Stock
+
+</a>
 
 <a href="purchase.html">
+
 <i class="fa fa-cart-shopping"></i>
+
 Purchase
+
 </a>
 
+<a href="issue.html" class="active">
 
-<a href="issue.html">
 <i class="fa fa-arrow-up"></i>
-Issue
-</a>
 
+Issue
+
+</a>
 
 <a href="report.html">
+
 <i class="fa fa-chart-bar"></i>
+
 Report
+
 </a>
 
+<a href="#" onclick="logout()">
+
+<i class="fa fa-right-from-bracket"></i>
+
+Logout
+
+</a>
 
 </div>
 
-
-
-
-
-
-
-
-<!-- MAIN -->
-
+<!--==================================
+MAIN
+===================================-->
 
 <div class="main">
 
+<div class="topbar">
 
 <h1>
+
 Issue Management
+
 </h1>
 
+<div class="top-right">
 
+<span>
 
+<i class="fa fa-user"></i>
 
+<span id="loginUser"></span>
 
-<div class="issue-form">
+</span>
 
+</div>
 
+</div>
+
+<!--==================================
+ISSUE FORM
+===================================-->
+
+<div class="form-box">
+
+<h2 class="form-title">
+
+Issue Item
+
+</h2>
+
+<div class="form-grid">
 
 <input
 type="text"
 id="issueCode"
 placeholder="Item Code">
 
-
-
 <input
 type="number"
 id="issueQty"
-placeholder="Issue Quantity">
-
-
+placeholder="Issue Qty">
 
 <input
 type="text"
 id="issueTo"
-placeholder="Department / Person">
+placeholder="Issue To / Department">
 
+<button
+class="btn btn-danger"
+onclick="issueItem()">
 
-
-<input
-type="date"
-id="issueDate">
-
-
-
-
-
-<button onclick="issueItem()">
-
-
-<i class="fa fa-paper-plane"></i>
+<i class="fa fa-arrow-up"></i>
 
 Issue Item
 
-
 </button>
-
-
 
 </div>
 
+</div>
+<!--==================================
+SEARCH
+===================================-->
 
+<div class="search-box">
 
+<input
+type="text"
+id="searchIssue"
+placeholder="Search Issue..."
+onkeyup="searchIssue()">
 
+</div>
 
-
-
+<!--==================================
+ISSUE TABLE
+===================================-->
 
 <div class="table-box">
 
+<h3>
 
-<h2>
 Issue History
-</h2>
 
-
+</h3>
 
 <table>
 
-
 <thead>
-
 
 <tr>
 
-
-<th>Code</th>
+<th>Item Code</th>
 
 <th>Item Name</th>
 
-<th>Qty</th>
+<th>Quantity</th>
 
 <th>Issue To</th>
 
@@ -169,43 +198,37 @@ Issue History
 
 <th>Action</th>
 
-
 </tr>
-
 
 </thead>
 
-
-
 <tbody id="issueTable">
-
 
 </tbody>
 
-
-
 </table>
 
+</div>
 
+<!--==================================
+FOOTER
+===================================-->
+
+<div class="footer">
+
+SH Maintenance Store Management System © 2026
 
 </div>
 
-
-
-
-
-
 </div>
 
+<!--==================================
+SCRIPTS
+===================================-->
 
-
-
-
-
-<script src="js/issue.js"></script>
 <script src="js/auth.js"></script>
 
-
+<script src="js/issue.js"></script>
 
 </body>
 
