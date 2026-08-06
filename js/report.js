@@ -349,3 +349,138 @@ function printReport(){
     window.print();
 
 }
+//==================================================
+// PURCHASE EXCEL
+//==================================================
+
+function exportPurchaseExcel(){
+
+
+    let data=[];
+
+
+    data.push([
+
+        "Item Code",
+        "Item Name",
+        "Quantity",
+        "Supplier",
+        "Date"
+
+    ]);
+
+
+
+    purchaseList.forEach(item=>{
+
+
+        data.push([
+
+            item.code,
+
+            item.name,
+
+            item.qty,
+
+            item.supplier,
+
+            item.date
+
+        ]);
+
+
+    });
+
+
+
+    let ws =
+    XLSX.utils.aoa_to_sheet(data);
+
+
+    let wb =
+    XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "Purchase Report"
+    );
+
+
+    XLSX.writeFile(
+        wb,
+        "SH_Purchase_Report.xlsx"
+    );
+
+
+}
+
+
+
+//==================================================
+// ISSUE EXCEL
+//==================================================
+
+function exportIssueExcel(){
+
+
+    let data=[];
+
+
+    data.push([
+
+        "Item Code",
+        "Item Name",
+        "Quantity",
+        "Issue To",
+        "Date"
+
+    ]);
+
+
+
+    issueList.forEach(item=>{
+
+
+        data.push([
+
+            item.code,
+
+            item.name,
+
+            item.qty,
+
+            item.issueTo,
+
+            item.date
+
+        ]);
+
+
+    });
+
+
+
+    let ws =
+    XLSX.utils.aoa_to_sheet(data);
+
+
+    let wb =
+    XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "Issue Report"
+    );
+
+
+    XLSX.writeFile(
+        wb,
+        "SH_Issue_Report.xlsx"
+    );
+
+
+}
