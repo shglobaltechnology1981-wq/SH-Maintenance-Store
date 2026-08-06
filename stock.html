@@ -4,19 +4,19 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stock Management</title>
+<title>SH Maintenance Store - Stock</title>
 
 <link rel="stylesheet" href="css/stock.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 
 <body>
+
+<!-- Sidebar -->
 
 <div class="sidebar">
 
@@ -34,28 +34,91 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
+<!-- Main -->
 
 <div class="main">
 
 <h1>Stock Management</h1>
 
+<!-- Stock Form -->
+
 <div class="stock-form">
 
-<input type="text" id="itemCode" placeholder="Item Code">
+<input
+type="text"
+id="itemCode"
+placeholder="Item Code">
 
-<input type="text" id="itemName" placeholder="Item Name">
+<input
+type="text"
+id="itemName"
+placeholder="Item Name">
 
 <select id="itemCategory">
-<option>Mechanical</option>
-<option>Electrical</option>
-<option>Sewing Spare</option>
+
+<option value="Mechanical">Mechanical</option>
+
+<option value="Electrical">Electrical</option>
+
+<option value="Sewing Spare">Sewing Spare</option>
+
+<option value="Boiler">Boiler</option>
+
+<option value="Generator">Generator</option>
+
 </select>
 
-<input type="number" id="itemStock" placeholder="Current Stock">
+<input
+type="number"
+id="itemStock"
+placeholder="Current Stock">
 
-<input type="text" id="itemUnit" placeholder="PCS">
+<input
+type="text"
+id="itemUnit"
+placeholder="PCS">
 
-<button onclick="addItem()">Add Item</button>
+<button onclick="addItem()">
+
+<i class="fa fa-plus"></i>
+
+Add Item
+
+</button>
+
+</div>
+
+<!-- Stock Table -->
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+
+<th>Item Name</th>
+
+<th>Category</th>
+
+<th>Stock</th>
+
+<th>Unit</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="stockTable">
+
+</tbody>
+
+</table>
 
 </div>
 
