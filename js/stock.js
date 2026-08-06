@@ -1,122 +1,105 @@
-/*=========================================
+/*=====================================
 SH Maintenance Store
 Stock Module
-=========================================*/
+=====================================*/
 
-let stockItems = [
+let stockItems = JSON.parse(localStorage.getItem("stockItems")) || [];
 
-{
-code:"SP001",
-name:"Bearing 6205",
-category:"Mechanical",
-stock:50,
-unit:"PCS"
-}
-
-];
-
-// Load
-
-window.onload=function(){
-
-loadStock();
-
+// Load Data
+window.onload = function () {
+    loadStock();
 };
 
-// Load Table
+// Add Item
+function addItem() {
 
+    let code = document.getElementById("itemCode").value.trim();
+    let name = document.getElementById("itemName").value.trim();
+    let category = document.getElementById("itemCategory").value;
+    let stock = document.getElementById("itemStock").value;
+    let unit = document.getElementById("itemUnit").value.trim();
+
+    if(code==="" || name==="" || stock==="" || unit===""){
+        alert("Please fill all fields.");
+        return;
+    }
+
+    stockItems.push({
+        code:code,
+        name:name,
+        category:category,
+        stock:Number(stock),
+        unit:unit
+    });
+
+    localStorage.setItem(
+        "stockItems",
+        JSON.stringify(stockItems)
+    );
+
+    clearForm();
+
+    loadStock();
+
+}
+
+// Load Table
 function loadStock(){
 
-let table=document.getElementById("stockTable");
+    let table=document.getElementById("stockTable");
 
-if(!table)return;
+    table.innerHTML="";
 
-table.innerHTML="";
+    stockItems.forEach((item,index)=>{
 
-stockItems.forEach((item,index)=>{
+        let status=item.stock<=10
+        ? "<span class='low'>LOW</span>"
+        : "<span class='available'>OK</span>";
 
-let status=item.stock<=10?
+        table.innerHTML+=`
+        <tr>
+            <td>${item.code}</td>
+            <td>${item.name}</td>
+            <td>${item.category}</td>
+            <td>${item.stock}</td>
+            <td>${item.unit}</td>
+            <td>${status}</td>
+            <td>
+                <button onclick="deleteItem(${index})">
+                Delete
+                </button>
+            </td>
+        </tr>
+        `;
 
-"<span class='low'>LOW</span>":
-
-"<span class='available'>OK</span>";
-
-table.innerHTML+=`
-
-<tr>
-
-<td>${item.code}</td>
-
-<td>${item.name}</td>
-
-<td>${item.category}</td>
-
-<td>${item.stock}</td>
-
-<td>${item.unit}</td>
-
-<td>${status}</td>
-
-<td>
-
-<button onclick="editItem(${index})">
-
-Edit
-
-</button>
-
-<button onclick="deleteItem(${index})">
-
-Delete
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
+    });
 
 }
 
-// Add
-
-function addItem(){
-
-alert("Part-11 এ Database Save যোগ হবে");
-
-}
-
-// Edit
-
-function editItem(index){
-
-alert("Edit : "+stockItems[index].name);
-
-}
-
-// Delete
-
+// Delete Item
 function deleteItem(index){
 
-if(confirm("Delete Item?")){
+    if(confirm("Delete this item?")){
 
-stockItems.splice(index,1);
+        stockItems.splice(index,1);
 
-loadStock();
+        localStorage.setItem(
+        "stockItems",
+        JSON.stringify(stockItems)
+        );
+
+        loadStock();
+
+    }
 
 }
 
-}
+// Clear Form
+function clearForm(){
 
-// Search
-
-function searchItem(){
-
-let name=prompt("Item Name");
-
-alert("Search : "+name);
+document.getElementById("itemCode").value="";
+document.getElementById("itemName").value="";
+document.getElementById("itemStock").value="";
+document.getElementById("itemUnit").value="";
 
 }
