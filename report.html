@@ -5,139 +5,155 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reports</title>
+
+<title>SH STORE Report</title>
+
 
 <link rel="stylesheet" href="css/report.css">
+
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+
 </head>
+
 
 <body>
 
+
+
 <div class="sidebar">
 
+
 <h2>SH STORE</h2>
+
 
 <a href="dashboard.html">
 <i class="fa fa-home"></i>
 Dashboard
 </a>
 
+
 <a href="stock.html">
 <i class="fa fa-box"></i>
 Stock
 </a>
+
 
 <a href="purchase.html">
 <i class="fa fa-cart-shopping"></i>
 Purchase
 </a>
 
+
 <a href="issue.html">
 <i class="fa fa-arrow-up"></i>
 Issue
 </a>
 
+
 <a href="report.html">
-<i class="fa fa-chart-column"></i>
+<i class="fa fa-chart-bar"></i>
 Report
 </a>
 
+
 </div>
+
+
+
+
+
 
 <div class="main">
 
-<h1>Inventory Reports</h1>
-<div class="summary-cards">
 
-<div class="card">
-<h3>Total Items</h3>
-<h2 id="totalItems">0</h2>
-</div>
 
-<div class="card">
-<h3>Total Stock</h3>
-<h2 id="totalStock">0</h2>
-</div>
+<div class="topbar">
 
-<div class="card">
-<h3>Low Stock</h3>
-<h2 id="lowStock">0</h2>
-</div>
 
-<div class="card">
-<h3>Out of Stock</h3>
-<h2 id="outStock">0</h2>
-</div>
+<h1>
+Store Report
+</h1>
 
-</div>
-  
-<div class="report-menu">
-
-<button onclick="showStockReport()">
-
-📦 Stock Report
-
-</button>
-
-<button onclick="showPurchaseReport()">
-
-📥 Purchase Report
-
-</button>
-
-<button onclick="showIssueReport()">
-
-📤 Issue Report
-
-</button>
 
 <button onclick="window.print()">
 
-🖨 Print
+<i class="fa fa-print"></i>
+
+Print
 
 </button>
+
 
 </div>
 
-<div class="report-tools">
 
-<input type="date" id="fromDate">
 
-<input type="date" id="toDate">
 
-<button onclick="filterReport()">
 
-Filter
+<div class="summary">
 
-</button>
 
-<button onclick="downloadExcel()">
 
-Excel
+<div class="box">
 
-</button>
+<h3>Total Items</h3>
 
-<button onclick="downloadPDF()">
-
-PDF
-
-</button>
+<h2 id="rItems">0</h2>
 
 </div>
-  
-<input
-type="text"
-id="searchReport"
-placeholder="Search Report..."
-onkeyup="searchReport()">
+
+
+
+<div class="box">
+
+<h3>Total Stock</h3>
+
+<h2 id="rStock">0</h2>
+
+</div>
+
+
+
+<div class="box">
+
+<h3>Total Purchase</h3>
+
+<h2 id="rPurchase">0</h2>
+
+</div>
+
+
+
+<div class="box">
+
+<h3>Total Issue</h3>
+
+<h2 id="rIssue">0</h2>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<h2>
+Stock Report
+</h2>
+
 
 <table>
+
 
 <thead>
 
@@ -147,7 +163,45 @@ onkeyup="searchReport()">
 
 <th>Name</th>
 
-<th>Category / To</th>
+<th>Category</th>
+
+<th>Stock</th>
+
+<th>Unit</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="stockReport">
+
+
+</tbody>
+
+
+</table>
+
+
+
+
+
+
+<h2>
+Purchase Report
+</h2>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+
+<th>Name</th>
 
 <th>Qty</th>
 
@@ -155,23 +209,71 @@ onkeyup="searchReport()">
 
 </tr>
 
+
 </thead>
 
-<tbody id="reportTable">
+
+<tbody id="purchaseReport">
+
 
 </tbody>
 
+
 </table>
+
+
+
+
+
+
+
+<h2>
+Issue Report
+</h2>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+
+<th>Name</th>
+
+<th>Qty</th>
+
+<th>Issue To</th>
+
+<th>Date</th>
+
+</tr>
+
+
+</thead>
+
+
+<tbody id="issueReport">
+
+
+</tbody>
+
+
+</table>
+
+
+
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 
 <script src="js/report.js"></script>
+
 
 </body>
 
