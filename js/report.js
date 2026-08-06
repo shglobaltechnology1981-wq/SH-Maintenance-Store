@@ -863,6 +863,13 @@ function printIssueReport(){
 
 function downloadPDF(){
 
+if(!window.jspdf){
+
+alert("PDF Library Not Loaded");
+
+return;
+
+}
 
 const {jsPDF} =
 window.jspdf;
