@@ -41,50 +41,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <div class="stock-form">
 
-<input type="text" placeholder="Item Code">
+<input type="text" id="itemCode" placeholder="Item Code">
 
-<input type="text" placeholder="Item Name">
+<input type="text" id="itemName" placeholder="Item Name">
 
-<select>
-
+<select id="itemCategory">
 <option>Mechanical</option>
-
 <option>Electrical</option>
-
 <option>Sewing Spare</option>
-
 </select>
 
-<input type="number" placeholder="Current Stock">
+<input type="number" id="itemStock" placeholder="Current Stock">
 
-<input type="text" placeholder="Unit (PCS)">
+<input type="text" id="itemUnit" placeholder="PCS">
 
-<button>Add Item</button>
-
-</div>
-
-
-<table>
-
-<thead>
-
-<tr>
-<th>Code</th>
-<th>Item Name</th>
-<th>Category</th>
-<th>Stock</th>
-<th>Unit</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-
-</thead>
-
-<tbody id="stockTable">
-
-</tbody>
-
-</table>
+<button onclick="addItem()">Add Item</button>
 
 </div>
 
