@@ -65,25 +65,47 @@ function getLoginUser(){
 window.addEventListener("DOMContentLoaded", function(){
 
 
-    const userBox =
+    let userBox =
     document.getElementById("loginUser");
 
 
+    let data =
+    localStorage.getItem("loginUser");
 
-    if(userBox){
 
 
-        userBox.innerHTML =
-        getLoginUser();
+    if(userBox && data){
+
+
+        try{
+
+
+            let user =
+            JSON.parse(data);
+
+
+
+            userBox.innerHTML =
+            user.name || "";
+
+
+
+        }
+
+        catch(e){
+
+
+            userBox.innerHTML =
+            data;
+
+
+        }
 
 
     }
 
 
 });
-
-
-
 
 
 
