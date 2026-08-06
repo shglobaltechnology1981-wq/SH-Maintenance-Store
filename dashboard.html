@@ -7,12 +7,15 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SH Store Dashboard</title>
+<title>SH STORE Dashboard</title>
+
 
 <link rel="stylesheet" href="css/dashboard.css">
 
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 
 </head>
 
@@ -20,9 +23,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
 
+
+<!-- SIDEBAR -->
+
 <div class="sidebar">
 
-<h2>SH STORE</h2>
+
+<h2>
+<i class="fa fa-warehouse"></i>
+SH STORE
+</h2>
+
 
 
 <a href="dashboard.html">
@@ -31,10 +42,12 @@ Dashboard
 </a>
 
 
+
 <a href="stock.html">
 <i class="fa fa-box"></i>
 Stock
 </a>
+
 
 
 <a href="purchase.html">
@@ -43,88 +56,169 @@ Purchase
 </a>
 
 
+
 <a href="issue.html">
 <i class="fa fa-arrow-up"></i>
 Issue
 </a>
 
 
+
 <a href="report.html">
-<i class="fa fa-chart-bar"></i>
+<i class="fa fa-chart-line"></i>
 Report
 </a>
 
 
+
 </div>
 
+
+
+
+
+<!-- MAIN -->
 
 
 <div class="main">
 
 
-<h1>Maintenance Dashboard</h1>
 
+<div class="topbar">
+
+
+<h1>
+Maintenance Dashboard
+</h1>
+
+
+
+<div class="date-time">
+
+<span id="todayDate"></span>
+
+<br>
+
+<span id="clock"></span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- DASHBOARD CARDS -->
 
 
 <div class="cards">
 
 
+
 <div class="card">
 
-<h3>Total Items</h3>
+<i class="fa fa-box"></i>
+
+<h3>
+Total Items
+</h3>
+
 
 <h2 id="totalItems">
 0
 </h2>
 
+
 </div>
+
+
 
 
 
 <div class="card">
 
-<h3>Total Stock</h3>
+
+<i class="fa fa-layer-group"></i>
+
+
+<h3>
+Total Stock
+</h3>
+
 
 <h2 id="totalStock">
 0
 </h2>
 
+
 </div>
+
+
+
 
 
 
 
 <div class="card">
 
-<h3>Total Purchase</h3>
+
+<i class="fa fa-cart-plus"></i>
+
+
+<h3>
+Total Purchase
+</h3>
+
 
 <h2 id="totalPurchase">
 0
 </h2>
 
+
 </div>
+
+
+
 
 
 
 
 <div class="card">
 
-<h3>Total Issue</h3>
+
+<i class="fa fa-arrow-up"></i>
+
+
+<h3>
+Total Issue
+</h3>
+
 
 <h2 id="totalIssue">
 0
 </h2>
 
-</div>
-
-
 
 </div>
 
 
 
 
-<!-- Chart -->
+
+</div>
+
+
+
+
+
+
+
+<!-- CHART SECTION -->
 
 
 <div class="chart-box">
@@ -135,14 +229,22 @@ Stock Movement Analysis
 </h2>
 
 
+
 <canvas id="stockChart"></canvas>
 
 
+
+</div>
+
+
+
+
+
+
+
 </div>
 
 
-
-</div>
 
 
 
@@ -150,7 +252,9 @@ Stock Movement Analysis
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="js/dashboard-chart.js"></script>
+
+<script src="js/dashboard.js"></script>
+
 
 
 </body>
