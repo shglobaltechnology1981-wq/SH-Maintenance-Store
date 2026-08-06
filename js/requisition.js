@@ -1,409 +1,119 @@
-/*==================================================
-SH Maintenance Store
-USER REQUISITION SYSTEM
-requisition.js
-==================================================*/
+let user =
+JSON.parse(localStorage.getItem("loginUser"));
 
 
-//==============================
-// LOAD LOGIN USER
-//==============================
+if(!user){
 
-let loginUser =
+window.location.href="login.html";
 
-JSON.parse(
+}
 
-localStorage.getItem("loginUser")
 
-) || null;
 
+document.getElementById("userName").innerHTML =
+user.name;
 
 
+document.getElementById("department").innerHTML =
+user.department;
 
-let requisitionList =
 
-JSON.parse(
 
-localStorage.getItem("requisitionList")
+let items=[];
 
-) || [];
 
 
+function addItem(){
 
 
+let name =
+document.getElementById("itemName").value;
 
-//==============================
-// PAGE LOAD
-//==============================
 
-window.onload = function(){
+let qty =
+document.getElementById("qty").value;
 
 
 
-    if(!loginUser){
+items.push({
 
+name:name,
+qty:qty,
+status:"Pending"
 
-        alert("Please Login First");
+});
 
 
-        window.location.href="login.html";
-
-
-        return;
-
-
-    }
-
-
-
-
-    let userBox =
-
-    document.getElementById("userName");
-
-
-
-    if(userBox){
-
-
-        userBox.innerHTML =
-
-        loginUser.name +
-
-        " (" +
-
-        loginUser.department +
-
-        ")";
-
-
-    }
-
-
-
-
-    loadRequisition();
-
-
-
-};
-
-
-
-
-
-
-
-//==============================
-// SAVE REQUISITION
-//==============================
-
-function saveRequisition(){
-
-
-
-    let itemName =
-
-    document.getElementById("itemName").value.trim();
-
-
-
-
-    let qty =
-
-    document.getElementById("qty").value;
-
-
-
-
-    let purpose =
-
-    document.getElementById("purpose").value.trim();
-
-
-
-
-
-    if(itemName==="" || qty===""){
-
-
-        alert(
-        "Please Enter Item & Quantity"
-        );
-
-
-        return;
-
-
-    }
-
-
-
-
-
-
-    let req = {
-
-
-        reqNo:
-
-        "REQ-" + Date.now(),
-
-
-
-        userId:
-
-        loginUser.id,
-
-
-
-        userName:
-
-        loginUser.name,
-
-
-
-        department:
-
-        loginUser.department,
-
-
-
-        itemName:
-
-        itemName,
-
-
-
-        qty:
-
-        Number(qty),
-
-
-
-        purpose:
-
-        purpose,
-
-
-
-        date:
-
-        new Date().toLocaleDateString(),
-
-
-
-        status:
-
-        "Pending"
-
-
-    };
-
-
-
-
-
-
-
-    requisitionList.push(req);
-
-
-
-
-
-
-    localStorage.setItem(
-
-    "requisitionList",
-
-    JSON.stringify(requisitionList)
-
-    );
-
-
-
-
-
-
-
-    alert(
-    "Requisition Submitted Successfully"
-    );
-
-
-
-
-
-
-
-    document.getElementById("itemName").value="";
-
-
-    document.getElementById("qty").value="";
-
-
-    document.getElementById("purpose").value="";
-
-
-
-
-
-    loadRequisition();
-
+showItems();
 
 
 }
 
 
 
+function showItems(){
 
 
+let html="";
 
 
-//==============================
-// USER REQUISITION HISTORY
-//==============================
-
-function loadRequisition(){
+items.forEach((x,i)=>{
 
 
-
-    let table =
-
-    document.getElementById("reqTable");
-
-
-
-    if(!table){
-
-        return;
-
-    }
-
-
-
-
-
-    table.innerHTML="";
-
-
-
-
-
-
-    requisitionList.forEach(item=>{
-
-
-
-
-
-        if(item.userId === loginUser.id){
-
-
-
-
-
-            let statusClass="";
-
-
-
-            if(item.status==="Pending"){
-
-
-                statusClass="pending";
-
-
-            }
-
-            else if(item.status==="Issued"){
-
-
-                statusClass="issued";
-
-
-            }
-
-            else if(item.status==="Rejected"){
-
-
-                statusClass="rejected";
-
-
-            }
-
-
-
-
-
-
-            table.innerHTML += `
-
-
+html+=`
 
 <tr>
 
+<td>${i+1}</td>
 
+<td>${x.name}</td>
 
-<td>
+<td>${x.qty}</td>
 
-${item.reqNo}
-
+<td class="pending">
+${x.status}
 </td>
-
-
-
-<td>
-
-${item.itemName}
-
-</td>
-
-
-
-<td>
-
-${item.qty}
-
-</td>
-
-
-
-<td>
-
-${item.date}
-
-</td>
-
-
-
-<td>
-
-<span class="${statusClass}">
-
-${item.status}
-
-</span>
-
-</td>
-
-
 
 </tr>
-
 
 
 `;
 
 
-
-        }
-
+});
 
 
-    });
+document.getElementById("reqTable").innerHTML=html;
 
 
+}
+
+
+
+function saveRequisition(){
+
+
+localStorage.setItem(
+
+"requisition",
+
+JSON.stringify(items)
+
+);
+
+
+alert("Requisition Saved");
+
+
+}
+
+
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href="login.html";
 
 
 }
