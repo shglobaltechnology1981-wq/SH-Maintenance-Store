@@ -1,20 +1,24 @@
 //=====================================
-// SH Maintenance Store Dashboard
+// SH STORE MAINTENANCE DASHBOARD
 // dashboard.js
 //=====================================
 
 
+// PAGE LOAD
 window.onload = function(){
 
-showDate();
+    showDate();
 
-showClock();
+    showClock();
 
-setInterval(showClock,1000);
+    setInterval(showClock,1000);
 
-loadDashboard();
+    loadDashboard();
+
+    loadChart();
 
 };
+
 
 
 //=====================================
@@ -37,57 +41,48 @@ JSON.parse(localStorage.getItem("issueList")) || [];
 
 
 
-// Total Items
+// TOTAL ITEMS
 
 let totalItems = stockItems.length;
 
 
-// Total Stock
+
+// TOTAL STOCK
 
 let totalStock = 0;
-
-let lowStock = 0;
 
 
 stockItems.forEach(item=>{
 
-
-totalStock += Number(item.stock);
-
-
-
-if(item.stock <= 10){
-
-lowStock++;
-
-}
-
+    totalStock += Number(item.stock || 0);
 
 });
 
 
 
-// Purchase
+
+// TOTAL PURCHASE
 
 let totalPurchase = 0;
 
 
 purchaseList.forEach(item=>{
 
-totalPurchase += Number(item.qty);
+    totalPurchase += Number(item.qty || 0);
 
 });
 
 
 
-// Issue
+
+// TOTAL ISSUE
 
 let totalIssue = 0;
 
 
 issueList.forEach(item=>{
 
-totalIssue += Number(item.qty);
+    totalIssue += Number(item.qty || 0);
 
 });
 
@@ -95,44 +90,164 @@ totalIssue += Number(item.qty);
 
 
 
-// Display
+// DISPLAY DATA
 
 
-if(document.getElementById("totalItems"))
+if(document.getElementById("totalItems")){
 
-document.getElementById("totalItems").innerHTML=
+document.getElementById("totalItems").innerHTML =
 totalItems;
 
+}
 
 
-if(document.getElementById("totalStock"))
 
-document.getElementById("totalStock").innerHTML=
+if(document.getElementById("totalStock")){
+
+document.getElementById("totalStock").innerHTML =
 totalStock;
 
+}
 
 
-if(document.getElementById("purchaseToday"))
 
-document.getElementById("purchaseToday").innerHTML=
+if(document.getElementById("totalPurchase")){
+
+document.getElementById("totalPurchase").innerHTML =
 totalPurchase;
 
+}
 
 
-if(document.getElementById("issueToday"))
 
-document.getElementById("issueToday").innerHTML=
+if(document.getElementById("totalIssue")){
+
+document.getElementById("totalIssue").innerHTML =
 totalIssue;
 
+}
 
-
-if(document.getElementById("lowStock"))
-
-document.getElementById("lowStock").innerHTML=
-lowStock;
 
 
 }
+
+
+
+//=====================================
+// STOCK MOVEMENT CHART
+//=====================================
+
+
+function loadChart(){
+
+
+let purchaseList =
+JSON.parse(localStorage.getItem("purchaseList")) || [];
+
+
+let issueList =
+JSON.parse(localStorage.getItem("issueList")) || [];
+
+
+
+let purchaseQty = 0;
+
+purchaseList.forEach(item=>{
+
+purchaseQty += Number(item.qty || 0);
+
+});
+
+
+
+let issueQty = 0;
+
+issueList.forEach(item=>{
+
+issueQty += Number(item.qty || 0);
+
+});
+
+
+
+let chartArea =
+document.getElementById("stockChart");
+
+
+
+if(!chartArea) return;
+
+
+
+new Chart(chartArea,{
+
+type:"bar",
+
+
+data:{
+
+
+labels:[
+
+"Purchase",
+
+"Issue"
+
+],
+
+
+
+datasets:[{
+
+label:"Stock Movement",
+
+data:[
+
+purchaseQty,
+
+issueQty
+
+]
+
+
+}]
+
+
+},
+
+
+
+options:{
+
+
+responsive:true,
+
+
+plugins:{
+
+
+legend:{
+
+
+display:true
+
+
+}
+
+
+}
+
+
+
+}
+
+
+});
+
+
+
+}
+
 
 
 
@@ -140,11 +255,16 @@ lowStock;
 // DATE
 //=====================================
 
+
 function showDate(){
 
-let today=new Date();
 
-if(document.getElementById("todayDate"))
+let today = new Date();
+
+
+
+if(document.getElementById("todayDate")){
+
 
 document.getElementById("todayDate").innerHTML =
 today.toLocaleDateString();
@@ -152,17 +272,26 @@ today.toLocaleDateString();
 }
 
 
+}
+
+
+
+
 
 //=====================================
 // CLOCK
 //=====================================
 
+
 function showClock(){
 
-let now=new Date();
+
+let now = new Date();
 
 
-if(document.getElementById("clock"))
+
+if(document.getElementById("clock")){
+
 
 document.getElementById("clock").innerHTML =
 now.toLocaleTimeString();
@@ -170,23 +299,34 @@ now.toLocaleTimeString();
 }
 
 
+}
+
+
+
+
 
 //=====================================
 // SEARCH
 //=====================================
 
+
 function searchItem(){
 
-let item=prompt("Enter Item Name");
+
+let item = prompt("Enter Item Name");
 
 
 if(item){
 
+
 alert("Searching : "+item);
 
-}
 
 }
+
+
+}
+
 
 
 
@@ -194,11 +334,15 @@ alert("Searching : "+item);
 // REFRESH
 //=====================================
 
+
 function refreshDashboard(){
+
 
 location.reload();
 
+
 }
+
 
 
 
@@ -206,12 +350,17 @@ location.reload();
 // LOGOUT
 //=====================================
 
+
 function logout(){
+
 
 if(confirm("Logout?")){
 
+
 window.location="index.html";
 
+
 }
+
 
 }
