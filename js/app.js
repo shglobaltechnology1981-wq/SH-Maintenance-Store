@@ -1,51 +1,87 @@
 /*==================================================
-SH STORE
+SH Maintenance Store
 Login System
 app.js
 ==================================================*/
 
+//==============================
+// LOGIN
+//==============================
 
 function login(){
 
+    let username = document.getElementById("username").value.trim();
 
-let user =
-document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
 
+    let msg = document.getElementById("msg");
 
+    if(username === "" || password === ""){
 
-let pass =
-document.getElementById("password").value.trim();
+        msg.innerHTML = "Please enter Username and Password";
+        msg.style.color = "red";
+        return;
 
+    }
 
+    // Default Login
 
+    if(username === "admin" && password === "1234"){
 
+        localStorage.setItem("loginUser", username);
 
-if(user==="admin" && pass==="1234"){
+        window.location.href = "dashboard.html";
 
+    }
 
+    else{
 
-localStorage.setItem(
-"loginUser",
-"admin"
-);
+        msg.innerHTML = "Invalid Username or Password";
+        msg.style.color = "red";
 
-
-
-window.location="dashboard.html";
-
-
-
-}
-
-else{
-
-
-document.getElementById("msg").innerHTML =
-"Invalid Username or Password";
-
+    }
 
 }
 
 
+
+//==============================
+// ENTER KEY LOGIN
+//==============================
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    let password = document.getElementById("password");
+
+    if(password){
+
+        password.addEventListener("keypress", function(e){
+
+            if(e.key === "Enter"){
+
+                login();
+
+            }
+
+        });
+
+    }
+
+});
+
+
+
+//==============================
+// AUTO REDIRECT
+//==============================
+
+if(localStorage.getItem("loginUser")){
+
+    if(window.location.pathname.includes("index.html") ||
+       window.location.pathname.endsWith("/")){
+
+        window.location.href = "dashboard.html";
+
+    }
 
 }
