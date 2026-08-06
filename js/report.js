@@ -272,15 +272,13 @@ function refreshReport(){
 
 
 //==================================================
-// DOWNLOAD EXCEL
+// DOWNLOAD STOCK EXCEL
 //==================================================
 
 function exportExcel(){
 
     let data = [];
 
-
-    // Title
 
     data.push([
         "SH Maintenance Store - Stock Report"
@@ -295,8 +293,6 @@ function exportExcel(){
 
     data.push([]);
 
-
-    // Summary
 
     data.push([
         "Total Items",
@@ -323,9 +319,6 @@ function exportExcel(){
     data.push([]);
 
 
-
-    // Table Header
-
     data.push([
 
         "Item Code",
@@ -342,21 +335,19 @@ function exportExcel(){
     stockItems.forEach(item=>{
 
 
-        let status="";
+        let status;
 
 
-        if(item.stock<=0){
+        if(Number(item.stock)<=0){
 
             status="Out of Stock";
 
         }
-
-        else if(item.stock<=10){
+        else if(Number(item.stock)<=10){
 
             status="Low Stock";
 
         }
-
         else{
 
             status="Available";
@@ -381,38 +372,29 @@ function exportExcel(){
 
         ]);
 
+
     });
 
 
 
-    let worksheet =
+    let ws =
     XLSX.utils.aoa_to_sheet(data);
 
 
-
-    let workbook =
+    let wb =
     XLSX.utils.book_new();
 
 
-
     XLSX.utils.book_append_sheet(
-
-        workbook,
-
-        worksheet,
-
+        wb,
+        ws,
         "Stock Report"
-
     );
 
 
-
     XLSX.writeFile(
-
-        workbook,
-
+        wb,
         "SH_Stock_Report.xlsx"
-
     );
 
 }
@@ -436,7 +418,6 @@ function printReport(){
 //==================================================
 
 function exportPurchaseExcel(){
-
 
     let data=[];
 
@@ -464,7 +445,7 @@ function exportPurchaseExcel(){
 
             item.qty,
 
-            item.supplier,
+            item.supplier || "",
 
             item.date
 
@@ -479,32 +460,21 @@ function exportPurchaseExcel(){
     XLSX.utils.aoa_to_sheet(data);
 
 
-
     let wb =
     XLSX.utils.book_new();
 
 
-
     XLSX.utils.book_append_sheet(
-
         wb,
-
         ws,
-
         "Purchase Report"
-
     );
-
 
 
     XLSX.writeFile(
-
         wb,
-
         "SH_Purchase_Report.xlsx"
-
     );
-
 
 }
 
@@ -515,7 +485,6 @@ function exportPurchaseExcel(){
 //==================================================
 
 function exportIssueExcel(){
-
 
     let data=[];
 
@@ -558,31 +527,92 @@ function exportIssueExcel(){
     XLSX.utils.aoa_to_sheet(data);
 
 
+    let wb =
+    XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "Issue Report"
+    );
+
+
+    XLSX.writeFile(
+        wb,
+        "SH_Issue_Report.xlsx"
+    );
+
+}
+
+
+
+//==================================================
+// LOW STOCK EXCEL
+//==================================================
+
+function exportLowStockExcel(){
+
+    let data=[];
+
+
+    data.push([
+
+        "Item Code",
+        "Item Name",
+        "Category",
+        "Current Stock",
+        "Unit"
+
+    ]);
+
+
+
+    stockItems.forEach(item=>{
+
+
+        if(Number(item.stock)<=10){
+
+
+            data.push([
+
+                item.code,
+
+                item.name,
+
+                item.category,
+
+                item.stock,
+
+                item.unit
+
+            ]);
+
+        }
+
+
+    });
+
+
+
+    let ws =
+    XLSX.utils.aoa_to_sheet(data);
+
 
     let wb =
     XLSX.utils.book_new();
 
 
-
     XLSX.utils.book_append_sheet(
-
         wb,
-
         ws,
-
-        "Issue Report"
-
+        "Low Stock"
     );
-
 
 
     XLSX.writeFile(
-
         wb,
-
-        "SH_Issue_Report.xlsx"
-
+        "SH_Low_Stock_Report.xlsx"
     );
-
 
 }
