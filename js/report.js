@@ -96,6 +96,25 @@ user.name;
 
 }
 
+function showUser(){
+
+let user =
+JSON.parse(localStorage.getItem("loginUser"));
+
+
+let box =
+document.getElementById("loginUser");
+
+
+if(user && box){
+
+box.innerHTML =
+user.name;
+
+}
+
+}
+
 //==============================
 // LOAD REPORT TABLE
 //==============================
