@@ -279,16 +279,91 @@ function exportExcel(){
 
     let data = [];
 
+
+    // Title
+
     data.push([
+        "SH Maintenance Store - Stock Report"
+    ]);
+
+
+    data.push([
+        "Report Date",
+        new Date().toLocaleDateString()
+    ]);
+
+
+    data.push([]);
+
+
+    // Summary
+
+    data.push([
+        "Total Items",
+        stockItems.length
+    ]);
+
+
+    let totalStock = 0;
+
+
+    stockItems.forEach(item=>{
+
+        totalStock += Number(item.stock);
+
+    });
+
+
+    data.push([
+        "Total Stock",
+        totalStock
+    ]);
+
+
+    data.push([]);
+
+
+
+    // Table Header
+
+    data.push([
+
         "Item Code",
         "Item Name",
         "Category",
         "Stock",
-        "Unit"
+        "Unit",
+        "Status"
+
     ]);
 
 
+
     stockItems.forEach(item=>{
+
+
+        let status="";
+
+
+        if(item.stock<=0){
+
+            status="Out of Stock";
+
+        }
+
+        else if(item.stock<=10){
+
+            status="Low Stock";
+
+        }
+
+        else{
+
+            status="Available";
+
+        }
+
+
 
         data.push([
 
@@ -300,7 +375,9 @@ function exportExcel(){
 
             item.stock,
 
-            item.unit
+            item.unit,
+
+            status
 
         ]);
 
@@ -312,20 +389,30 @@ function exportExcel(){
     XLSX.utils.aoa_to_sheet(data);
 
 
+
     let workbook =
     XLSX.utils.book_new();
 
 
+
     XLSX.utils.book_append_sheet(
+
         workbook,
+
         worksheet,
+
         "Stock Report"
+
     );
 
 
+
     XLSX.writeFile(
+
         workbook,
-        "SH_Store_Stock_Report.xlsx"
+
+        "SH_Stock_Report.xlsx"
+
     );
 
 }
@@ -341,6 +428,9 @@ function printReport(){
     window.print();
 
 }
+
+
+
 //==================================================
 // PURCHASE EXCEL
 //==================================================
@@ -389,20 +479,30 @@ function exportPurchaseExcel(){
     XLSX.utils.aoa_to_sheet(data);
 
 
+
     let wb =
     XLSX.utils.book_new();
 
 
+
     XLSX.utils.book_append_sheet(
+
         wb,
+
         ws,
+
         "Purchase Report"
+
     );
 
 
+
     XLSX.writeFile(
+
         wb,
+
         "SH_Purchase_Report.xlsx"
+
     );
 
 
@@ -458,20 +558,30 @@ function exportIssueExcel(){
     XLSX.utils.aoa_to_sheet(data);
 
 
+
     let wb =
     XLSX.utils.book_new();
 
 
+
     XLSX.utils.book_append_sheet(
+
         wb,
+
         ws,
+
         "Issue Report"
+
     );
 
 
+
     XLSX.writeFile(
+
         wb,
+
         "SH_Issue_Report.xlsx"
+
     );
 
 
