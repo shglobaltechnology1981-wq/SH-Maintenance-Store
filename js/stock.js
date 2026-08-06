@@ -1,41 +1,50 @@
-/*=====================================
-SH Maintenance Store
-Stock Module
-=====================================*/
+/*==================================================
+SH MAINTENANCE STORE
+stock.js
+Version 1.0
+==================================================*/
 
 let stockItems = JSON.parse(localStorage.getItem("stockItems")) || [];
 
-// Load Data
+//==============================
+// PAGE LOAD
+//==============================
+
 window.onload = function () {
     loadStock();
 };
 
-// Add Item
+//==============================
+// ADD ITEM
+//==============================
+
 function addItem() {
 
     let code = document.getElementById("itemCode").value.trim();
     let name = document.getElementById("itemName").value.trim();
     let category = document.getElementById("itemCategory").value;
-    let stock = document.getElementById("itemStock").value;
+    let stock = document.getElementById("itemStock").value.trim();
     let unit = document.getElementById("itemUnit").value.trim();
 
-    if(code==="" || name==="" || stock==="" || unit===""){
+    if (
+        code === "" ||
+        name === "" ||
+        stock === "" ||
+        unit === ""
+    ) {
         alert("Please fill all fields.");
         return;
     }
 
     stockItems.push({
-        code:code,
-        name:name,
-        category:category,
-        stock:Number(stock),
-        unit:unit
+        code: code,
+        name: name,
+        category: category,
+        stock: Number(stock),
+        unit: unit
     });
 
-    localStorage.setItem(
-        "stockItems",
-        JSON.stringify(stockItems)
-    );
+    saveData();
 
     clearForm();
 
@@ -43,50 +52,96 @@ function addItem() {
 
 }
 
-// Load Table
-function loadStock(){
+//==============================
+// LOAD TABLE
+//==============================
 
-    let table=document.getElementById("stockTable");
+function loadStock() {
 
-    table.innerHTML="";
+    let table = document.getElementById("stockTable");
 
-    stockItems.forEach((item,index)=>{
+    table.innerHTML = "";
 
-        let status=item.stock<=10
-        ? "<span class='low'>LOW</span>"
-        : "<span class='available'>OK</span>";
+    stockItems.forEach((item, index) => {
 
-        table.innerHTML+=`
-        <tr>
-            <td>${item.code}</td>
-            <td>${item.name}</td>
-            <td>${item.category}</td>
-            <td>${item.stock}</td>
-            <td>${item.unit}</td>
-            <td>${status}</td>
-            <td>
-                <button onclick="deleteItem(${index})">
-                Delete
-                </button>
-            </td>
-        </tr>
-        `;
+        let status =
+            item.stock <= 10
+                ? "<span class='low'>LOW</span>"
+                : "<span class='available'>AVAILABLE</span>";
+
+        table.innerHTML += `
+
+<tr>
+
+<td>${item.code}</td>
+
+<td>${item.name}</td>
+
+<td>${item.category}</td>
+
+<td>${item.stock}</td>
+
+<td>${item.unit}</td>
+
+<td>${status}</td>
+
+<td>
+
+<button onclick="editItem(${index})">
+
+Edit
+
+</button>
+
+<button onclick="deleteItem(${index})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
 
     });
 
 }
 
-// Delete Item
-function deleteItem(index){
+//==============================
+// EDIT
+//==============================
 
-    if(confirm("Delete this item?")){
+function editItem(index) {
 
-        stockItems.splice(index,1);
+    let item = stockItems[index];
 
-        localStorage.setItem(
-        "stockItems",
-        JSON.stringify(stockItems)
-        );
+    document.getElementById("itemCode").value = item.code;
+    document.getElementById("itemName").value = item.name;
+    document.getElementById("itemCategory").value = item.category;
+    document.getElementById("itemStock").value = item.stock;
+    document.getElementById("itemUnit").value = item.unit;
+
+    stockItems.splice(index, 1);
+
+    saveData();
+
+    loadStock();
+
+}
+
+//==============================
+// DELETE
+//==============================
+
+function deleteItem(index) {
+
+    if (confirm("Delete this item?")) {
+
+        stockItems.splice(index, 1);
+
+        saveData();
 
         loadStock();
 
@@ -94,12 +149,58 @@ function deleteItem(index){
 
 }
 
-// Clear Form
-function clearForm(){
+//==============================
+// SEARCH
+//==============================
 
-document.getElementById("itemCode").value="";
-document.getElementById("itemName").value="";
-document.getElementById("itemStock").value="";
-document.getElementById("itemUnit").value="";
+function searchItem() {
+
+    let value =
+        document
+        .getElementById("searchItem")
+        .value
+        .toLowerCase();
+
+    let rows =
+        document.querySelectorAll("#stockTable tr");
+
+    rows.forEach(row => {
+
+        let text =
+            row.innerText.toLowerCase();
+
+        row.style.display =
+            text.includes(value)
+                ? ""
+                : "none";
+
+    });
+
+}
+
+//==============================
+// CLEAR FORM
+//==============================
+
+function clearForm() {
+
+    document.getElementById("itemCode").value = "";
+    document.getElementById("itemName").value = "";
+    document.getElementById("itemCategory").selectedIndex = 0;
+    document.getElementById("itemStock").value = "";
+    document.getElementById("itemUnit").value = "";
+
+}
+
+//==============================
+// SAVE LOCAL STORAGE
+//==============================
+
+function saveData() {
+
+    localStorage.setItem(
+        "stockItems",
+        JSON.stringify(stockItems)
+    );
 
 }
