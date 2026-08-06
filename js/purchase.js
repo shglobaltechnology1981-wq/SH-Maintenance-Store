@@ -46,10 +46,20 @@ Number(document.getElementById("purchaseQty").value);
 
 
 
-if(code==="" || qty<=0){
+let supplier =
+document.getElementById("supplierName").value.trim();
 
 
-alert("Please enter Item Code and Quantity");
+
+let date =
+document.getElementById("purchaseDate").value;
+
+
+
+if(code==="" || qty<=0 || supplier===""){
+
+
+alert("Please fill all information");
 
 
 return;
@@ -62,26 +72,35 @@ let found=false;
 
 
 
-stockItems.forEach(item=>{
+for(let i=0;i<stockItems.length;i++){
 
 
-if(item.code===code){
+if(stockItems[i].code===code){
 
 
-item.stock =
-Number(item.stock)+qty;
+stockItems[i].stock =
+Number(stockItems[i].stock)+qty;
 
 
 
 purchaseList.push({
 
-code:item.code,
 
-name:item.name,
+code:stockItems[i].code,
+
+
+name:stockItems[i].name,
+
 
 qty:qty,
 
-date:new Date().toLocaleDateString()
+
+supplier:supplier,
+
+
+date:date || new Date().toLocaleDateString()
+
+
 
 });
 
@@ -90,12 +109,14 @@ date:new Date().toLocaleDateString()
 found=true;
 
 
+break;
+
 
 }
 
 
-});
 
+}
 
 
 
@@ -103,10 +124,11 @@ found=true;
 if(!found){
 
 
-alert("Item Code Not Found.");
+alert("Item Code Not Found");
 
 
 return;
+
 
 }
 
@@ -133,18 +155,13 @@ JSON.stringify(purchaseList)
 
 
 
-
-
 clearPurchase();
-
 
 
 loadPurchase();
 
 
-
-alert("Purchase Saved Successfully.");
-
+alert("Purchase Saved Successfully");
 
 
 }
@@ -154,10 +171,11 @@ alert("Purchase Saved Successfully.");
 
 
 
-//==============================
-// LOAD PURCHASE TABLE
-//==============================
 
+
+//==============================
+// LOAD PURCHASE
+//==============================
 
 function loadPurchase(){
 
@@ -179,20 +197,30 @@ purchaseList.forEach((item,index)=>{
 
 
 
-table.innerHTML +=`
+table.innerHTML += `
 
 
 <tr>
 
+
 <td>${item.code}</td>
+
 
 <td>${item.name}</td>
 
+
 <td>${item.qty}</td>
+
+
+<td>${item.supplier || "-"}</td>
+
 
 <td>${item.date}</td>
 
+
+
 <td>
+
 
 <button onclick="deletePurchase(${index})">
 
@@ -200,7 +228,9 @@ Delete
 
 </button>
 
+
 </td>
+
 
 </tr>
 
@@ -212,7 +242,11 @@ Delete
 });
 
 
+
 }
+
+
+
 
 
 
@@ -221,7 +255,6 @@ Delete
 //==============================
 // DELETE PURCHASE
 //==============================
-
 
 function deletePurchase(index){
 
@@ -255,10 +288,11 @@ loadPurchase();
 
 
 
+
+
 //==============================
 // CLEAR FORM
 //==============================
-
 
 function clearPurchase(){
 
@@ -267,6 +301,12 @@ document.getElementById("purchaseCode").value="";
 
 
 document.getElementById("purchaseQty").value="";
+
+
+document.getElementById("supplierName").value="";
+
+
+document.getElementById("purchaseDate").value="";
 
 
 }
