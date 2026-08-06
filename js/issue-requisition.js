@@ -103,13 +103,77 @@ return;
 
 
 
+// Stock Minus
+
 stock.stock =
 stock.stock - req.qty;
 
 
 
+// Status Update
+
 req.status="Issued";
 
+
+
+
+// Issue Challan Create
+
+
+let issueNo =
+"ISS-" + 
+String(Date.now()).slice(-6);
+
+
+
+let issueData={
+
+
+issueNo:issueNo,
+
+
+date:new Date().toLocaleDateString(),
+
+
+department:req.department,
+
+
+user:req.user,
+
+
+items:[
+
+{
+
+name:req.item,
+
+qty:req.qty
+
+}
+
+]
+
+
+};
+
+
+
+
+// Save Challan
+
+
+localStorage.setItem(
+
+"lastIssue",
+
+JSON.stringify(issueData)
+
+);
+
+
+
+
+// Save Stock
 
 
 localStorage.setItem(
@@ -120,6 +184,9 @@ JSON.stringify(stockItems)
 
 );
 
+
+
+// Save Requisition
 
 
 localStorage.setItem(
@@ -135,7 +202,12 @@ JSON.stringify(requisition)
 alert("Issue Completed");
 
 
-loadIssue();
+
+// Open Challan
+
+
+window.location.href=
+"issue-challan.html";
 
 
 }
@@ -143,4 +215,3 @@ loadIssue();
 
 
 
-loadIssue();
