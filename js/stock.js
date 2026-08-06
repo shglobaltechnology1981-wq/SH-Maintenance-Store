@@ -1,129 +1,361 @@
 /*==================================================
-SH Maintenance Store
-issue.js
+SH STORE
+Stock Management
+stock.js
 ==================================================*/
 
-let issueList =
-JSON.parse(localStorage.getItem("issueList")) || [];
 
 let stockItems =
 JSON.parse(localStorage.getItem("stockItems")) || [];
+
+
+
 
 //==============================
 // PAGE LOAD
 //==============================
 
-window.onload = function () {
-    loadIssue();
+window.onload=function(){
+
+loadStock();
+
 };
 
+
+
+
+
 //==============================
-// ISSUE ITEM
+// ADD ITEM
 //==============================
 
-function issueItem() {
+function addItem(){
 
-    let code = document.getElementById("issueCode").value.trim();
-    let qty = Number(document.getElementById("issueQty").value);
-    let issueTo = document.getElementById("issueTo").value.trim();
 
-    if (code === "" || qty <= 0 || issueTo === "") {
-        alert("Please fill all fields.");
-        return;
-    }
 
-    let found = false;
+let code =
+document.getElementById("itemCode").value.trim();
 
-    for (let i = 0; i < stockItems.length; i++) {
 
-        if (stockItems[i].code === code) {
 
-            found = true;
+let name =
+document.getElementById("itemName").value.trim();
 
-            if (stockItems[i].stock < qty) {
-                alert("Insufficient Stock!");
-                return;
-            }
 
-            stockItems[i].stock -= qty;
 
-            issueList.push({
-                code: stockItems[i].code,
-                name: stockItems[i].name,
-                qty: qty,
-                issueTo: issueTo,
-                date: new Date().toLocaleDateString()
-            });
+let category =
+document.getElementById("itemCategory").value;
 
-            break;
-        }
-    }
 
-    if (!found) {
-        alert("Item Code Not Found.");
-        return;
-    }
 
-    localStorage.setItem(
-        "stockItems",
-        JSON.stringify(stockItems)
-    );
+let stock =
+Number(document.getElementById("itemStock").value);
 
-    localStorage.setItem(
-        "issueList",
-        JSON.stringify(issueList)
-    );
 
-    clearForm();
 
-    loadIssue();
+let unit =
+document.getElementById("itemUnit").value.trim();
 
-    alert("Item Issued Successfully.");
+
+
+
+
+if(code==="" || name==="" || stock<=0 || unit===""){
+
+
+alert("Please fill all information");
+
+
+return;
+
 
 }
 
+
+
+
+// DUPLICATE CHECK
+
+
+let exist =
+stockItems.find(item=>item.code===code);
+
+
+
+if(exist){
+
+
+alert("Item Code Already Exists");
+
+
+return;
+
+
+}
+
+
+
+
+stockItems.push({
+
+
+code:code,
+
+name:name,
+
+category:category,
+
+stock:stock,
+
+unit:unit
+
+
+});
+
+
+
+
+
+localStorage.setItem(
+
+"stockItems",
+
+JSON.stringify(stockItems)
+
+);
+
+
+
+
+
+clearForm();
+
+
+loadStock();
+
+
+
+alert("Item Added Successfully");
+
+
+
+}
+
+
+
+
+
 //==============================
-// LOAD ISSUE TABLE
+// LOAD STOCK TABLE
 //==============================
 
-function loadIssue() {
 
-    let table = document.getElementById("issueTable");
+function loadStock(){
 
-    table.innerHTML = "";
 
-    issueList.forEach(item => {
+let table =
+document.getElementById("stockTable");
 
-        table.innerHTML += `
+
+
+if(!table) return;
+
+
+
+table.innerHTML="";
+
+
+
+stockItems.forEach((item,index)=>{
+
+
+
+let status="Available";
+
+
+
+if(item.stock<=10 && item.stock>0){
+
+status="Low Stock";
+
+}
+
+
+if(item.stock<=0){
+
+status="Out Of Stock";
+
+}
+
+
+
+
+
+table.innerHTML +=`
+
 
 <tr>
 
+
 <td>${item.code}</td>
+
 
 <td>${item.name}</td>
 
-<td>${item.qty}</td>
 
-<td>${item.issueTo}</td>
+<td>${item.category}</td>
 
-<td>${item.date}</td>
+
+<td>${item.stock}</td>
+
+
+<td>${item.unit}</td>
+
+
+<td>${status}</td>
+
+
+<td>
+
+<button onclick="deleteItem(${index})">
+
+Delete
+
+</button>
+
+</td>
+
 
 </tr>
 
+
 `;
 
-    });
+
+
+});
+
+
 
 }
+
+
+
+
+
+//==============================
+// SEARCH ITEM
+//==============================
+
+
+function searchItem(){
+
+
+let search =
+
+document.getElementById("searchItem").value.toLowerCase();
+
+
+
+let rows =
+document.querySelectorAll("#stockTable tr");
+
+
+
+rows.forEach(row=>{
+
+
+let text=row.innerText.toLowerCase();
+
+
+
+if(text.includes(search)){
+
+
+row.style.display="";
+
+
+}
+
+else{
+
+
+row.style.display="none";
+
+
+}
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+//==============================
+// DELETE ITEM
+//==============================
+
+
+function deleteItem(index){
+
+
+if(confirm("Delete this Item?")){
+
+
+stockItems.splice(index,1);
+
+
+
+localStorage.setItem(
+
+"stockItems",
+
+JSON.stringify(stockItems)
+
+);
+
+
+
+loadStock();
+
+
+}
+
+
+
+}
+
+
+
+
+
+
 
 //==============================
 // CLEAR FORM
 //==============================
 
-function clearForm() {
 
-    document.getElementById("issueCode").value = "";
-    document.getElementById("issueQty").value = "";
-    document.getElementById("issueTo").value = "";
+function clearForm(){
+
+
+document.getElementById("itemCode").value="";
+
+
+document.getElementById("itemName").value="";
+
+
+document.getElementById("itemStock").value="";
+
+
+document.getElementById("itemUnit").value="";
+
 
 }
