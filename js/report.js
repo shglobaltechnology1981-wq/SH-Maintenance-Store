@@ -124,3 +124,51 @@ function searchReport() {
     });
 
 }
+
+//==============================
+// FILTER REPORT
+//==============================
+
+function filterReport(){
+
+alert("Date Filter will be activated in Part-23.");
+
+}
+
+//==============================
+// EXCEL
+//==============================
+
+function downloadExcel(){
+
+let table=document.querySelector("table");
+
+let wb=XLSX.utils.table_to_book(table);
+
+XLSX.writeFile(wb,"SH_Report.xlsx");
+
+}
+
+//==============================
+// PDF
+//==============================
+
+async function downloadPDF(){
+
+const {jsPDF}=window.jspdf;
+
+const pdf=new jsPDF("p","mm","a4");
+
+const canvas=await html2canvas(document.querySelector(".main"));
+
+const img=canvas.toDataURL("image/png");
+
+const w=190;
+
+const h=(canvas.height*w)/canvas.width;
+
+pdf.addImage(img,"PNG",10,10,w,h);
+
+pdf.save("SH_Report.pdf");
+
+}
