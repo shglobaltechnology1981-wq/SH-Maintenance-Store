@@ -1,32 +1,24 @@
 /*==================================================
-SH STORE
-Purchase Management
+SH Maintenance Store
 purchase.js
 ==================================================*/
-
 
 let purchaseList =
 JSON.parse(localStorage.getItem("purchaseList")) || [];
 
-
 let stockItems =
 JSON.parse(localStorage.getItem("stockItems")) || [];
-
-
 
 
 //==============================
 // PAGE LOAD
 //==============================
 
-window.onload=function(){
+window.onload = function(){
 
-loadPurchase();
+    loadPurchase();
 
 };
-
-
-
 
 
 //==============================
@@ -35,278 +27,221 @@ loadPurchase();
 
 function purchaseItem(){
 
+    let code =
+    document.getElementById("purchaseCode").value.trim();
 
-let code =
-document.getElementById("purchaseCode").value.trim();
+    let qty =
+    Number(document.getElementById("purchaseQty").value);
 
-
-
-let qty =
-Number(document.getElementById("purchaseQty").value);
-
-
-
-let supplier =
-document.getElementById("supplierName").value.trim();
+    let supplier =
+    document.getElementById("supplier").value.trim();
 
 
+    if(code==="" || qty<=0 || supplier===""){
 
-let date =
-document.getElementById("purchaseDate").value;
+        alert("Please fill all fields.");
 
+        return;
 
-
-if(code==="" || qty<=0 || supplier===""){
-
-
-alert("Please fill all information");
+    }
 
 
-return;
-
-}
+    let found = false;
 
 
+    stockItems.forEach(item=>{
 
-let found=false;
+        if(item.code===code){
 
+            item.stock += qty;
 
+            purchaseList.push({
 
-for(let i=0;i<stockItems.length;i++){
+                code:item.code,
 
+                name:item.name,
 
-if(stockItems[i].code===code){
+                qty:qty,
 
+                supplier:supplier,
 
-stockItems[i].stock =
-Number(stockItems[i].stock)+qty;
+                date:new Date().toLocaleDateString()
 
+            });
 
+            found = true;
 
-purchaseList.push({
+        }
 
-
-code:stockItems[i].code,
-
-
-name:stockItems[i].name,
-
-
-qty:qty,
-
-
-supplier:supplier,
+    });
 
 
-date:date || new Date().toLocaleDateString()
+    if(!found){
+
+        alert("Item Code Not Found.");
+
+        return;
+
+    }
 
 
+    localStorage.setItem(
 
-});
+        "stockItems",
 
+        JSON.stringify(stockItems)
 
-
-found=true;
-
-
-break;
+    );
 
 
-}
+    localStorage.setItem(
+
+        "purchaseList",
+
+        JSON.stringify(purchaseList)
+
+    );
 
 
+    clearForm();
 
-}
+    loadPurchase();
 
-
-
-
-if(!found){
-
-
-alert("Item Code Not Found");
-
-
-return;
-
+    alert("Purchase Saved Successfully.");
 
 }
 
-
-
-
-localStorage.setItem(
-
-"stockItems",
-
-JSON.stringify(stockItems)
-
-);
-
-
-
-localStorage.setItem(
-
-"purchaseList",
-
-JSON.stringify(purchaseList)
-
-);
-
-
-
-clearPurchase();
-
-
-loadPurchase();
-
-
-alert("Purchase Saved Successfully");
-
-
-}
-
-
-
-
-
-
-
-
-//==============================
-// LOAD PURCHASE
-//==============================
+//==================================================
+// LOAD PURCHASE TABLE
+//==================================================
 
 function loadPurchase(){
 
+    let table =
+    document.getElementById("purchaseTable");
 
-let table =
-document.getElementById("purchaseTable");
+    table.innerHTML = "";
 
+    purchaseList.forEach((item,index)=>{
 
-
-if(!table) return;
-
-
-
-table.innerHTML="";
-
-
-
-purchaseList.forEach((item,index)=>{
-
-
-
-table.innerHTML += `
-
+        table.innerHTML += `
 
 <tr>
 
-
 <td>${item.code}</td>
-
 
 <td>${item.name}</td>
 
-
 <td>${item.qty}</td>
 
-
-<td>${item.supplier || "-"}</td>
-
+<td>${item.supplier}</td>
 
 <td>${item.date}</td>
 
-
-
 <td>
 
+<button
+class="action-btn delete-btn"
+onclick="deletePurchase(${index})">
 
-<button onclick="deletePurchase(${index})">
-
-Delete
+<i class="fa fa-trash"></i>
 
 </button>
 
-
 </td>
-
 
 </tr>
 
-
 `;
 
-
-
-});
-
-
+    });
 
 }
 
 
 
-
-
-
-
-
-//==============================
+//==================================================
 // DELETE PURCHASE
-//==============================
+//==================================================
 
 function deletePurchase(index){
 
+    if(!confirm("Delete this purchase record?")){
 
-if(confirm("Delete Purchase?")){
+        return;
 
+    }
 
-purchaseList.splice(index,1);
+    purchaseList.splice(index,1);
 
+    localStorage.setItem(
 
+        "purchaseList",
 
-localStorage.setItem(
+        JSON.stringify(purchaseList)
 
-"purchaseList",
+    );
 
-JSON.stringify(purchaseList)
-
-);
-
-
-
-loadPurchase();
-
-
-}
-
+    loadPurchase();
 
 }
 
 
 
+//==================================================
+// SEARCH PURCHASE
+//==================================================
+
+function searchPurchase(){
+
+    let keyword =
+    document.getElementById("searchPurchase")
+    .value
+    .toLowerCase();
+
+    let rows =
+    document.querySelectorAll("#purchaseTable tr");
+
+    rows.forEach(row=>{
+
+        if(row.innerText.toLowerCase().includes(keyword)){
+
+            row.style.display="";
+
+        }else{
+
+            row.style.display="none";
+
+        }
+
+    });
+
+}
 
 
 
-
-//==============================
+//==================================================
 // CLEAR FORM
-//==============================
+//==================================================
 
-function clearPurchase(){
+function clearForm(){
+
+    document.getElementById("purchaseCode").value="";
+
+    document.getElementById("purchaseQty").value="";
+
+    document.getElementById("supplier").value="";
+
+}
 
 
-document.getElementById("purchaseCode").value="";
 
+//==================================================
+// REFRESH
+//==================================================
 
-document.getElementById("purchaseQty").value="";
+function refreshPurchase(){
 
-
-document.getElementById("supplierName").value="";
-
-
-document.getElementById("purchaseDate").value="";
-
+    loadPurchase();
 
 }
