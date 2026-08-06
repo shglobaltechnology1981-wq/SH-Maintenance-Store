@@ -1,361 +1,269 @@
 /*==================================================
-SH STORE
-Issue Management
+SH Maintenance Store
 issue.js
 ==================================================*/
-
 
 let issueList =
 JSON.parse(localStorage.getItem("issueList")) || [];
 
-
 let stockItems =
 JSON.parse(localStorage.getItem("stockItems")) || [];
-
-
 
 
 //==============================
 // PAGE LOAD
 //==============================
 
-window.onload=function(){
+window.onload = function(){
 
-loadIssue();
+    loadIssue();
 
 };
 
 
-
-
-
 //==============================
-// SAVE ISSUE
+// ISSUE ITEM
 //==============================
 
 function issueItem(){
 
+    let code =
+    document.getElementById("issueCode").value.trim();
 
-let code =
-document.getElementById("issueCode").value.trim();
+    let qty =
+    Number(document.getElementById("issueQty").value);
 
-
-
-let qty =
-Number(document.getElementById("issueQty").value);
-
-
-
-let issueTo =
-document.getElementById("issueTo").value.trim();
+    let issueTo =
+    document.getElementById("issueTo").value.trim();
 
 
+    if(code==="" || qty<=0 || issueTo===""){
 
-let date =
-document.getElementById("issueDate").value;
+        alert("Please fill all fields.");
 
+        return;
 
-
-
-
-if(code==="" || qty<=0 || issueTo===""){
+    }
 
 
-alert("Please fill all information");
+    let found = false;
 
 
-return;
+    stockItems.forEach(item=>{
+
+        if(item.code===code){
+
+            found = true;
+
+            if(item.stock < qty){
+
+                alert("Insufficient Stock.");
+
+                return;
+
+            }
+
+            item.stock -= qty;
+
+            issueList.push({
+
+                code:item.code,
+
+                name:item.name,
+
+                qty:qty,
+
+                issueTo:issueTo,
+
+                date:new Date().toLocaleDateString()
+
+            });
+
+        }
+
+    });
+
+
+    if(!found){
+
+        alert("Item Code Not Found.");
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+
+        "stockItems",
+
+        JSON.stringify(stockItems)
+
+    );
+
+
+    localStorage.setItem(
+
+        "issueList",
+
+        JSON.stringify(issueList)
+
+    );
+
+
+    clearForm();
+
+    loadIssue();
+
+    alert("Item Issued Successfully.");
 
 }
-
-
-
-
-
-let found=false;
-
-
-
-
-
-for(let i=0;i<stockItems.length;i++){
-
-
-
-if(stockItems[i].code===code){
-
-
-found=true;
-
-
-
-
-if(Number(stockItems[i].stock)<qty){
-
-
-alert("Insufficient Stock");
-
-
-return;
-
-
-}
-
-
-
-
-
-// STOCK MINUS
-
-
-stockItems[i].stock =
-Number(stockItems[i].stock)-qty;
-
-
-
-
-
-
-// SAVE ISSUE
-
-
-issueList.push({
-
-
-
-code:stockItems[i].code,
-
-
-name:stockItems[i].name,
-
-
-category:stockItems[i].category,
-
-
-qty:qty,
-
-
-issueTo:issueTo,
-
-
-date:date || new Date().toLocaleDateString()
-
-
-
-});
-
-
-
-
-
-break;
-
-
-}
-
-
-}
-
-
-
-
-
-
-if(!found){
-
-
-alert("Item Code Not Found");
-
-
-return;
-
-
-}
-
-
-
-
-
-localStorage.setItem(
-
-"stockItems",
-
-JSON.stringify(stockItems)
-
-);
-
-
-
-localStorage.setItem(
-
-"issueList",
-
-JSON.stringify(issueList)
-
-);
-
-
-
-
-
-clearIssue();
-
-
-
-loadIssue();
-
-
-
-alert("Issue Saved Successfully");
-
-
-
-}
-
-
-
-
-
-
-
-//==============================
+//==================================================
 // LOAD ISSUE TABLE
-//==============================
-
+//==================================================
 
 function loadIssue(){
 
+    let table =
+    document.getElementById("issueTable");
 
-let table =
-document.getElementById("issueTable");
+    table.innerHTML = "";
 
+    issueList.forEach((item,index)=>{
 
-
-if(!table) return;
-
-
-
-table.innerHTML="";
-
-
-
-issueList.forEach((item,index)=>{
-
-
-
-table.innerHTML += `
-
+        table.innerHTML += `
 
 <tr>
 
-
 <td>${item.code}</td>
-
 
 <td>${item.name}</td>
 
-
 <td>${item.qty}</td>
-
 
 <td>${item.issueTo}</td>
 
-
 <td>${item.date}</td>
-
-
 
 <td>
 
+<button
+class="action-btn delete-btn"
+onclick="deleteIssue(${index})">
 
-<button onclick="deleteIssue(${index})">
-
-Delete
+<i class="fa fa-trash"></i>
 
 </button>
 
-
 </td>
-
-
 
 </tr>
 
-
 `;
 
-
-
-});
-
-
+    });
 
 }
 
 
 
-
-
-
-
-
-//==============================
+//==================================================
 // DELETE ISSUE
-//==============================
+//==================================================
 
 function deleteIssue(index){
 
+    if(!confirm("Delete this issue record?")){
 
-if(confirm("Delete Issue?")){
+        return;
 
+    }
 
-issueList.splice(index,1);
+    // Restore Stock
 
+    let issue = issueList[index];
 
+    stockItems.forEach(item=>{
 
-localStorage.setItem(
+        if(item.code === issue.code){
 
-"issueList",
+            item.stock += Number(issue.qty);
 
-JSON.stringify(issueList)
+        }
 
-);
+    });
 
+    issueList.splice(index,1);
 
+    localStorage.setItem(
+        "stockItems",
+        JSON.stringify(stockItems)
+    );
 
-loadIssue();
+    localStorage.setItem(
+        "issueList",
+        JSON.stringify(issueList)
+    );
 
-
+    loadIssue();
 
 }
 
 
 
+//==================================================
+// SEARCH ISSUE
+//==================================================
+
+function searchIssue(){
+
+    let keyword = document
+        .getElementById("searchIssue")
+        .value
+        .toLowerCase();
+
+    let rows = document.querySelectorAll("#issueTable tr");
+
+    rows.forEach(row=>{
+
+        if(row.innerText.toLowerCase().includes(keyword)){
+
+            row.style.display = "";
+
+        }else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
 }
 
 
 
-
-
-
-
-//==============================
+//==================================================
 // CLEAR FORM
-//==============================
+//==================================================
 
-function clearIssue(){
+function clearForm(){
+
+    document.getElementById("issueCode").value = "";
+
+    document.getElementById("issueQty").value = "";
+
+    document.getElementById("issueTo").value = "";
+
+}
 
 
-document.getElementById("issueCode").value="";
 
+//==================================================
+// REFRESH
+//==================================================
 
-document.getElementById("issueQty").value="";
+function refreshIssue(){
 
-
-document.getElementById("issueTo").value="";
-
-
-document.getElementById("issueDate").value="";
-
+    loadIssue();
 
 }
