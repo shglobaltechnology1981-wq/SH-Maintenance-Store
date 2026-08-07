@@ -1,3 +1,4 @@
+alert("Stock JS Loaded");
 /*==================================================
 SH Maintenance Store
 stock.js
