@@ -1940,3 +1940,8 @@ function refreshStock(){
 
 }
 
+function testAdd(){
+
+alert("Button Working");
+
+}
