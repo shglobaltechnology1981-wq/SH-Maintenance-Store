@@ -5,142 +5,299 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>SH Maintenance Store | Stock</title>
 
-<link rel="stylesheet" href="css/style.css">
+<title>
+SH Maintenance Store | Stock
+</title>
+
+
+<link rel="stylesheet"
+href="css/style.css">
+
+
+<link rel="stylesheet"
+href="css/stock.css">
+
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+
 </head>
+
 
 <body>
 
-<!-- ==========================
-SIDEBAR
-========================== -->
+
+
+<!-- SIDEBAR -->
 
 <div class="sidebar">
 
+
 <div class="logo">
 
-<img src="images/logo.png" alt="Logo">
+<img src="images/logo.png">
 
-<h2>SH STORE</h2>
+<h2>
+SH STORE
+</h2>
 
 </div>
+
+
 
 <a href="dashboard.html">
+
 <i class="fa fa-home"></i>
 Dashboard
+
 </a>
+
+
 
 <a href="stock.html" class="active">
+
 <i class="fa fa-box"></i>
 Stock
+
 </a>
+
+
 
 <a href="purchase.html">
+
 <i class="fa fa-cart-shopping"></i>
 Purchase
+
 </a>
+
+
 
 <a href="issue.html">
+
 <i class="fa fa-arrow-up"></i>
 Issue
+
 </a>
+
+
+
+<a href="requisition.html">
+
+<i class="fa fa-file-circle-plus"></i>
+Requisition
+
+</a>
+
+
+
+<a href="requisition-admin.html">
+
+<i class="fa fa-list-check"></i>
+Requisition Admin
+
+</a>
+
+
 
 <a href="report.html">
+
 <i class="fa fa-chart-bar"></i>
 Report
+
 </a>
 
+
+
 <a href="#" onclick="logout()">
+
 <i class="fa fa-right-from-bracket"></i>
 Logout
+
 </a>
+
 
 </div>
 
-<!-- ==========================
-MAIN
-========================== -->
+
+
+
+
+
+<!-- MAIN -->
+
 
 <div class="main">
 
+
 <div class="topbar">
 
-<h1>Stock Management</h1>
+
+<h1>
+Stock Management
+</h1>
+
+
 
 <div class="top-right">
 
-<span>
 
 <i class="fa fa-user"></i>
 
 <span id="loginUser"></span>
 
-</span>
 
 </div>
 
+
 </div>
 
-<!-- ==========================
-FORM
-========================== -->
+
+
+
+
+
+
+<!-- STOCK SUMMARY -->
+
+
+<div class="cards">
+
+
+<div class="card">
+
+<i class="fa fa-box"></i>
+
+<h3>
+Total Items
+</h3>
+
+<h2 id="totalItems">
+0
+</h2>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+<i class="fa fa-cubes"></i>
+
+<h3>
+Total Stock
+</h3>
+
+<h2 id="totalStock">
+0
+</h2>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+<i class="fa fa-triangle-exclamation"></i>
+
+<h3>
+Low Stock
+</h3>
+
+<h2 id="lowStock">
+0
+</h2>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- ADD STOCK FORM -->
+
 
 <div class="form-box">
 
-<h2 class="form-title">
 
+<h2>
 Add New Item
-
 </h2>
 
+
+
 <div class="form-grid">
+
+
 
 <input
 type="text"
 id="itemCode"
 placeholder="Item Code">
 
+
+
 <input
 type="text"
 id="itemName"
 placeholder="Item Name">
 
-<select id="itemCategory">
 
-<option>Mechanical</option>
-
-<option>Electrical</option>
-
-<option>Boiler</option>
-
-<option>Generator</option>
-
-<option>Sewing Spare</option>
-
-<option>Others</option>
-
-</select>
-
-<input
-type="number"
-id="itemStock"
-placeholder="Stock Qty">
 
 <input
 type="text"
-id="itemUnit"
-placeholder="Unit (PCS)">
+id="category"
+placeholder="Category">
+
+
+
+<input
+type="text"
+id="unit"
+placeholder="Unit (PCS/SET)">
+
+
+
+<input
+type="number"
+id="stockQty"
+placeholder="Opening Stock">
+
+
+
+<input
+type="number"
+id="minStock"
+placeholder="Minimum Stock">
+
+
+
+<input
+type="file"
+id="itemImage"
+accept="image/*">
+
+
 
 <button
 class="btn btn-primary"
-onclick="addItem()">
+onclick="addStockItem()">
 
 <i class="fa fa-plus"></i>
 
@@ -148,67 +305,134 @@ Add Item
 
 </button>
 
-</div>
+
 
 </div>
 
-<!-- ==========================
-SEARCH
-========================== -->
+
+</div>
+
+
+
+
+
+
+
+<!-- SEARCH -->
+
 
 <div class="search-box">
 
+
 <input
+
 type="text"
-id="searchItem"
-placeholder="Search Item..."
-onkeyup="searchItem()">
+
+id="searchStock"
+
+placeholder="Search Stock..."
+
+onkeyup="searchStock()"
+
+
+>
+
 
 </div>
 
-<!-- ==========================
-TABLE
-========================== -->
+
+
+
+
+
+
+
+
+<!-- STOCK TABLE -->
+
 
 <div class="table-box">
 
+
 <h3>
-
 Stock List
-
 </h3>
 
+
+
 <table>
+
 
 <thead>
 
 <tr>
 
-<th>Code</th>
+<th>
+Image
+</th>
 
-<th>Item</th>
 
-<th>Category</th>
+<th>
+Code
+</th>
 
-<th>Stock</th>
 
-<th>Unit</th>
+<th>
+Item Name
+</th>
 
-<th>Status</th>
 
-<th>Action</th>
+<th>
+Category
+</th>
+
+
+<th>
+Stock
+</th>
+
+
+<th>
+Unit
+</th>
+
+
+<th>
+Status
+</th>
+
+
+<th>
+Action
+</th>
+
 
 </tr>
 
 </thead>
 
+
+
+
 <tbody id="stockTable">
+
 
 </tbody>
 
+
+
+
 </table>
 
+
+
 </div>
+
+
+
+
+
+
 
 <div class="footer">
 
@@ -216,11 +440,19 @@ SH Maintenance Store Management System © 2026
 
 </div>
 
+
+
 </div>
+
+
+
+
+
 
 <script src="js/auth.js"></script>
 
 <script src="js/stock.js"></script>
+
 
 </body>
 
