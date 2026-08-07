@@ -4,6 +4,8 @@ Stock Management
 stock.js
 ==================================================*/
 
+alert("NEW STOCK JS WORKING");
+
 
 let stockItems = JSON.parse(
 localStorage.getItem("stockItems")
