@@ -1,23 +1,17 @@
-alert("Stock JS Loaded");
 /*==================================================
 SH Maintenance Store
+Stock Management
 stock.js
 ==================================================*/
 
 
-let stockItems =
-
-JSON.parse(
-
+let stockItems = JSON.parse(
 localStorage.getItem("stockItems")
-
 ) || [];
 
 
 
-
-
-window.onload=function(){
+window.onload = function(){
 
 loadStock();
 
@@ -28,13 +22,353 @@ showUser();
 
 
 
-
-//==============================================
-// ADD STOCK ITEM
-//==============================================
-
+//================================
+// ADD ITEM
+//================================
 
 function addStockItem(){
+
+
+let code =
+document.getElementById("itemCode").value.trim();
+
+
+let name =
+document.getElementById("itemName").value.trim();
+
+
+let category =
+document.getElementById("category").value.trim();
+
+
+let unit =
+document.getElementById("unit").value.trim();
+
+
+let qty =
+Number(
+document.getElementById("stockQty").value
+);
+
+
+let minStock =
+Number(
+document.getElementById("minStock").value
+);
+
+
+
+if(code=="" || name=="" || qty<=0){
+
+alert("Please enter Code, Name and Stock");
+
+return;
+
+}
+
+
+
+
+let item={
+
+code:code,
+
+name:name,
+
+category:category,
+
+unit:unit,
+
+stock:qty,
+
+minStock:minStock
+
+};
+
+
+
+stockItems.push(item);
+
+
+
+localStorage.setItem(
+
+"stockItems",
+
+JSON.stringify(stockItems)
+
+);
+
+
+
+clearForm();
+
+
+loadStock();
+
+
+
+alert("Item Added Successfully");
+
+
+}
+
+
+
+
+
+
+//================================
+// SHOW STOCK
+//================================
+
+
+function loadStock(){
+
+
+let table =
+document.getElementById("stockTable");
+
+
+if(!table)return;
+
+
+table.innerHTML="";
+
+
+let total=0;
+
+let low=0;
+
+
+
+stockItems.forEach((item,index)=>{
+
+
+total += Number(item.stock);
+
+
+
+let status="Available";
+
+
+if(
+Number(item.stock)
+<=
+Number(item.minStock)
+){
+
+status="Low Stock";
+
+low++;
+
+}
+
+
+
+table.innerHTML += `
+
+<tr>
+
+<td>-</td>
+
+<td>${item.code}</td>
+
+<td>${item.name}</td>
+
+<td>${item.category}</td>
+
+<td>${item.stock}</td>
+
+<td>${item.unit}</td>
+
+<td>${status}</td>
+
+<td>
+
+<button
+onclick="deleteStock(${index})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+
+if(document.getElementById("totalItems"))
+
+document.getElementById("totalItems").innerHTML =
+stockItems.length;
+
+
+
+if(document.getElementById("totalStock"))
+
+document.getElementById("totalStock").innerHTML =
+total;
+
+
+
+if(document.getElementById("lowStock"))
+
+document.getElementById("lowStock").innerHTML =
+low;
+
+
+
+}
+
+
+
+
+
+
+
+//================================
+// DELETE
+//================================
+
+
+function deleteStock(index){
+
+
+stockItems.splice(index,1);
+
+
+
+localStorage.setItem(
+
+"stockItems",
+
+JSON.stringify(stockItems)
+
+);
+
+
+
+loadStock();
+
+
+}
+
+
+
+
+
+
+
+//================================
+// SEARCH
+//================================
+
+
+function searchStock(){
+
+
+let value =
+
+document.getElementById("searchStock")
+.value
+.toLowerCase();
+
+
+
+document
+.querySelectorAll("#stockTable tr")
+.forEach(row=>{
+
+
+row.style.display =
+
+row.innerText
+.toLowerCase()
+.includes(value)
+
+?
+
+""
+
+:
+
+"none";
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+//================================
+// CLEAR
+//================================
+
+
+function clearForm(){
+
+
+document.getElementById("itemCode").value="";
+
+document.getElementById("itemName").value="";
+
+document.getElementById("category").value="";
+
+document.getElementById("unit").value="";
+
+document.getElementById("stockQty").value="";
+
+document.getElementById("minStock").value="";
+
+
+}
+
+
+
+
+
+
+
+//================================
+// USER
+//================================
+
+
+function showUser(){
+
+
+let user =
+JSON.parse(
+localStorage.getItem("loginUser")
+);
+
+
+
+let box =
+document.getElementById("loginUser");
+
+
+
+if(user && box){
+
+box.innerHTML=user.name;
+
+}
+
+
+}function addStockItem(){
 
 
 let code =
