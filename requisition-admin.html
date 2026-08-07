@@ -5,16 +5,25 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SH Store | Requisition Management</title>
+
+<title>
+SH Store | Requisition Admin
+</title>
+
 
 <link rel="stylesheet"
 href="css/style.css">
 
+
+<link rel="stylesheet"
+href="css/admin-requisition.css">
+
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 
 </head>
 
@@ -22,19 +31,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
 
-<!--==================================
-SIDEBAR
-===================================-->
+
+<!-- SIDEBAR -->
 
 <div class="sidebar">
 
+
 <div class="logo">
 
-<img src="images/logo.png" alt="Logo">
+<img src="images/logo.png">
 
-<h2>SH STORE</h2>
+<h2>
+SH STORE
+</h2>
 
 </div>
+
 
 
 <a href="dashboard.html">
@@ -46,6 +58,7 @@ Dashboard
 </a>
 
 
+
 <a href="stock.html">
 
 <i class="fa fa-box"></i>
@@ -53,6 +66,7 @@ Dashboard
 Stock
 
 </a>
+
 
 
 <a href="purchase.html">
@@ -64,6 +78,7 @@ Purchase
 </a>
 
 
+
 <a href="issue.html">
 
 <i class="fa fa-arrow-up"></i>
@@ -71,6 +86,7 @@ Purchase
 Issue
 
 </a>
+
 
 
 <a href="requisition.html">
@@ -82,14 +98,16 @@ Requisition
 </a>
 
 
+
 <a href="requisition-admin.html"
 class="active">
 
 <i class="fa fa-list-check"></i>
 
-Requisition Management
+Requisition Admin
 
 </a>
+
 
 
 <a href="report.html">
@@ -101,8 +119,8 @@ Report
 </a>
 
 
-<a href="#"
-onclick="logout()">
+
+<a href="#" onclick="logout()">
 
 <i class="fa fa-right-from-bracket"></i>
 
@@ -110,31 +128,33 @@ Logout
 
 </a>
 
+
+
 </div>
 
 
 
-<!--==================================
-MAIN
-===================================-->
+
+
+
+<!-- MAIN -->
+
 
 <div class="main">
 
 
-<!--==================================
-TOPBAR
-===================================-->
 
 <div class="topbar">
 
+
 <h1>
-
 Requisition Management
-
 </h1>
 
 
+
 <div class="top-right">
+
 
 <span>
 
@@ -144,59 +164,6 @@ Requisition Management
 
 </span>
 
-</div>
-
-</div>
-
-
-
-<!--==================================
-SUMMARY
-===================================-->
-
-<div class="cards">
-
-
-<div class="card">
-
-<i class="fa fa-file-circle-plus"></i>
-
-<h3>Total Requisition</h3>
-
-<h2 id="totalReq">0</h2>
-
-</div>
-
-
-<div class="card">
-
-<i class="fa fa-clock"></i>
-
-<h3>Pending</h3>
-
-<h2 id="pendingReq">0</h2>
-
-</div>
-
-
-<div class="card">
-
-<i class="fa fa-circle-check"></i>
-
-<h3>Approved</h3>
-
-<h2 id="approvedReq">0</h2>
-
-</div>
-
-
-<div class="card">
-
-<i class="fa fa-circle-xmark"></i>
-
-<h3>Rejected</h3>
-
-<h2 id="rejectedReq">0</h2>
 
 </div>
 
@@ -205,77 +172,213 @@ SUMMARY
 
 
 
-<!--==================================
-SEARCH
-===================================-->
+
+
+
+<!-- SUMMARY -->
+
+
+<div class="summary">
+
+
+
+<div class="summary-card">
+
+<h4>
+Total Requisition
+</h4>
+
+<h2 id="totalReq">
+0
+</h2>
+
+</div>
+
+
+
+
+<div class="summary-card">
+
+<h4>
+Pending
+</h4>
+
+<h2 id="pendingReq">
+0
+</h2>
+
+</div>
+
+
+
+
+<div class="summary-card">
+
+<h4>
+Approved
+</h4>
+
+<h2 id="approvedReq">
+0
+</h2>
+
+</div>
+
+
+
+
+<div class="summary-card">
+
+<h4>
+Rejected
+</h4>
+
+<h2 id="rejectedReq">
+0
+</h2>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- SEARCH -->
+
 
 <div class="search-box">
+
 
 <input
 
 type="text"
 
-id="searchReq"
+id="searchRequisition"
 
 placeholder="Search Requisition..."
 
-onkeyup="searchRequisition()">
+onkeyup="searchRequisition()"
+
+
+>
+
 
 </div>
 
 
 
-<!--==================================
-REQUISITION TABLE
-===================================-->
+
+
+
+
+
+<!-- TABLE -->
+
 
 <div class="table-box">
 
+
+
 <h3>
 
-Requisition List
+Material Requisition List
 
 </h3>
 
 
+
 <table>
+
 
 <thead>
 
+
 <tr>
 
-<th>Req No</th>
 
-<th>User</th>
+<th>
+SL
+</th>
 
-<th>Department</th>
 
-<th>Date</th>
+<th>
+Req No
+</th>
 
-<th>Items</th>
 
-<th>Status</th>
+<th>
+User
+</th>
 
-<th>Action</th>
+
+<th>
+Department
+</th>
+
+
+<th>
+Item Name
+</th>
+
+
+<th>
+Qty
+</th>
+
+
+<th>
+Date
+</th>
+
+
+<th>
+Status
+</th>
+
+
+<th>
+Action
+</th>
+
 
 </tr>
+
 
 </thead>
 
 
+
+
+
 <tbody id="requisitionTable">
+
 
 </tbody>
 
+
+
+
 </table>
+
+
 
 </div>
 
 
 
-<!--==================================
-FOOTER
-===================================-->
+
+
+
+
+<!-- FOOTER -->
+
 
 <div class="footer">
 
@@ -284,19 +387,27 @@ SH Maintenance Store Management System © 2026
 </div>
 
 
+
 </div>
 
 
 
-<!--==================================
-SCRIPTS
-===================================-->
+
+
+
+
+
+<!-- SCRIPT -->
+
 
 <script src="js/auth.js"></script>
+
 
 <script src="js/requisition-admin.js"></script>
 
 
+
 </body>
+
 
 </html>
