@@ -41,12 +41,18 @@ table.innerHTML="";
 list.forEach((req,index)=>{
 
 
+let status =
+req.status || "Pending";
+
+
 let items =
 req.items || [];
 
 
+
 let itemName =
 items.map(x=>x.name).join("<br>");
+
 
 
 let qty =
@@ -75,9 +81,9 @@ table.innerHTML += `
 
 <td>
 
-<span class="req-status ${req.status.toLowerCase()}">
+<span class="req-status ${status.toLowerCase()}">
 
-${req.status}
+${status}
 
 </span>
 
@@ -97,7 +103,7 @@ onclick="viewRequisition(${index})">
 
 
 ${
-req.status=="Pending"
+status=="Pending"
 
 ?
 
@@ -125,12 +131,14 @@ onclick="rejectRequisition(${index})">
 }
 
 
+
 <button class="action-btn print-btn"
 onclick="printRequisition(${index})">
 
 <i class="fa fa-print"></i>
 
 </button>
+
 
 
 </td>
@@ -160,45 +168,61 @@ localStorage.getItem("requisitionList")
 ) || [];
 
 
-let pending =
-list.filter(
-x=>x.status=="Pending"
-).length;
 
+let pending =
+0;
 
 let approved =
-list.filter(
-x=>x.status=="Approved"
-).length;
-
+0;
 
 let rejected =
-list.filter(
-x=>x.status=="Rejected"
-).length;
+0;
+
+
+
+list.forEach(req=>{
+
+
+let status =
+req.status || "Pending";
+
+
+
+if(status=="Pending")
+pending++;
+
+
+if(status=="Approved")
+approved++;
+
+
+if(status=="Rejected")
+rejected++;
+
+
+});
 
 
 
 if(document.getElementById("totalReq"))
-
 document.getElementById("totalReq").innerHTML =
 list.length;
 
 
-if(document.getElementById("pendingReq"))
 
+if(document.getElementById("pendingReq"))
 document.getElementById("pendingReq").innerHTML =
 pending;
 
 
-if(document.getElementById("approvedReq"))
 
+if(document.getElementById("approvedReq"))
 document.getElementById("approvedReq").innerHTML =
 approved;
 
 
-if(document.getElementById("rejectedReq"))
 
+if(document.getElementById("rejectedReq"))
 document.getElementById("rejectedReq").innerHTML =
 rejected;
 
@@ -208,7 +232,7 @@ rejected;
 
 
 //==================================================
-// APPROVE + STOCK DEDUCT + ISSUE HISTORY
+// APPROVE REQUISITION
 //==================================================
 
 function approveRequisition(index){
@@ -220,10 +244,12 @@ localStorage.getItem("requisitionList")
 ) || [];
 
 
+
 let stockItems =
 JSON.parse(
 localStorage.getItem("stockItems")
 ) || [];
+
 
 
 let issueList =
@@ -233,7 +259,9 @@ localStorage.getItem("issueList")
 
 
 
-let req=reqList[index];
+let req =
+reqList[index];
+
 
 
 if(!req) return;
@@ -250,18 +278,20 @@ return;
 
 
 
-let items=req.items;
+let items =
+req.items || [];
+
 
 
 
 // CHECK STOCK
 
-for(let r of items){
+for(let item of items){
 
 
 let stock =
 stockItems.find(
-s=>s.name==r.name
+x=>x.name==item.name
 );
 
 
@@ -269,7 +299,8 @@ s=>s.name==r.name
 if(!stock){
 
 alert(
-r.name+" Stock Not Found"
+item.name+
+" not found in Stock"
 );
 
 return;
@@ -281,12 +312,12 @@ return;
 if(
 Number(stock.stock)
 <
-Number(r.qty)
+Number(item.qty)
 ){
 
 alert(
 "Insufficient Stock : "+
-r.name
+item.name
 );
 
 return;
@@ -299,18 +330,21 @@ return;
 
 
 
-// STOCK REDUCE
 
-items.forEach(r=>{
-
-
-stockItems.forEach(s=>{
+// DEDUCT STOCK
 
 
-if(s.name==r.name){
+items.forEach(item=>{
 
 
-s.stock -= Number(r.qty);
+stockItems.forEach(stock=>{
+
+
+if(stock.name==item.name){
+
+
+stock.stock -=
+Number(item.qty);
 
 
 }
@@ -325,33 +359,35 @@ s.stock -= Number(r.qty);
 
 
 
-// ISSUE HISTORY CREATE
+// ISSUE HISTORY
 
-items.forEach(r=>{
+
+items.forEach(item=>{
 
 
 issueList.push({
 
 code:"REQ",
 
-name:r.name,
+name:item.name,
 
-qty:Number(r.qty),
+qty:Number(item.qty),
 
-issueTo:req.department,
+issueTo:req.department || "",
 
 date:new Date()
 .toLocaleDateString(),
 
 requisitionNo:req.reqNo,
 
-issuedBy:req.approvedBy || "Admin"
+issuedBy:"Admin"
 
 
 });
 
 
 });
+
 
 
 
@@ -360,7 +396,25 @@ issuedBy:req.approvedBy || "Admin"
 // UPDATE STATUS
 
 
-req.status="Approved";
+let admin =
+
+JSON.parse(
+localStorage.getItem("loginUser")
+)
+
+||
+{
+name:"Admin"
+};
+
+
+
+req.status =
+"Approved";
+
+
+req.approvedBy =
+admin.name;
 
 
 req.approvedDate =
@@ -369,21 +423,14 @@ new Date()
 
 
 
-req.approvedBy =
 
-JSON.parse(
-localStorage.getItem("loginUser")
-).name;
+reqList[index]=req;
 
 
 
 
 
 // SAVE
-
-
-reqList[index]=req;
-
 
 
 localStorage.setItem(
@@ -423,11 +470,12 @@ loadSummary();
 
 
 alert(
-"Requisition Approved"
+"Requisition Approved Successfully"
 );
 
 
 }
+
 
 
 
@@ -447,7 +495,9 @@ localStorage.getItem("requisitionList")
 
 
 
-list[index].status="Rejected";
+list[index].status =
+"Rejected";
+
 
 
 localStorage.setItem(
@@ -470,6 +520,8 @@ loadSummary();
 
 
 
+
+
 //==================================================
 // VIEW
 //==================================================
@@ -483,20 +535,24 @@ localStorage.getItem("requisitionList")
 ) || [];
 
 
-let req=list[index];
+
+let req =
+list[index];
+
 
 
 let text="";
 
 
-req.items.forEach(x=>{
+
+req.items.forEach(item=>{
 
 
 text +=
 
-x.name+
-" - "+
-x.qty+
+item.name+
+" = "+
+item.qty+
 "\n";
 
 
@@ -506,7 +562,7 @@ x.qty+
 
 alert(
 
-"Requisition No: "+
+"Req No: "+
 req.reqNo+
 
 "\nUser: "+
@@ -516,13 +572,13 @@ req.userName+
 req.department+
 
 "\n\nItems:\n"+
-
 text
 
 );
 
 
 }
+
 
 
 
@@ -536,6 +592,7 @@ function searchRequisition(){
 
 
 let key =
+
 document.getElementById(
 "searchRequisition"
 )
@@ -551,25 +608,29 @@ document
 .forEach(row=>{
 
 
-row.style.display =
-
+if(
 row.innerText
 .toLowerCase()
 .includes(key)
+){
 
-?
+row.style.display="";
 
-""
+}
 
-:
+else{
 
-"none";
+row.style.display="none";
+
+}
 
 
 });
 
 
 }
+
+
 
 
 
@@ -587,10 +648,12 @@ localStorage.getItem("requisitionList")
 ) || [];
 
 
+
 let req=list[index];
 
 
-let win=window.open("");
+let win =
+window.open("");
 
 
 
@@ -612,20 +675,22 @@ Material Requisition
 
 <p>
 
-Req No:
-${req.reqNo}
+Req No : ${req.reqNo}
 
 <br>
 
-User:
-${req.userName}
+User : ${req.userName}
 
 <br>
 
-Department:
-${req.department}
+Department : ${req.department}
+
+<br>
+
+Date : ${req.date}
 
 </p>
+
 
 
 <table border="1" width="100%">
@@ -655,7 +720,6 @@ req.items.map(x=>
 `
 
 ).join("")
-
 }
 
 
@@ -672,8 +736,11 @@ win.print();
 
 
 
+
+
+
 //==================================================
-// USER
+// SHOW USER
 //==================================================
 
 function showUser(){
@@ -684,18 +751,22 @@ localStorage.getItem("loginUser")
 );
 
 
+
 let box =
 document.getElementById("loginUser");
 
 
+
 if(user && box){
 
-box.innerHTML=user.name;
+box.innerHTML =
+user.name;
 
 }
 
 
 }
+
 
 
 
@@ -710,7 +781,8 @@ localStorage.removeItem(
 );
 
 
-location.href="login.html";
+window.location.href=
+"login.html";
 
 
 }
