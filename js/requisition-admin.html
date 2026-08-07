@@ -1,0 +1,627 @@
+/*==================================================
+SH Maintenance Store
+requisition-admin.js
+==================================================*/
+
+
+//==================================================
+// PAGE LOAD
+//==================================================
+
+window.onload = function(){
+
+    showUser();
+
+    loadRequisitions();
+
+};
+
+
+//==================================================
+// SHOW LOGIN USER
+//==================================================
+
+function showUser(){
+
+    let user =
+    JSON.parse(
+        localStorage.getItem("loginUser")
+    );
+
+
+    let box =
+    document.getElementById("loginUser");
+
+
+    if(user && box){
+
+        box.innerHTML =
+        user.name || "";
+
+    }
+
+}
+
+
+//==================================================
+// GET REQUISITIONS
+//==================================================
+
+function getRequisitions(){
+
+    return JSON.parse(
+
+        localStorage.getItem(
+            "requisitions"
+        )
+
+    ) || [];
+
+}
+
+
+//==================================================
+// SAVE REQUISITIONS
+//==================================================
+
+function saveRequisitions(list){
+
+    localStorage.setItem(
+
+        "requisitions",
+
+        JSON.stringify(list)
+
+    );
+
+}
+
+
+//==================================================
+// LOAD REQUISITIONS
+//==================================================
+
+function loadRequisitions(){
+
+    let list =
+    getRequisitions();
+
+
+    updateSummary(list);
+
+
+    let table =
+    document.getElementById(
+        "requisitionTable"
+    );
+
+
+    if(!table){
+
+        return;
+
+    }
+
+
+    table.innerHTML = "";
+
+
+    if(list.length === 0){
+
+        table.innerHTML = `
+
+        <tr>
+
+            <td colspan="7">
+
+                No Requisition Found
+
+            </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.forEach(
+        (req,index)=>{
+
+            let itemCount = 0;
+
+
+            if(
+                Array.isArray(req.items)
+            ){
+
+                itemCount =
+                req.items.length;
+
+            }
+
+
+            let status =
+            req.status || "Pending";
+
+
+            let statusClass =
+            getStatusClass(status);
+
+
+            table.innerHTML += `
+
+            <tr>
+
+                <td>
+                    ${req.reqNo || "-"}
+                </td>
+
+
+                <td>
+                    ${req.user || "-"}
+                </td>
+
+
+                <td>
+                    ${req.department || "-"}
+                </td>
+
+
+                <td>
+                    ${req.date || "-"}
+                </td>
+
+
+                <td>
+                    ${itemCount}
+                </td>
+
+
+                <td>
+
+                    <span
+                    class="status ${statusClass}">
+
+                        ${status}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <button
+                    class="action-btn"
+                    onclick="viewRequisition(${index})">
+
+                        <i class="fa fa-eye"></i>
+
+                    </button>
+
+
+                    ${
+                        status === "Pending"
+
+                        ?
+
+                        `
+
+                        <button
+                        class="action-btn"
+                        onclick="approveRequisition(${index})">
+
+                            <i class="fa fa-check"></i>
+
+                        </button>
+
+
+                        <button
+                        class="action-btn delete-btn"
+                        onclick="rejectRequisition(${index})">
+
+                            <i class="fa fa-xmark"></i>
+
+                        </button>
+
+                        `
+
+                        :
+
+                        ""
+
+                    }
+
+
+                    <button
+                    class="action-btn delete-btn"
+                    onclick="deleteRequisition(${index})">
+
+                        <i class="fa fa-trash"></i>
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        }
+    );
+
+}
+
+
+//==================================================
+// SUMMARY
+//==================================================
+
+function updateSummary(list){
+
+    let total = list.length;
+
+
+    let pending =
+    list.filter(
+        req =>
+        (req.status || "Pending")
+        === "Pending"
+    ).length;
+
+
+    let approved =
+    list.filter(
+        req =>
+        req.status === "Approved"
+    ).length;
+
+
+    let rejected =
+    list.filter(
+        req =>
+        req.status === "Rejected"
+    ).length;
+
+
+    let totalBox =
+    document.getElementById(
+        "totalReq"
+    );
+
+
+    let pendingBox =
+    document.getElementById(
+        "pendingReq"
+    );
+
+
+    let approvedBox =
+    document.getElementById(
+        "approvedReq"
+    );
+
+
+    let rejectedBox =
+    document.getElementById(
+        "rejectedReq"
+    );
+
+
+    if(totalBox){
+
+        totalBox.innerHTML =
+        total;
+
+    }
+
+
+    if(pendingBox){
+
+        pendingBox.innerHTML =
+        pending;
+
+    }
+
+
+    if(approvedBox){
+
+        approvedBox.innerHTML =
+        approved;
+
+    }
+
+
+    if(rejectedBox){
+
+        rejectedBox.innerHTML =
+        rejected;
+
+    }
+
+}
+
+
+//==================================================
+// STATUS CLASS
+//==================================================
+
+function getStatusClass(status){
+
+    if(status === "Approved"){
+
+        return "approved";
+
+    }
+
+
+    if(status === "Rejected"){
+
+        return "rejected";
+
+    }
+
+
+    return "pending";
+
+}
+
+
+//==================================================
+// APPROVE
+//==================================================
+
+function approveRequisition(index){
+
+    let list =
+    getRequisitions();
+
+
+    if(!list[index]){
+
+        return;
+
+    }
+
+
+    if(!confirm(
+        "Approve this requisition?"
+    )){
+
+        return;
+
+    }
+
+
+    list[index].status =
+    "Approved";
+
+
+    list[index].approvedDate =
+    new Date()
+    .toLocaleDateString();
+
+
+    saveRequisitions(list);
+
+
+    loadRequisitions();
+
+
+    alert(
+        "Requisition Approved Successfully."
+    );
+
+}
+
+
+//==================================================
+// REJECT
+//==================================================
+
+function rejectRequisition(index){
+
+    let list =
+    getRequisitions();
+
+
+    if(!list[index]){
+
+        return;
+
+    }
+
+
+    if(!confirm(
+        "Reject this requisition?"
+    )){
+
+        return;
+
+    }
+
+
+    list[index].status =
+    "Rejected";
+
+
+    list[index].rejectedDate =
+    new Date()
+    .toLocaleDateString();
+
+
+    saveRequisitions(list);
+
+
+    loadRequisitions();
+
+
+    alert(
+        "Requisition Rejected."
+    );
+
+}
+
+
+//==================================================
+// VIEW REQUISITION
+//==================================================
+
+function viewRequisition(index){
+
+    let list =
+    getRequisitions();
+
+
+    let req =
+    list[index];
+
+
+    if(!req){
+
+        return;
+
+    }
+
+
+    let text =
+
+    "Requisition No: " +
+    (req.reqNo || "-") +
+
+    "\n\nUser: " +
+    (req.user || "-") +
+
+    "\nDepartment: " +
+    (req.department || "-") +
+
+    "\nDate: " +
+    (req.date || "-") +
+
+    "\nStatus: " +
+    (req.status || "Pending") +
+
+    "\n\nItems:\n";
+
+
+    if(
+        Array.isArray(req.items)
+    ){
+
+        req.items.forEach(
+            (item,i)=>{
+
+                text +=
+
+                (i + 1) +
+                ". " +
+                item.name +
+                " - Qty: " +
+                item.qty +
+                "\n";
+
+            }
+        );
+
+    }
+
+
+    alert(text);
+
+}
+
+
+//==================================================
+// DELETE
+//==================================================
+
+function deleteRequisition(index){
+
+    let list =
+    getRequisitions();
+
+
+    if(!list[index]){
+
+        return;
+
+    }
+
+
+    if(!confirm(
+        "Delete this requisition?"
+    )){
+
+        return;
+
+    }
+
+
+    list.splice(index,1);
+
+
+    saveRequisitions(list);
+
+
+    loadRequisitions();
+
+}
+
+
+//==================================================
+// SEARCH
+//==================================================
+
+function searchRequisition(){
+
+    let keyword =
+
+    document.getElementById(
+        "searchReq"
+    )
+    .value
+    .toLowerCase();
+
+
+    let rows =
+
+    document.querySelectorAll(
+        "#requisitionTable tr"
+    );
+
+
+    rows.forEach(row=>{
+
+        if(
+            row.innerText
+            .toLowerCase()
+            .includes(keyword)
+        ){
+
+            row.style.display = "";
+
+        }
+
+        else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+//==================================================
+// REFRESH
+//==================================================
+
+function refreshRequisitions(){
+
+    loadRequisitions();
+
+}
