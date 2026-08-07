@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-<title>SH Store Requisition</title>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+SH Store Requisition
+</title>
+
 
 <link rel="stylesheet" href="css/requisition.css">
 
@@ -16,9 +23,15 @@
 <div class="container">
 
 
-<h2>SH Maintenance Store</h2>
+<h2>
+SH Maintenance Store
+</h2>
 
-<h3>Material Requisition</h3>
+
+<h3>
+Material Requisition
+</h3>
+
 
 
 <div class="user-box">
@@ -31,36 +44,56 @@ User :
 Department :
 <span id="department"></span>
 
+
 </div>
+
 
 
 
 <div class="form-box">
 
 
-<input id="itemName" placeholder="Item Name">
+<input 
+type="text"
+id="itemName"
+placeholder="Item Name">
 
-<input id="qty" placeholder="Required Qty" type="number">
 
 
-<button onclick="addItem()">
+<input 
+type="number"
+id="qty"
+placeholder="Required Qty">
+
+
+
+<button type="button" onclick="addItem()">
+
 Add Item
+
 </button>
+
 
 
 </div>
 
 
 
+
+
 <table>
+
 
 <thead>
 
 <tr>
 
 <th>SL</th>
+
 <th>Item Name</th>
+
 <th>Qty</th>
+
 <th>Status</th>
 
 </tr>
@@ -68,28 +101,42 @@ Add Item
 </thead>
 
 
+
 <tbody id="reqTable">
 
+
 </tbody>
+
 
 
 </table>
 
 
+
+
 <br>
 
-<button onclick="saveRequisition()">
+
+<button type="button" onclick="saveRequisition()">
+
 Save Requisition
+
 </button>
 
 
-<button onclick="logout()">
+
+<button type="button" onclick="logout()">
+
 Logout
+
 </button>
 
 
 
 </div>
+
+
+
 
 
 <script src="js/auth.js"></script>
