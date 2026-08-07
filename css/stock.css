@@ -320,3 +320,11 @@ grid-template-columns:1fr;
 
 
 }
+.stock-image{
+    width:55px;
+    height:55px;
+    object-fit:cover;
+    border-radius:6px;
+    border:1px solid #ddd;
+    cursor:pointer;
+}
