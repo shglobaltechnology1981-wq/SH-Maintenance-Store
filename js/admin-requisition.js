@@ -1,108 +1,247 @@
-let data =
-JSON.parse(localStorage.getItem("requisition")) || [];
+//==================================================
+// APPROVE REQUISITION WITH STOCK DEDUCTION
+//==================================================
 
+function approveRequisition(index){
 
 
-function loadRequest(){
+    let requisitionList =
 
+    JSON.parse(
+        localStorage.getItem("requisitionList")
+    ) || [];
 
-let html="";
 
 
-data.forEach((x,i)=>{
+    let stockItems =
 
+    JSON.parse(
+        localStorage.getItem("stockItems")
+    ) || [];
 
-html+=`
 
-<tr>
 
-<td>${i+1}</td>
+    let req =
+    requisitionList[index];
 
-<td>${x.user}</td>
 
-<td>${x.department}</td>
 
-<td>${x.item}</td>
+    if(!req){
 
-<td>${x.qty}</td>
+        alert("Requisition Not Found");
 
-<td>${x.status}</td>
+        return;
 
+    }
 
-<td>
 
 
-<button class="approve"
-onclick="approveReq(${i})">
+    if(req.status === "Approved"){
 
-Approve
+        alert("Already Approved");
 
-</button>
+        return;
 
+    }
 
-<button class="reject"
-onclick="rejectReq(${i})">
 
-Reject
 
-</button>
+    if(
+        !confirm(
+            "Approve this requisition and deduct stock?"
+        )
+    ){
 
+        return;
 
-</td>
+    }
 
 
-</tr>
 
-`;
 
-});
+    let items =
+    req.items || [];
 
 
-document.getElementById("adminTable").innerHTML=html;
 
+    let stockError = false;
 
-}
 
 
+    //==============================
+    // CHECK STOCK
+    //==============================
 
+    items.forEach(reqItem=>{
 
 
-function approveReq(i){
+        let stockItem =
 
-data[i].status="Approved";
+        stockItems.find(
 
-save();
+            stock =>
 
-}
+            stock.name === reqItem.name
 
+        );
 
 
-function rejectReq(i){
 
-data[i].status="Rejected";
+        if(!stockItem){
 
-save();
+            alert(
+            reqItem.name +
+            " not found in stock"
+            );
 
-}
 
+            stockError = true;
 
 
+        }
 
-function save(){
+        else if(
+            Number(stockItem.stock)
+            <
+            Number(reqItem.qty)
+        ){
 
-localStorage.setItem(
 
-"requisition",
+            alert(
 
-JSON.stringify(data)
+            "Insufficient Stock : "
 
-);
+            +
 
+            reqItem.name
 
-loadRequest();
+            );
 
-}
 
+            stockError = true;
 
 
-loadRequest();
+        }
+
+
+    });
+
+
+
+    if(stockError){
+
+        return;
+
+    }
+
+
+
+
+
+    //==============================
+    // DEDUCT STOCK
+    //==============================
+
+
+    items.forEach(reqItem=>{
+
+
+        stockItems.forEach(stock=>{
+
+
+            if(
+                stock.name === reqItem.name
+            ){
+
+
+                stock.stock -=
+
+                Number(reqItem.qty);
+
+
+            }
+
+
+        });
+
+
+    });
+
+
+
+
+
+    //==============================
+    // UPDATE STATUS
+    //==============================
+
+
+    req.status =
+    "Approved";
+
+
+    req.approvedDate =
+    new Date()
+    .toLocaleDateString();
+
+
+
+
+    req.approvedBy =
+
+    JSON.parse(
+        localStorage.getItem("loginUser")
+    ).name;
+
+
+
+
+
+    //==============================
+    // SAVE DATA
+    //==============================
+
+
+    requisitionList[index] = req;
+
+
+
+    localStorage.setItem(
+
+        "requisitionList",
+
+        JSON.stringify(
+            requisitionList
+        )
+
+    );
+
+
+
+    localStorage.setItem(
+
+        "stockItems",
+
+        JSON.stringify(
+            stockItems
+        )
+
+    );
+
+
+
+
+    loadRequisitions();
+
+    loadSummary();
+
+
+
+    alert(
+
+    "Requisition Approved Successfully"
+
+    );
+
+
+} 
