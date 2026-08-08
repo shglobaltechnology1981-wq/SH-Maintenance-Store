@@ -10,18 +10,12 @@ content="width=device-width, initial-scale=1.0">
 
 <title>SH Maintenance Store | Stock</title>
 
+<link rel="stylesheet" href="css/style.css">
 
-<link rel="stylesheet"
-href="css/style.css">
-
-
-<link rel="stylesheet"
-href="css/stock.css">
-
+<link rel="stylesheet" href="css/stock.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
 
 </head>
 
@@ -29,402 +23,332 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
 
-<!-- =========================================
-SIDEBAR
-========================================= -->
+<!-- SIDEBAR -->
 
 <div class="sidebar">
 
+    <div class="logo">
 
-<div class="logo">
+        <img
+        src="images/logo.png"
+        alt="SH Store">
 
-<img
-src="images/logo.png"
-alt="SH Logo">
+        <h2>SH STORE</h2>
 
-<h2>SH STORE</h2>
-
-</div>
-
+    </div>
 
 
-<a href="dashboard.html">
-
-<i class="fa fa-home"></i>
-
-<span>Dashboard</span>
-
-</a>
+    <a href="dashboard.html">
+        <i class="fa fa-home"></i>
+        Dashboard
+    </a>
 
 
-
-<a href="stock.html"
-class="active">
-
-<i class="fa fa-box"></i>
-
-<span>Stock</span>
-
-</a>
+    <a href="stock.html" class="active">
+        <i class="fa fa-box"></i>
+        Stock
+    </a>
 
 
-
-<a href="purchase.html">
-
-<i class="fa fa-cart-shopping"></i>
-
-<span>Purchase</span>
-
-</a>
+    <a href="purchase.html">
+        <i class="fa fa-cart-shopping"></i>
+        Purchase
+    </a>
 
 
-
-<a href="issue.html">
-
-<i class="fa fa-arrow-up"></i>
-
-<span>Issue</span>
-
-</a>
+    <a href="issue.html">
+        <i class="fa fa-arrow-up"></i>
+        Issue
+    </a>
 
 
-
-<a href="requisition.html">
-
-<i class="fa fa-file-circle-plus"></i>
-
-<span>Requisition</span>
-
-</a>
+    <a href="requisition.html">
+        <i class="fa fa-file-circle-plus"></i>
+        Requisition
+    </a>
 
 
-
-<a href="requisition-admin.html">
-
-<i class="fa fa-list-check"></i>
-
-<span>Requisition Admin</span>
-
-</a>
+    <a href="requisition-admin.html">
+        <i class="fa fa-list-check"></i>
+        Requisition Admin
+    </a>
 
 
-
-<a href="report.html">
-
-<i class="fa fa-chart-bar"></i>
-
-<span>Report</span>
-
-</a>
+    <a href="report.html">
+        <i class="fa fa-chart-bar"></i>
+        Report
+    </a>
 
 
+    <a href="#"
+    onclick="logout(); return false;">
 
-<a href="#"
-onclick="logout()">
+        <i class="fa fa-right-from-bracket"></i>
+        Logout
 
-<i class="fa fa-right-from-bracket"></i>
-
-<span>Logout</span>
-
-</a>
-
+    </a>
 
 </div>
 
 
 
-<!-- =========================================
-MAIN
-========================================= -->
+<!-- MAIN -->
 
 <div class="main">
 
 
-<!-- TOPBAR -->
+    <!-- TOPBAR -->
 
-<div class="topbar">
+    <div class="topbar">
 
+        <h1>
+            Stock Management
+        </h1>
 
-<h1>
 
-Stock Management
+        <div class="top-right">
 
-</h1>
+            <i class="fa fa-user"></i>
 
+            <span id="loginUser">
+                Admin
+            </span>
 
-<div class="top-right">
+        </div>
 
-<i class="fa fa-user"></i>
+    </div>
 
-<span id="loginUser">
-Admin
-</span>
 
-</div>
 
+    <!-- SUMMARY -->
 
-</div>
+    <div class="cards">
 
 
+        <div class="card">
 
-<!-- =========================================
-SUMMARY CARDS
-========================================= -->
+            <i class="fa fa-box"></i>
 
-<div class="cards">
+            <h3>
+                Total Items
+            </h3>
 
+            <h2 id="totalItems">
+                0
+            </h2>
 
-<div class="card">
+        </div>
 
-<i class="fa fa-box"></i>
 
-<h3>Total Items</h3>
+        <div class="card">
 
-<h2 id="totalItems">
-0
-</h2>
+            <i class="fa fa-cubes"></i>
 
-</div>
+            <h3>
+                Total Stock
+            </h3>
 
+            <h2 id="totalStock">
+                0
+            </h2>
 
+        </div>
 
-<div class="card">
 
-<i class="fa fa-cubes"></i>
+        <div class="card">
 
-<h3>Total Stock</h3>
+            <i class="fa fa-triangle-exclamation"></i>
 
-<h2 id="totalStock">
-0
-</h2>
+            <h3>
+                Low Stock
+            </h3>
 
-</div>
+            <h2 id="lowStock">
+                0
+            </h2>
 
+        </div>
 
+    </div>
 
-<div class="card">
 
-<i class="fa fa-triangle-exclamation"></i>
 
-<h3>Low Stock</h3>
+    <!-- ADD ITEM -->
 
-<h2 id="lowStock">
-0
-</h2>
+    <div class="form-box">
 
-</div>
+        <h2>
+            <i class="fa fa-plus-circle"></i>
+            Add New Item
+        </h2>
 
 
-</div>
+        <div class="form-grid">
 
 
+            <input
+            type="text"
+            id="itemCode"
+            placeholder="Item Code">
 
-<!-- =========================================
-ADD ITEM
-========================================= -->
 
-<div class="form-box">
+            <input
+            type="text"
+            id="itemName"
+            placeholder="Item Name">
 
 
-<h2>
+            <input
+            type="text"
+            id="category"
+            placeholder="Category">
 
-<i class="fa fa-plus-circle"></i>
 
-Add New Stock Item
+            <input
+            type="text"
+            id="unit"
+            placeholder="Unit (PCS/SET)">
 
-</h2>
 
+            <input
+            type="number"
+            id="stockQty"
+            placeholder="Opening Stock"
+            min="0">
 
 
-<div class="form-grid">
+            <input
+            type="number"
+            id="minStock"
+            placeholder="Minimum Stock"
+            min="0">
 
 
-<input
-type="text"
-id="itemCode"
-placeholder="Item Code">
+            <!-- IMAGE -->
 
+            <div class="image-box">
 
-<input
-type="text"
-id="itemName"
-placeholder="Item Name">
+                <label for="itemImage">
+                    <i class="fa fa-image"></i>
+                    Item Picture
+                </label>
 
 
-<input
-type="text"
-id="category"
-placeholder="Category">
+                <input
+                type="file"
+                id="itemImage"
+                accept="image/jpeg,image/png,image/webp">
 
 
-<input
-type="text"
-id="unit"
-placeholder="Unit (PCS/SET)">
+                <img
+                id="imagePreview"
+                alt="Preview">
 
+            </div>
 
-<input
-type="number"
-id="stockQty"
-placeholder="Opening Stock"
-min="0">
 
+            <!-- ADD -->
 
-<input
-type="number"
-id="minStock"
-placeholder="Minimum Stock"
-min="0">
+            <button
+            type="button"
+            id="addItemBtn"
+            class="btn btn-primary"
+            onclick="addStockItem()">
 
+                <i class="fa fa-plus"></i>
 
-<!-- Picture আপাতত শুধু রাখা হয়েছে;
-     Save পরে যোগ করব -->
+                Add Item
 
-<input
-type="file"
-id="itemImage"
-accept="image/*">
+            </button>
 
 
-<button
-type="button"
-class="btn btn-primary"
-onclick="addStockItem()">
+        </div>
 
-<i class="fa fa-plus"></i>
+    </div>
 
-Add Item
 
-</button>
 
+    <!-- SEARCH -->
 
-</div>
+    <div class="search-box">
 
+        <input
+        type="text"
+        id="searchStock"
+        placeholder="Search Stock..."
+        oninput="searchStock()">
 
-</div>
+    </div>
 
 
 
-<!-- =========================================
-SEARCH
-========================================= -->
+    <!-- TABLE -->
 
-<div class="search-box">
+    <div class="table-box">
 
+        <h3>
+            <i class="fa fa-boxes-stacked"></i>
+            Stock List
+        </h3>
 
-<input
-type="text"
-id="searchStock"
-placeholder="Search Item Code / Name / Category..."
-onkeyup="searchStock()">
 
+        <div class="table-responsive">
 
-</div>
+            <table>
 
+                <thead>
 
+                    <tr>
 
-<!-- =========================================
-STOCK TABLE
-========================================= -->
+                        <th>Image</th>
 
-<div class="table-box">
+                        <th>Code</th>
 
+                        <th>Item Name</th>
 
-<h3>
+                        <th>Category</th>
 
-<i class="fa fa-boxes-stacked"></i>
+                        <th>Stock</th>
 
-Stock List
+                        <th>Unit</th>
 
-</h3>
+                        <th>Status</th>
 
+                        <th>Action</th>
 
+                    </tr>
 
-<div class="table-responsive">
+                </thead>
 
 
-<table>
+                <tbody id="stockTable">
 
+                </tbody>
 
-<thead>
+            </table>
 
-<tr>
+        </div>
 
-<th>
-Image
-</th>
+    </div>
 
-<th>
-Code
-</th>
 
-<th>
-Item Name
-</th>
 
-<th>
-Category
-</th>
+    <div class="footer">
 
-<th>
-Stock
-</th>
+        SH Maintenance Store Management System © 2026
 
-<th>
-Unit
-</th>
-
-<th>
-Status
-</th>
-
-<th>
-Action
-</th>
-
-</tr>
-
-</thead>
-
-
-
-<tbody id="stockTable">
-
-</tbody>
-
-
-</table>
-
-
-</div>
+    </div>
 
 
 </div>
 
 
 
-<!-- =========================================
-FOOTER
-========================================= -->
-
-<div class="footer">
-
-SH Maintenance Store Management System © 2026
-
-</div>
-
-
-</div>
-
-
-
-<!-- =========================================
-SCRIPTS
-========================================= -->
+<!-- SCRIPTS -->
 
 <script src="js/auth.js"></script>
 
-<script src="js/stock.js?v=4"></script>
+<script src="./js/stock-new.js?v=100"></script>
 
 
 </body>
