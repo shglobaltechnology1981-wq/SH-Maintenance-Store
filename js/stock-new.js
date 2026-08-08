@@ -2,487 +2,154 @@ let stockItems = JSON.parse(
     localStorage.getItem("stockItems") || "[]"
 );
 
-if (!Array.isArray(stockItems)) {
-    stockItems = [];
-}
-
-
-// PAGE LOAD
-window.addEventListener("DOMContentLoaded", function () {
-
-    loadStock();
-
-    const imageInput =
-        document.getElementById("itemImage");
-
-    const preview =
-        document.getElementById("imagePreview");
-
-    if (imageInput && preview) {
-
-        imageInput.addEventListener("change", function () {
-
-            const file = this.files[0];
-
-            if (!file) {
-                preview.style.display = "none";
-                return;
-            }
-
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-
-                preview.src = e.target.result;
-                preview.style.display = "block";
-
-            };
-
-            reader.readAsDataURL(file);
-
-        });
-
-    }
-
-});
-
-
-// ADD ITEM
 function addStockItem() {
 
-    const code =
-        document.getElementById("itemCode").value.trim();
+    alert("ADD BUTTON WORKING");
 
-    const name =
-        document.getElementById("itemName").value.trim();
+    const code = document.getElementById("itemCode").value.trim();
+    const name = document.getElementById("itemName").value.trim();
+    const category = document.getElementById("category").value.trim();
+    const unit = document.getElementById("unit").value.trim();
+    const qty = Number(document.getElementById("stockQty").value);
+    const minStock = Number(document.getElementById("minStock").value);
 
-    const category =
-        document.getElementById("category").value.trim();
-
-    const unit =
-        document.getElementById("unit").value.trim();
-
-    const stock =
-        Number(
-            document.getElementById("stockQty").value
-        );
-
-    const minStock =
-        Number(
-            document.getElementById("minStock").value || 0
-        );
-
-    const imageInput =
-        document.getElementById("itemImage");
-
-
-    if (code === "") {
-        alert("Please enter Item Code.");
+    if (!code || !name || isNaN(qty)) {
+        alert("Please fill Code, Name and Stock.");
         return;
     }
 
-
-    if (name === "") {
-        alert("Please enter Item Name.");
-        return;
-    }
-
-
-    if (isNaN(stock) || stock < 0) {
-        alert("Please enter valid Stock.");
-        return;
-    }
-
-
-    const exists =
-        stockItems.some(function (item) {
-
-            return String(item.code || "")
-                .toLowerCase() ===
-                code.toLowerCase();
-
-        });
-
-
-    if (exists) {
-
-        alert("Item Code already exists.");
-
-        return;
-    }
-
-
-    if (
-        imageInput &&
-        imageInput.files &&
-        imageInput.files.length > 0
-    ) {
-
-        const reader =
-            new FileReader();
-
-        reader.onload = function (event) {
-
-            saveItem(
-                code,
-                name,
-                category,
-                unit,
-                stock,
-                minStock,
-                event.target.result
-            );
-
-        };
-
-        reader.readAsDataURL(
-            imageInput.files[0]
-        );
-
-    }
-
-    else {
-
-        saveItem(
-            code,
-            name,
-            category,
-            unit,
-            stock,
-            minStock,
-            ""
-        );
-
-    }
-
-}
-
-
-// SAVE ITEM
-function saveItem(
-    code,
-    name,
-    category,
-    unit,
-    stock,
-    minStock,
-    image
-) {
-
-    const item = {
-
+    stockItems.push({
         id: Date.now(),
-
         code: code,
-
         name: name,
-
         category: category,
-
         unit: unit,
-
-        stock: stock,
-
-        minStock: minStock,
-
-        image: image
-
-    };
-
-
-    stockItems.push(item);
-
-
-    try {
-
-        localStorage.setItem(
-            "stockItems",
-            JSON.stringify(stockItems)
-        );
-
-    }
-
-    catch (error) {
-
-        stockItems.pop();
-
-        alert(
-            "Unable to save. The image may be too large."
-        );
-
-        return;
-    }
-
-
-    loadStock();
-
-    clearForm();
-
-
-    alert(
-        image
-        ? "Item + Picture Added Successfully."
-        : "Item Added Successfully."
-    );
-
-}
-
-
-// LOAD STOCK
-function loadStock() {
-
-    const table =
-        document.getElementById("stockTable");
-
-    if (!table) {
-        return;
-    }
-
-
-    table.innerHTML = "";
-
-
-    let total = 0;
-
-    let low = 0;
-
-
-    stockItems.forEach(function (item, index) {
-
-        const qty =
-            Number(item.stock) || 0;
-
-        const minimum =
-            Number(item.minStock) || 0;
-
-
-        total += qty;
-
-
-        let status = "Available";
-
-
-        if (qty <= 0) {
-
-            status = "Out of Stock";
-
-            low++;
-
-        }
-
-        else if (qty <= minimum) {
-
-            status = "Low Stock";
-
-            low++;
-
-        }
-
-
-        let imageHTML =
-            "No Image";
-
-
-        if (
-            item.image &&
-            item.image.indexOf("data:image") === 0
-        ) {
-
-            imageHTML = `
-
-                <img
-
-                    src="${item.image}"
-
-                    class="stock-image"
-
-                    alt="Item Picture"
-
-                >
-
-            `;
-
-        }
-
-
-        table.innerHTML += `
-
-            <tr>
-
-                <td>
-                    ${imageHTML}
-                </td>
-
-                <td>
-                    ${item.code || ""}
-                </td>
-
-                <td>
-                    ${item.name || ""}
-                </td>
-
-                <td>
-                    ${item.category || ""}
-                </td>
-
-                <td>
-                    ${qty}
-                </td>
-
-                <td>
-                    ${item.unit || ""}
-                </td>
-
-                <td>
-                    ${status}
-                </td>
-
-                <td>
-
-                    <button
-                        type="button"
-                        onclick="deleteStock(${index})">
-
-                        Delete
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
-
+        stock: qty,
+        minStock: minStock
     });
-
-
-    const totalItems =
-        document.getElementById("totalItems");
-
-    const totalStock =
-        document.getElementById("totalStock");
-
-    const lowStock =
-        document.getElementById("lowStock");
-
-
-    if (totalItems) {
-        totalItems.innerText =
-            stockItems.length;
-    }
-
-
-    if (totalStock) {
-        totalStock.innerText =
-            total;
-    }
-
-
-    if (lowStock) {
-        lowStock.innerText =
-            low;
-    }
-
-}
-
-
-// DELETE
-function deleteStock(index) {
-
-    if (!confirm("Delete this item?")) {
-        return;
-    }
-
-
-    stockItems.splice(index, 1);
-
 
     localStorage.setItem(
         "stockItems",
         JSON.stringify(stockItems)
     );
 
+    alert("Item Added Successfully");
 
     loadStock();
-
+    clearForm();
 }
 
 
-// SEARCH
+function loadStock() {
+
+    const table = document.getElementById("stockTable");
+
+    if (!table) return;
+
+    table.innerHTML = "";
+
+    let total = 0;
+    let low = 0;
+
+    stockItems.forEach((item, index) => {
+
+        total += Number(item.stock);
+
+        let status = "Available";
+
+        if (Number(item.stock) <= Number(item.minStock)) {
+            status = "Low Stock";
+            low++;
+        }
+
+        table.innerHTML += `
+            <tr>
+
+                <td>No Image</td>
+
+                <td>${item.code}</td>
+
+                <td>${item.name}</td>
+
+                <td>${item.category}</td>
+
+                <td>${item.stock}</td>
+
+                <td>${item.unit}</td>
+
+                <td>${status}</td>
+
+                <td>
+                    <button
+                        type="button"
+                        onclick="deleteStock(${index})">
+                        Delete
+                    </button>
+                </td>
+
+            </tr>
+        `;
+    });
+
+    document.getElementById("totalItems").innerText =
+        stockItems.length;
+
+    document.getElementById("totalStock").innerText =
+        total;
+
+    document.getElementById("lowStock").innerText =
+        low;
+}
+
+
+function deleteStock(index) {
+
+    if (!confirm("Delete this item?")) return;
+
+    stockItems.splice(index, 1);
+
+    localStorage.setItem(
+        "stockItems",
+        JSON.stringify(stockItems)
+    );
+
+    loadStock();
+}
+
+
 function searchStock() {
 
-    const input =
-        document.getElementById("searchStock");
-
-    if (!input) {
-        return;
-    }
-
-
     const keyword =
-        input.value.toLowerCase();
+        document.getElementById("searchStock")
+        .value
+        .toLowerCase();
 
-
-    document
-        .querySelectorAll("#stockTable tr")
-        .forEach(function (row) {
+    document.querySelectorAll("#stockTable tr")
+        .forEach(row => {
 
             row.style.display =
-                row.innerText
-                    .toLowerCase()
-                    .includes(keyword)
+                row.innerText.toLowerCase()
+                .includes(keyword)
                 ? ""
                 : "none";
 
         });
-
 }
 
 
-// CLEAR
 function clearForm() {
 
-    const fields = [
-        "itemCode",
-        "itemName",
-        "category",
-        "unit",
-        "stockQty",
-        "minStock"
-    ];
-
-
-    fields.forEach(function (id) {
-
-        const element =
-            document.getElementById(id);
-
-        if (element) {
-            element.value = "";
-        }
-
-    });
-
-
-    const image =
-        document.getElementById("itemImage");
-
-    if (image) {
-        image.value = "";
-    }
-
-
-    const preview =
-        document.getElementById("imagePreview");
-
-    if (preview) {
-
-        preview.src = "";
-
-        preview.style.display = "none";
-
-    }
-
+    document.getElementById("itemCode").value = "";
+    document.getElementById("itemName").value = "";
+    document.getElementById("category").value = "";
+    document.getElementById("unit").value = "";
+    document.getElementById("stockQty").value = "";
+    document.getElementById("minStock").value = "";
 }
 
 
+window.addEventListener("load", function () {
+
+    loadStock();
+
+});
