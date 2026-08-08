@@ -1,29 +1,25 @@
 ```javascript
 /*==================================================
-SH Maintenance Store
-Stock Management
-CLEAN VERSION
-Add + Picture + Preview + Search + Delete
+SH MAINTENANCE STORE
+STOCK MANAGEMENT
+CLEAN FINAL VERSION
 ==================================================*/
-
-
-//==================================================
-// LOAD STOCK DATA
-//==================================================
 
 let stockItems = [];
 
+
+//==================================================
+// LOAD SAVED DATA
+//==================================================
+
 try {
 
-    stockItems =
-        JSON.parse(
-            localStorage.getItem("stockItems") || "[]"
-        );
+    stockItems = JSON.parse(
+        localStorage.getItem("stockItems") || "[]"
+    );
 
     if (!Array.isArray(stockItems)) {
-
         stockItems = [];
-
     }
 
 } catch (error) {
@@ -39,16 +35,13 @@ try {
 // PAGE LOAD
 //==================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        loadStock();
+    loadStock();
 
-        setupImagePreview();
+    setupImagePreview();
 
-    }
-);
+});
 
 
 //==================================================
@@ -57,93 +50,50 @@ document.addEventListener(
 
 function setupImagePreview() {
 
-
-    const imageInput =
+    const input =
         document.getElementById("itemImage");
-
 
     const preview =
         document.getElementById("imagePreview");
 
-
-    if (!imageInput || !preview) {
-
+    if (!input || !preview) {
         return;
-
     }
 
+    input.addEventListener("change", function () {
 
-    imageInput.addEventListener(
-        "change",
-        function () {
+        const file = input.files[0];
 
+        if (!file) {
 
-            const file =
-                this.files[0];
+            preview.src = "";
+            preview.style.display = "none";
 
-
-            if (!file) {
-
-                preview.removeAttribute("src");
-
-                preview.style.display =
-                    "none";
-
-                return;
-
-            }
-
-
-            // IMAGE CHECK
-
-            if (!file.type.startsWith("image/")) {
-
-                alert(
-                    "Please select an image file."
-                );
-
-                this.value = "";
-
-                return;
-
-            }
-
-
-            // MAX 1 MB
-
-            if (file.size > 1024 * 1024) {
-
-                alert(
-                    "Please select an image below 1 MB."
-                );
-
-                this.value = "";
-
-                return;
-
-            }
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function (event) {
-
-                    preview.src =
-                        event.target.result;
-
-                    preview.style.display =
-                        "block";
-
-                };
-
-
-            reader.readAsDataURL(file);
-
+            return;
         }
-    );
+
+        if (!file.type.startsWith("image/")) {
+
+            alert("Please select an image.");
+
+            input.value = "";
+
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+
+            preview.src = event.target.result;
+
+            preview.style.display = "block";
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
 
 }
 
@@ -154,67 +104,37 @@ function setupImagePreview() {
 
 function addStockItem() {
 
-
     const code =
-        document.getElementById(
-            "itemCode"
-        ).value.trim();
-
+        document.getElementById("itemCode").value.trim();
 
     const name =
-        document.getElementById(
-            "itemName"
-        ).value.trim();
-
+        document.getElementById("itemName").value.trim();
 
     const category =
-        document.getElementById(
-            "category"
-        ).value.trim();
-
+        document.getElementById("category").value.trim();
 
     const unit =
-        document.getElementById(
-            "unit"
-        ).value.trim();
+        document.getElementById("unit").value.trim();
 
+    const stockText =
+        document.getElementById("stockQty").value;
 
-    const qtyInput =
-        document.getElementById(
-            "stockQty"
-        );
-
-
-    const minInput =
-        document.getElementById(
-            "minStock"
-        );
-
+    const minText =
+        document.getElementById("minStock").value;
 
     const imageInput =
-        document.getElementById(
-            "itemImage"
-        );
+        document.getElementById("itemImage");
 
 
-    const qty =
-        Number(qtyInput.value);
-
-
-    const minStock =
-        Number(minInput.value);
-
-
-    //================================================
+    //==============================================
     // VALIDATION
-    //================================================
+    //==============================================
 
     if (code === "") {
 
         alert("Please enter Item Code.");
 
         return;
-
     }
 
 
@@ -223,68 +143,64 @@ function addStockItem() {
         alert("Please enter Item Name.");
 
         return;
-
     }
 
 
-    if (
-        qtyInput.value === "" ||
-        isNaN(qty) ||
-        qty < 0
-    ) {
+    if (stockText === "") {
 
-        alert("Please enter valid Stock Quantity.");
+        alert("Please enter Opening Stock.");
 
         return;
-
     }
 
 
-    if (
-        minInput.value === "" ||
-        isNaN(minStock) ||
-        minStock < 0
-    ) {
+    const stock = Number(stockText);
 
-        alert("Please enter valid Minimum Stock.");
+    const minStock =
+        minText === ""
+        ? 0
+        : Number(minText);
+
+
+    if (isNaN(stock) || stock < 0) {
+
+        alert("Invalid Opening Stock.");
 
         return;
-
     }
 
 
-    //================================================
-    // DUPLICATE CODE
-    //================================================
+    if (isNaN(minStock) || minStock < 0) {
 
-    const duplicate =
-        stockItems.some(
-            function (item) {
+        alert("Invalid Minimum Stock.");
 
-                return String(
-                    item.code || ""
-                ).toLowerCase()
-                ===
-                code.toLowerCase();
+        return;
+    }
 
-            }
-        );
+
+    //==============================================
+    // CHECK DUPLICATE CODE
+    //==============================================
+
+    const duplicate = stockItems.some(function (item) {
+
+        return String(item.code || "")
+            .toLowerCase() === code.toLowerCase();
+
+    });
 
 
     if (duplicate) {
 
-        alert(
-            "This Item Code already exists."
-        );
+        alert("Item Code already exists.");
 
         return;
-
     }
 
 
-    //================================================
-    // IMAGE SAVE
-    //================================================
+    //==============================================
+    // IMAGE SELECTED
+    //==============================================
 
     if (
         imageInput &&
@@ -292,52 +208,48 @@ function addStockItem() {
         imageInput.files.length > 0
     ) {
 
+        const file = imageInput.files[0];
 
-        const file =
-            imageInput.files[0];
+        const reader = new FileReader();
 
+        reader.onload = function (event) {
 
-        const reader =
-            new FileReader();
+            saveItem(
+                code,
+                name,
+                category,
+                unit,
+                stock,
+                minStock,
+                event.target.result
+            );
 
+        };
 
-        reader.onload =
-            function (event) {
+        reader.onerror = function () {
 
+            alert("Image could not be read.");
 
-                saveItem(
-
-                    code,
-                    name,
-                    category,
-                    unit,
-                    qty,
-                    minStock,
-                    event.target.result
-
-                );
-
-            };
-
+        };
 
         reader.readAsDataURL(file);
 
-
     }
+
+    //==============================================
+    // NO IMAGE
+    //==============================================
 
     else {
 
-
         saveItem(
-
             code,
             name,
             category,
             unit,
-            qty,
+            stock,
             minStock,
             ""
-
         );
 
     }
@@ -350,17 +262,14 @@ function addStockItem() {
 //==================================================
 
 function saveItem(
-
     code,
     name,
     category,
     unit,
-    qty,
+    stock,
     minStock,
     image
-
 ) {
-
 
     const item = {
 
@@ -374,7 +283,7 @@ function saveItem(
 
         unit: unit,
 
-        stock: qty,
+        stock: stock,
 
         minStock: minStock,
 
@@ -389,25 +298,21 @@ function saveItem(
     try {
 
         localStorage.setItem(
-
             "stockItems",
-
             JSON.stringify(stockItems)
-
         );
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
         alert(
-            "Could not save item. Storage may be full."
+            "Could not save item. Image may be too large."
         );
 
-        return;
+        stockItems.pop();
 
+        return;
     }
 
 
@@ -416,217 +321,182 @@ function saveItem(
     clearForm();
 
 
-    alert(
-        "Item Added Successfully."
-    );
+    if (image) {
+
+        alert(
+            "Item + Picture Added Successfully."
+        );
+
+    } else {
+
+        alert(
+            "Item Added Successfully."
+        );
+
+    }
 
 }
 
 
 //==================================================
-// LOAD TABLE
+// LOAD STOCK TABLE
 //==================================================
 
 function loadStock() {
 
-
     const table =
-        document.getElementById(
-            "stockTable"
-        );
+        document.getElementById("stockTable");
 
 
     if (!table) {
-
         return;
-
     }
 
 
     table.innerHTML = "";
 
 
-    let total =
-        0;
+    let totalStock = 0;
 
+    let lowStock = 0;
 
-    let low =
-        0;
 
+    stockItems.forEach(function (item, index) {
 
-    stockItems.forEach(
-        function (item, index) {
+        const stock =
+            Number(item.stock) || 0;
 
+        const minimum =
+            Number(item.minStock) || 0;
 
-            const stock =
-                Number(item.stock) || 0;
 
+        totalStock += stock;
 
-            const minStock =
-                Number(item.minStock) || 0;
 
+        let status = "Available";
 
-            total += stock;
 
+        if (stock <= 0) {
 
-            let status =
-                "Available";
+            status = "Out of Stock";
 
+            lowStock++;
 
-            if (stock <= 0) {
+        }
 
-                status =
-                    "Out of Stock";
+        else if (stock <= minimum) {
 
-                low++;
+            status = "Low Stock";
 
-            }
+            lowStock++;
 
-            else if (stock <= minStock) {
+        }
 
-                status =
-                    "Low Stock";
 
-                low++;
+        //==========================================
+        // IMAGE
+        //==========================================
 
-            }
+        let imageHTML =
+            `<span class="no-image">No Image</span>`;
 
 
-            //================================================
-            // IMAGE
-            //================================================
+        if (
+            item.image &&
+            item.image.startsWith("data:image")
+        ) {
 
-            let imageHTML =
-                `<span class="no-image">
-                    No Image
-                 </span>`;
+            imageHTML = `
 
+                <img
 
-            if (
-                item.image &&
-                String(item.image)
-                    .startsWith("data:image")
-            ) {
+                    src="${item.image}"
 
+                    class="stock-image"
 
-                imageHTML = `
+                    alt="Item Picture"
 
-                    <img
+                    onclick="showImage(${index})"
 
-                        src="${item.image}"
-
-                        alt="Item"
-
-                        class="stock-image"
-
-                        onclick="showImage(${index})"
-
-                    >
-
-                `;
-
-            }
-
-
-            //================================================
-            // TABLE ROW
-            //================================================
-
-            table.innerHTML += `
-
-                <tr>
-
-                    <td>
-                        ${imageHTML}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(item.code)}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(item.name)}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(
-                            item.category || "-"
-                        )}
-                    </td>
-
-
-                    <td>
-                        ${stock}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(
-                            item.unit || "-"
-                        )}
-                    </td>
-
-
-                    <td>
-
-                        <span class="stock-status">
-
-                            ${status}
-
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <button
-
-                            type="button"
-
-                            class="delete-btn"
-
-                            onclick="deleteStock(${index})">
-
-                            <i class="fa fa-trash"></i>
-
-                            Delete
-
-                        </button>
-
-                    </td>
-
-                </tr>
+                >
 
             `;
 
         }
-    );
 
 
-    //================================================
+        //==========================================
+        // TABLE ROW
+        //==========================================
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>
+                    ${imageHTML}
+                </td>
+
+                <td>
+                    ${safe(item.code)}
+                </td>
+
+                <td>
+                    ${safe(item.name)}
+                </td>
+
+                <td>
+                    ${safe(item.category)}
+                </td>
+
+                <td>
+                    ${stock}
+                </td>
+
+                <td>
+                    ${safe(item.unit)}
+                </td>
+
+                <td>
+                    <span class="stock-status">
+                        ${status}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="delete-btn"
+                        onclick="deleteStock(${index})">
+
+                        <i class="fa fa-trash"></i>
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    //==============================================
     // SUMMARY
-    //================================================
+    //==============================================
 
     const totalItems =
-        document.getElementById(
-            "totalItems"
-        );
+        document.getElementById("totalItems");
 
+    const totalStockElement =
+        document.getElementById("totalStock");
 
-    const totalStock =
-        document.getElementById(
-            "totalStock"
-        );
-
-
-    const lowStock =
-        document.getElementById(
-            "lowStock"
-        );
+    const lowStockElement =
+        document.getElementById("lowStock");
 
 
     if (totalItems) {
@@ -637,18 +507,18 @@ function loadStock() {
     }
 
 
-    if (totalStock) {
+    if (totalStockElement) {
 
-        totalStock.innerText =
-            total;
+        totalStockElement.innerText =
+            totalStock;
 
     }
 
 
-    if (lowStock) {
+    if (lowStockElement) {
 
-        lowStock.innerText =
-            low;
+        lowStockElement.innerText =
+            lowStock;
 
     }
 
@@ -656,35 +526,23 @@ function loadStock() {
 
 
 //==================================================
-// DELETE
+// DELETE ITEM
 //==================================================
 
 function deleteStock(index) {
 
-
-    if (
-        !confirm(
-            "Delete this item?"
-        )
-    ) {
+    if (!confirm("Delete this item?")) {
 
         return;
-
     }
 
 
-    stockItems.splice(
-        index,
-        1
-    );
+    stockItems.splice(index, 1);
 
 
     localStorage.setItem(
-
         "stockItems",
-
         JSON.stringify(stockItems)
-
     );
 
 
@@ -699,42 +557,31 @@ function deleteStock(index) {
 
 function searchStock() {
 
-
     const input =
-        document.getElementById(
-            "searchStock"
-        );
+        document.getElementById("searchStock");
 
 
     if (!input) {
-
         return;
-
     }
 
 
     const keyword =
-        input.value
-            .toLowerCase()
-            .trim();
+        input.value.toLowerCase().trim();
 
 
     document
-        .querySelectorAll(
-            "#stockTable tr"
-        )
-        .forEach(
-            function (row) {
+        .querySelectorAll("#stockTable tr")
+        .forEach(function (row) {
 
-                row.style.display =
-                    row.innerText
-                        .toLowerCase()
-                        .includes(keyword)
-                        ? ""
-                        : "none";
+            row.style.display =
+                row.innerText
+                    .toLowerCase()
+                    .includes(keyword)
+                ? ""
+                : "none";
 
-            }
-        );
+        });
 
 }
 
@@ -745,41 +592,21 @@ function searchStock() {
 
 function clearForm() {
 
+    document.getElementById("itemCode").value = "";
 
-    document.getElementById(
-        "itemCode"
-    ).value = "";
+    document.getElementById("itemName").value = "";
 
+    document.getElementById("category").value = "";
 
-    document.getElementById(
-        "itemName"
-    ).value = "";
+    document.getElementById("unit").value = "";
 
+    document.getElementById("stockQty").value = "";
 
-    document.getElementById(
-        "category"
-    ).value = "";
-
-
-    document.getElementById(
-        "unit"
-    ).value = "";
-
-
-    document.getElementById(
-        "stockQty"
-    ).value = "";
-
-
-    document.getElementById(
-        "minStock"
-    ).value = "";
+    document.getElementById("minStock").value = "";
 
 
     const imageInput =
-        document.getElementById(
-            "itemImage"
-        );
+        document.getElementById("itemImage");
 
 
     if (imageInput) {
@@ -790,19 +617,14 @@ function clearForm() {
 
 
     const preview =
-        document.getElementById(
-            "imagePreview"
-        );
+        document.getElementById("imagePreview");
 
 
     if (preview) {
 
-        preview.removeAttribute(
-            "src"
-        );
+        preview.src = "";
 
-        preview.style.display =
-            "none";
+        preview.style.display = "none";
 
     }
 
@@ -815,36 +637,25 @@ function clearForm() {
 
 function showImage(index) {
 
-
     const item =
         stockItems[index];
 
 
-    if (
-        !item ||
-        !item.image
-    ) {
+    if (!item || !item.image) {
 
         return;
-
     }
 
 
     const win =
-        window.open(
-            "",
-            "_blank"
-        );
+        window.open("", "_blank");
 
 
     if (!win) {
 
-        alert(
-            "Please allow popup for this site."
-        );
+        alert("Popup blocked.");
 
         return;
-
     }
 
 
@@ -856,42 +667,37 @@ function showImage(index) {
 
         <head>
 
-            <title>
-                Item Picture
-            </title>
+            <title>Item Picture</title>
 
             <style>
 
                 body {
 
-                    margin:0;
+                    margin: 0;
 
-                    min-height:100vh;
+                    background: #111;
 
-                    background:#111;
+                    display: flex;
 
-                    display:flex;
+                    align-items: center;
 
-                    justify-content:center;
+                    justify-content: center;
 
-                    align-items:center;
+                    min-height: 100vh;
 
                 }
 
                 img {
 
-                    max-width:95vw;
+                    max-width: 95%;
 
-                    max-height:95vh;
-
-                    object-fit:contain;
+                    max-height: 95vh;
 
                 }
 
             </style>
 
         </head>
-
 
         <body>
 
@@ -912,37 +718,22 @@ function showImage(index) {
 
 
 //==================================================
-// ESCAPE HTML
+// SAFE TEXT
 //==================================================
 
-function escapeHTML(value) {
+function safe(value) {
 
     return String(value || "")
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g, "&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g, "&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g, "&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g, "&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g, "&#039;");
 
 }
 ```
