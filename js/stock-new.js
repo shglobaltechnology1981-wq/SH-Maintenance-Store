@@ -153,3 +153,44 @@ window.addEventListener("load", function () {
     loadStock();
 
 });
+document.addEventListener("DOMContentLoaded", function () {
+
+    const imageInput =
+        document.getElementById("itemImage");
+
+    const preview =
+        document.getElementById("imagePreview");
+
+    if (!imageInput || !preview) return;
+
+    imageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+            preview.style.display = "none";
+            preview.src = "";
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+            alert("Please select an image.");
+            this.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            preview.src = e.target.result;
+
+            preview.style.display = "block";
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+});
