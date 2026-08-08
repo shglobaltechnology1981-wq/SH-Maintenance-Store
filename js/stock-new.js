@@ -1,4 +1,3 @@
-```javascript
 /*==================================================
 SH MAINTENANCE STORE
 STOCK MANAGEMENT
@@ -978,4 +977,4 @@ function escapeHTML(value) {
     );
 
 }
-```
+
