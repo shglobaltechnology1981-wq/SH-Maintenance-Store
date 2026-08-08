@@ -1,4 +1,3 @@
-```javascript
 let stockItems = JSON.parse(
     localStorage.getItem("stockItems") || "[]"
 );
@@ -485,5 +484,5 @@ function clearForm() {
     }
 
 }
-```
+
 
