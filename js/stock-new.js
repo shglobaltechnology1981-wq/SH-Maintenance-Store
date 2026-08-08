@@ -1,4 +1,3 @@
-```javascript
 /*==================================================
 SH MAINTENANCE STORE
 STOCK MANAGEMENT
