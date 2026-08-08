@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,16 +7,18 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 
 <title>SH Maintenance Store | Stock</title>
 
-<link rel="stylesheet" href="css/style.css">
-
-<link rel="stylesheet" href="css/stock.css">
+<link rel="stylesheet"
+      href="css/style.css">
 
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+      href="css/stock.css">
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 
@@ -23,15 +26,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
 
-<!-- SIDEBAR -->
+<!-- ==========================================
+SIDEBAR
+========================================== -->
 
 <div class="sidebar">
+
 
     <div class="logo">
 
         <img
-        src="images/logo.png"
-        alt="SH Store">
+            src="images/logo.png"
+            alt="SH Store Logo">
 
         <h2>SH STORE</h2>
 
@@ -39,60 +45,86 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
     <a href="dashboard.html">
+
         <i class="fa fa-home"></i>
+
         Dashboard
+
     </a>
 
 
-    <a href="stock.html" class="active">
+    <a href="stock.html"
+       class="active">
+
         <i class="fa fa-box"></i>
+
         Stock
+
     </a>
 
 
     <a href="purchase.html">
+
         <i class="fa fa-cart-shopping"></i>
+
         Purchase
+
     </a>
 
 
     <a href="issue.html">
-        <i class="fa fa-arrow-up"></i>
+
+        <i class fa="fa fa-arrow-up"></i>
+
         Issue
+
     </a>
 
 
     <a href="requisition.html">
+
         <i class="fa fa-file-circle-plus"></i>
+
         Requisition
+
     </a>
 
 
     <a href="requisition-admin.html">
+
         <i class="fa fa-list-check"></i>
+
         Requisition Admin
+
     </a>
 
 
     <a href="report.html">
+
         <i class="fa fa-chart-bar"></i>
+
         Report
+
     </a>
 
 
     <a href="#"
-    onclick="logout(); return false;">
+       onclick="logout(); return false;">
 
         <i class="fa fa-right-from-bracket"></i>
+
         Logout
 
     </a>
+
 
 </div>
 
 
 
-<!-- MAIN -->
+<!-- ==========================================
+MAIN
+========================================== -->
 
 <div class="main">
 
@@ -120,7 +152,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-    <!-- SUMMARY -->
+    <!-- ======================================
+    SUMMARY CARDS
+    ======================================= -->
 
     <div class="cards">
 
@@ -140,6 +174,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         </div>
 
 
+
         <div class="card">
 
             <i class="fa fa-cubes"></i>
@@ -153,6 +188,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             </h2>
 
         </div>
+
 
 
         <div class="card">
@@ -169,91 +205,177 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
         </div>
 
+
     </div>
 
 
 
-    <!-- ADD ITEM -->
+    <!-- ======================================
+    ADD NEW ITEM
+    ======================================= -->
 
     <div class="form-box">
 
+
         <h2>
+
             <i class="fa fa-plus-circle"></i>
+
             Add New Item
+
         </h2>
 
 
         <div class="form-grid">
 
 
-            <input
-            type="text"
-            id="itemCode"
-            placeholder="Item Code">
-
+            <!-- ITEM CODE -->
 
             <input
-            type="text"
-            id="itemName"
-            placeholder="Item Name">
+
+                type="text"
+
+                id="itemCode"
+
+                placeholder="Item Code"
+
+                autocomplete="off"
+
+            >
 
 
-            <input
-            type="text"
-            id="category"
-            placeholder="Category">
-
-
-            <input
-            type="text"
-            id="unit"
-            placeholder="Unit (PCS/SET)">
-
+            <!-- ITEM NAME -->
 
             <input
-            type="number"
-            id="stockQty"
-            placeholder="Opening Stock"
-            min="0">
 
+                type="text"
+
+                id="itemName"
+
+                placeholder="Item Name"
+
+                autocomplete="off"
+
+            >
+
+
+            <!-- CATEGORY -->
 
             <input
-            type="number"
-            id="minStock"
-            placeholder="Minimum Stock"
-            min="0">
+
+                type="text"
+
+                id="category"
+
+                placeholder="Category"
+
+                autocomplete="off"
+
+            >
 
 
-            <!-- IMAGE -->
+            <!-- UNIT -->
+
+            <input
+
+                type="text"
+
+                id="unit"
+
+                placeholder="Unit (PCS/SET)"
+
+                autocomplete="off"
+
+            >
+
+
+            <!-- STOCK -->
+
+            <input
+
+                type="number"
+
+                id="stockQty"
+
+                placeholder="Opening Stock"
+
+                min="0"
+
+            >
+
+
+            <!-- MIN STOCK -->
+
+            <input
+
+                type="number"
+
+                id="minStock"
+
+                placeholder="Minimum Stock"
+
+                min="0"
+
+            >
+
+
+            <!-- =================================
+            IMAGE
+            ================================== -->
 
             <div class="image-box">
 
+
                 <label for="itemImage">
+
                     <i class="fa fa-image"></i>
+
                     Item Picture
+
                 </label>
 
 
                 <input
-                type="file"
-                id="itemImage"
-                accept="image/jpeg,image/png,image/webp">
 
+                    type="file"
+
+                    id="itemImage"
+
+                    accept="image/jpeg,image/png,image/webp"
+
+                >
+
+
+                <!-- IMAGE PREVIEW -->
 
                 <img
-                id="imagePreview"
-                alt="Preview">
+
+                    id="imagePreview"
+
+                    src=""
+
+                    alt="Image Preview"
+
+                >
+
 
             </div>
 
 
-            <!-- ADD -->
+
+            <!-- ADD BUTTON -->
 
             <button
-            type="button"
-            id="addItemBtn"
-            class="btn btn-primary"
-            onclick="addStockItem()">
+
+                type="button"
+
+                id="addItemBtn"
+
+                class="btn btn-primary"
+
+                onclick="addStockItem()"
+
+            >
 
                 <i class="fa fa-plus"></i>
 
@@ -268,53 +390,89 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-    <!-- SEARCH -->
+    <!-- ======================================
+    SEARCH
+    ======================================= -->
 
     <div class="search-box">
 
+
         <input
-        type="text"
-        id="searchStock"
-        placeholder="Search Stock..."
-        oninput="searchStock()">
+
+            type="text"
+
+            id="searchStock"
+
+            placeholder="Search Stock..."
+
+            oninput="searchStock()"
+
+            autocomplete="off"
+
+        >
+
 
     </div>
 
 
 
-    <!-- TABLE -->
+    <!-- ======================================
+    STOCK LIST
+    ======================================= -->
 
     <div class="table-box">
 
+
         <h3>
+
             <i class="fa fa-boxes-stacked"></i>
+
             Stock List
+
         </h3>
 
 
         <div class="table-responsive">
 
+
             <table>
+
 
                 <thead>
 
                     <tr>
 
-                        <th>Image</th>
+                        <th>
+                            Image
+                        </th>
 
-                        <th>Code</th>
+                        <th>
+                            Code
+                        </th>
 
-                        <th>Item Name</th>
+                        <th>
+                            Item Name
+                        </th>
 
-                        <th>Category</th>
+                        <th>
+                            Category
+                        </th>
 
-                        <th>Stock</th>
+                        <th>
+                            Stock
+                        </th>
 
-                        <th>Unit</th>
+                        <th>
+                            Unit
+                        </th>
 
-                        <th>Status</th>
+                        <th>
+                            Status
+                        </th>
 
-                        <th>Action</th>
+                        <th>
+                            Action
+                        </th>
 
                     </tr>
 
@@ -325,13 +483,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
                 </tbody>
 
+
             </table>
 
+
         </div>
+
 
     </div>
 
 
+
+    <!-- ======================================
+    FOOTER
+    ======================================= -->
 
     <div class="footer">
 
@@ -344,14 +509,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-<!-- SCRIPTS -->
+<!-- ==========================================
+SCRIPTS
+IMPORTANT:
+stock-new.js ONLY ONE TIME
+========================================== -->
 
 <script src="js/auth.js"></script>
 
-<script src="./js/stock-new.js?v=100"></script>
+<script src="./js/stock-new.js?v=20"></script>
 
 
 </body>
 
 </html>
-
+```
